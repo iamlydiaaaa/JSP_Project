@@ -13,10 +13,9 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class Hikari_ds {
 	private final String CLASSNAME = "org.mariadb.jdbc.Driver";
-	private final String JDBC_URL = "jdbc:mariadb://localhost:3306/movie_db";
+	private final String JDBC_URL = "jdbc:mariadb://localhost:3306/culture_db";
 	private final String USERNAME = "root";
 	private final String PASSWORD = "root";
 	private final String CACHE_PREP_STMTS="true";
@@ -35,7 +34,7 @@ public class Hikari_ds {
 		config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
 		config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
 		ds = new HikariDataSource( config );
-		log.info("성공:" + ds);
+		System.out.println("성공:" + ds);
 		
 		return ds;
 	}
@@ -46,11 +45,11 @@ public class Hikari_ds {
 		try {
 			conn = ds.getConnection();
 			if (conn != null) {
-				log.info("DB 접속 성공");
+				System.out.println("DB 접속 성공");
 				return conn;
 			}
 		} catch (SQLException e) {
-			log.error("DB 접속 실패");
+			System.out.println("DB 접속 실패");
 			e.printStackTrace();
 		}
 		return null;

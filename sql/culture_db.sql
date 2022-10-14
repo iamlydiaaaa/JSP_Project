@@ -58,9 +58,9 @@ create table culture_info
 (
     c_info_no  bigint auto_increment,
     cno        bigint      not null ,
-    target     varchar(20) not null,
-    select_way varchar(20) not null,
-    res_way    varchar(20) not null,
+    target     Integer null,
+    select_way Integer null,
+    res_way    Integer null,
     constraint culture_info_pk
         primary key (c_info_no),
     constraint culture_info___fk
@@ -77,6 +77,21 @@ create table culture_res
     constraint culture_res_pk
         primary key (c_res_no),
     constraint culture_res___fk
+        foreign key (cno) references culture_basic (cno)
+);
+
+create table culture_schedule
+(
+    s_sc_no         bigint auto_increment,
+    cno             bigint      not null,
+    c_duration_from varchar(20) not null,
+    c_duration_to   varchar(20) not null,
+    r_duration_from varchar(20) not null,
+    r_duration_to   varchar(20) not null,
+    rc_duration     varchar(20) not null,
+    constraint culture_schedule_pk
+        primary key (s_sc_no),
+    constraint culture_schedule_culture_basic_null_fk
         foreign key (cno) references culture_basic (cno)
 );
 
