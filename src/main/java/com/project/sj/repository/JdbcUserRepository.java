@@ -40,7 +40,7 @@ public class JdbcUserRepository implements UserRepository{
 			pstmt.setString(3,user.getName());
 			pstmt.executeUpdate();
 
-			sql = "insert into user_basic "
+			sql = "insert into user_info "
 					+ "(id,age,gender)"
 					+ " values(?,?,?) ";
 			pstmt = conn.prepareStatement(sql);
@@ -49,8 +49,8 @@ public class JdbcUserRepository implements UserRepository{
 			pstmt.setInt(3,user.getGender());
 			pstmt.executeUpdate();
 
-			sql = "insert into user_basic "
-					+ "(id,age,gender)"
+			sql = "insert into user_res "
+					+ "(id,email,phone)"
 					+ " values(?,?,?) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,user.getId());
@@ -77,7 +77,9 @@ public class JdbcUserRepository implements UserRepository{
 				"(user_basic as basic inner join user_info as info " +
 				"on basic.id=info.id " +
 				"inner join user_res as res " +
-				"on info.id=res.id)";
+				"on info.id=res.id)" +
+				"where basic.id = ? " +
+				"order by basic.id";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -85,10 +87,11 @@ public class JdbcUserRepository implements UserRepository{
 		try {
 			conn = instance.getConnection();
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,id);
 			rs = pstmt.executeQuery();
 			rs.next();
 			user = User.builder()
-					.id(rs.getString(1))
+					.id(rs.getString("id"))
 					.pwd(rs.getString("pwd"))
 					.name(rs.getString("name"))
 					.regDate(new Date(rs.getDate("regDate").getTime()))

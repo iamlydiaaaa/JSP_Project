@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 
 public class UserController extends HttpServlet{
 	//**session id 목록**
-	// user - 로그인여부 저장
-	// islogin - 아이디저장과 로그인실패 저장
+	// user - 로그인여부 저장 (userid,adminid)
+	// islogin - 아이디저장과 로그인실패 저장 (true,false,fail)
 	SingletonService instance = SingletonService.getInstance();
 	UserService userService = instance.userService();
 

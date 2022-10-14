@@ -23,6 +23,8 @@
                <p class="main_txt">SEOUL FESTIVAL
 </p>
            <span>수정</span>
+                ${user}
+                <a href="/logout">logout</a>
             </section>
         </div>
     </main>
