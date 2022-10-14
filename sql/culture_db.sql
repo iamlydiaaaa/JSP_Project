@@ -160,6 +160,7 @@ create table QnA_content
 );
 
 set SQL_SAFE_UPDATES = 1;
+select * from user_basic;
 
 
 
