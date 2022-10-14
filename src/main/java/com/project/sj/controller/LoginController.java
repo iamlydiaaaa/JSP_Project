@@ -3,6 +3,7 @@ package com.project.sj.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,6 +35,14 @@ public class LoginController extends UserController{
         try {
             if(userService.login(id,pwd)){
                 System.out.println("로그인 성공");
+                //1. 아이디기억 , 2. 로그인 유지
+                if(chk.equals("1")){
+                    Cookie cookie = new Cookie("key",id);
+                    resp.addCookie(cookie);
+                }
+                else if(chk.equals("2")){
+                    session.setAttribute("user","true");
+                }
                 //관리자모드
                 if("test".equals(id)){
                     session.setAttribute("user","admin");
@@ -46,16 +55,14 @@ public class LoginController extends UserController{
                 resp.sendRedirect("/");
             }//if
             //로그인 실패시 login ... get
-            System.out.println("로그인 실패");
-            session.setAttribute("islogin","fail");
-            resp.sendRedirect("/login");
+            else{
+                new Exception("로그인 실패");
+            }
         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("로그인 실패");
             session.setAttribute("msg","아이디와 비밀번호를 확인해주세요");
-            System.out.println("왔냐?");
-            PrintWriter out = resp.getWriter();
-            out.print("<script>");
-            out.print("<alert('실패')>");
-            out.print("</script>");
+            resp.sendRedirect("/login");
         }
     }
 }

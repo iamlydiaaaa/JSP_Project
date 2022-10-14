@@ -98,6 +98,10 @@
                             <label for="u_pw2">비밀번호 확인</label>
                             <input type="password" id="u_pw2">
                         </p>
+                        <p>
+                            <label for="u_name">이름</label>
+                            <input type="text" id="u_name" name="name">
+                        </p>
                         <p class="tel_wrap">
                             <label for="u_tel1">전화번호</label>
                             <input type="tel" id="u_tel1" name="phone1"> -
@@ -115,7 +119,7 @@
                         </p>
                         <p>
                             <label for="u_birth">나이</label>
-                            <input type="text" id="u_birth" name="age">
+                            <input type="number" id="u_birth" name="age">
                         </p>
 
                     </div>
