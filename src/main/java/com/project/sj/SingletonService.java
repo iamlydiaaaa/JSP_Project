@@ -1,6 +1,8 @@
 package com.project.sj;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -36,5 +38,21 @@ public class SingletonService {
 	//getConnection
 	public Connection getConnection() {
 		return appConfig.getConnection();
+	}
+
+	public void close(ResultSet rs) {
+		appConfig.close(rs);
+	}
+
+	public void close(PreparedStatement pstmt) {
+		appConfig.close(pstmt);
+	}
+
+	public void close(Connection conn) {
+		appConfig.close(conn);
+	}
+
+	public void rollback(Connection conn) {
+		appConfig.rollback(conn);
 	}
 }

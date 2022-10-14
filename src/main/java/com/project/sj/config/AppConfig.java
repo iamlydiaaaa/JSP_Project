@@ -1,6 +1,8 @@
 package com.project.sj.config;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -12,7 +14,6 @@ import com.project.sj.service.UserServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class AppConfig {
 		
 	//userService
@@ -36,10 +37,49 @@ public class AppConfig {
 		try {
 			return dataSource().getConnection();
 		} catch (SQLException e) {
-			log.error("db커넥션을 얻어오지 못했습니다.");
+			System.out.println("db커넥션을 얻어오지 못했습니다.");
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
+	public void close(ResultSet rs) {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public void close(PreparedStatement pstmt) {
+		if (pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public void close(Connection conn) {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public void rollback(Connection conn) {
+		if (conn != null) {
+			try {
+				conn.rollback();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 }
