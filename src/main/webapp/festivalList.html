@@ -10,7 +10,7 @@
 
 <body>
     <script src="javascript/header_sub.js"></script>
-    <main id="reservation">
+    <main id="festival_list">
         <div class="sub_tit_wrap">
             <div class="sub_tit_inner">
                 <h2>2022 행사 예약</h2>
@@ -19,12 +19,13 @@
         <!--     게시판 검색 영역       -->
         <div class="container_wrap">
             <div id="search_wrap">
-                검색 영역
+                <input type="text" name="list_search" value="검색어 입력" class="list_search">
+                <button type="submit" id="list_search_btn">검색</button>
             </div>
             <ul id="list_wrap">
                 <li>
                     <a href="festivalDetail.html">
-                        <img id="list_img" src="images/reservation_sample01.jpg" alt="">
+                        <img id="list_img" src="images/bg04.jpg" alt="">
                         <div class="list_box">
                             <p id="list_pro_name">서울물재생체험관 단체관람 예약</p>
                             <ul id="list_pro_info">
