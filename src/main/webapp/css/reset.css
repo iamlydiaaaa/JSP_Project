@@ -32,48 +32,48 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video,search,input {
-margin: 0;
-padding: 0;
-border: 0;
-font-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
     font-family: 'Noto Sans KR', sans-serif;
-font: inherit;
-vertical-align: baseline;
+    font: inherit;
+    vertical-align: baseline;
     box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section,main {
-display: block;
+    display: block;
 }
 body {
-line-height: 1;
-    
+    line-height: 1;
+
 }
 ol, ul {
-list-style: none;
+    list-style: none;
 }
 blockquote, q {
-quotes: none;
+    quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-content: '';
-content: none;
+    content: '';
+    content: none;
 }
 table {
-border-collapse: collapse;
-border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 a:link, a:visited {text-decoration: none;}
 a:hover, a:active {text-decoration: none;}
 a{color: inherit}
 
-.clearfix: after {content:"";display: table; clear: both}
+.clearfix:after {content:"";display: table; clear: both}
 
 .hidden{width: 0;height: 0;overflow: hidden;
     opacity: 0; visibility: hidden;

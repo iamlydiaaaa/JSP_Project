@@ -5,8 +5,10 @@ $(document).ready(function () {
     $("#u_id").val(key);
     $(".u_id_txt").addClass("focus"); //진경 추가. css효과 수정
 
+
     if ($("#u_id").val() != "") { // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
         $("#chk1").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+        $(".type02").addClass("checked");
     }
 
     $("#chk1").change(function () { // 체크박스에 변화가 있다면,
@@ -23,6 +25,18 @@ $(document).ready(function () {
             setCookie("key", $("#u_id").val(), 7); // 7일 동안 쿠키 보관
         }
     });
+
+    //////////////
+
+
+    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+    var logined = getCookie("logined");
+
+    if (logined.length!=0) { // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+        $("#chk2").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+        $(".type03").addClass("checked");
+    }
+
 });
 
 function setCookie(cookieName, value, exdays) {
