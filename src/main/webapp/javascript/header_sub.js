@@ -1,7 +1,7 @@
 var header_sub = `
         <header>
         <div id="header">
-            <h1 id="logo"><a href="index.html">SEOUL<br>FESTIVAL</a></h1>
+            <h1 id="logo"><a href="/">SEOUL<br>FESTIVAL</a></h1>
             <nav id="gnb">
                 <ul>
                     <li><a href="#">축제안내</a></li>
@@ -11,8 +11,9 @@ var header_sub = `
                 </ul>
             </nav>
             <div id="header_login">
-                <a href="login.html">로그인</a>
-                <a href="join.html">회원가입</a>
+                <a href="/login">로그인</a>
+                <a href="/logout">로그아웃</a>
+                <a href="/join">회원가입</a>
             </div>
         </div>
     </header>
