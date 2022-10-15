@@ -13,7 +13,6 @@
     var logined = ${logined}
     if(logined){
         setCookie("logined_cookie","true",7);
-        alert('로그인 상태 유지');
     }
     function setCookie(cookieName, value, exdays) {
         var exdate = new Date();

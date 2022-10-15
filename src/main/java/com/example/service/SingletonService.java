@@ -37,6 +37,7 @@ public class SingletonService {
         return appConfig.getConnection();
     }
 
+    //closeConnection
     public void close(ResultSet rs) {
         appConfig.close(rs);
     }
@@ -52,4 +53,5 @@ public class SingletonService {
     public void rollback(Connection conn) {
         appConfig.rollback(conn);
     }
+    //
 }

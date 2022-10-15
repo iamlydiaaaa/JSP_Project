@@ -21,13 +21,12 @@ public class LoginController extends UserController {
         for (Cookie cookie : cookies) {
             if(cookie.getName().equals("logined_cookie")){
                 session.removeAttribute("logined");
+                System.out.println("로그인 기억중");
                 req.getRequestDispatcher("/").forward(req,resp);
             }
-            else{
-                req.getRequestDispatcher("/login.jsp")
-                        .forward(req, resp);
-            }
         }
+        req.getRequestDispatcher("/login.jsp")
+                .forward(req, resp);
     }
 
     @Override
@@ -39,20 +38,13 @@ public class LoginController extends UserController {
         //id pwd chk(1=아이디기억 , 2=로그인유지)
         String id = req.getParameter("id");
         String pwd = req.getParameter("pwd");
-        String chk1 = req.getParameter("chk1");
-        String chk2 = req.getParameter("chk2");
         //로그인체크
         try {
             if (userService.login(id, pwd)) {
                 System.out.println("로그인 성공");
-                //1. 아이디기억 , 2. 로그인 유지
-                //로그인이 성공 했을때 로그인 유지 기능이 체크되어 있으면
-                if("2".equals(chk2)){
-                    session.setAttribute("logined","true");
-                }
 
                 //관리자모드
-                if ("test".equals(id)) {
+                if ("admin".equals(id)) {
                     session.setAttribute("user", "admin");
                 }
                 //유저모드
