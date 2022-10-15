@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLDataException;
 import java.util.Optional;
 
 public class UserServiceTest {
@@ -31,7 +32,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("로그인 실패")
     public void loginTest2(){
-        boolean login = userService.login("user2", "user2");
-        Assertions.assertTrue(login);
+        Assertions.assertThrows(NullPointerException.class,
+                ()->userService.login("user2", "user2"));
     }
 }
