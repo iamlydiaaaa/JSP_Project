@@ -22,7 +22,7 @@ public class Culture {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    String pay_ay_nm="";//결제방법 PAYATNM
+    String pay_ay_nm="";//결제방법 PAYATNM (유료or무료)
     String use_tgt_info="";//서비스대상타겟 USETGTINFO
     String svc_url="";//서비스 바로가기 url SVCURL
     String img_url="";//이미지경로 url IMGURL

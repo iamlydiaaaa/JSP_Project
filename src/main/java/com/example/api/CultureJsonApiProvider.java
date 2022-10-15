@@ -1,14 +1,13 @@
 package com.example.api;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -58,23 +57,23 @@ public class CultureJsonApiProvider implements ApiProvider{
             for(int i = 0 ; i<row.size();i++){
                 JsonObject element = (JsonObject) row.get(i);
                 Culture culture = Culture.builder()
-                        .svc_nm(String.valueOf(element.get("SVCNM")))
-                        .area_nm(String.valueOf(element.get("AREANM")))
-                        .place_nm(String.valueOf(element.get("PLACENM")))
-                        .tel_no(String.valueOf(element.get("TELNO")))
-                        .pay_ay_nm(String.valueOf(element.get("PAYATNM")))
-                        .use_tgt_info(String.valueOf(element.get("USETGTINFO")))
-                        .svc_url(String.valueOf(element.get("SVCURL")))
-                        .img_url(String.valueOf(element.get("IMGURL")))
-                        .dtlcont(String.valueOf(element.get("DTLCONT")))
-                        .svc_opn_bgn_dt(String.valueOf(element.get("SVCOPNBGNDT")))
-                        .svc_opn_end_dt(String.valueOf(element.get("SVCOPNENDDT")))
-                        .v_min(String.valueOf(element.get("V_MIN")))
-                        .v_max(String.valueOf(element.get("V_MAX")))
-                        .rcpt_bgn_dt(String.valueOf(element.get("RCPTBGNDT")))
-                        .rcpt_end_dt(String.valueOf(element.get("RCPTENDDT")))
-                        .revstd_day_nm(String.valueOf(element.get("REVSTDDAYNM")))
-                        .revstd_day(String.valueOf(element.get("REVSTDDAY")))
+                        .svc_nm(parseNonDQM(element.get("SVCNM")))
+                        .area_nm(parseNonDQM(element.get("AREANM")))
+                        .place_nm(parseNonDQM(element.get("PLACENM")))
+                        .tel_no(parseNonDQM(element.get("TELNO")))
+                        .pay_ay_nm(parseNonDQM(element.get("PAYATNM")))
+                        .use_tgt_info(parseNonDQM(element.get("USETGTINFO")))
+                        .svc_url(parseNonDQM(element.get("SVCURL")))
+                        .img_url(parseNonDQM(element.get("IMGURL")))
+                        .dtlcont(parseNonDQM(element.get("DTLCONT")))
+                        .svc_opn_bgn_dt(parseNonDQM(element.get("SVCOPNBGNDT")))
+                        .svc_opn_end_dt(parseNonDQM(element.get("SVCOPNENDDT")))
+                        .v_min(parseNonDQM(element.get("V_MIN")))
+                        .v_max(parseNonDQM(element.get("V_MAX")))
+                        .rcpt_bgn_dt(parseNonDQM(element.get("RCPTBGNDT")))
+                        .rcpt_end_dt(parseNonDQM(element.get("RCPTENDDT")))
+                        .revstd_day_nm(parseNonDQM(element.get("REVSTDDAYNM")))
+                        .revstd_day(parseNonDQM(element.get("REVSTDDAY")))
                         .build();
                 apiList.add(culture);
             }
@@ -104,5 +103,16 @@ public class CultureJsonApiProvider implements ApiProvider{
             System.out.println("api 리스트를 불러오지 못했습니다");
             return -1;
         }
+    }
+
+    public static String parseNonDQM(JsonElement element){
+        if(element.isJsonNull()){
+            return "";
+        }
+        String str = String.valueOf(element);
+        if(str == null || str.length() < 2){
+            return "";
+        }
+        return str.substring(1,str.length()-1);
     }
 }

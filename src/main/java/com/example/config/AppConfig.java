@@ -2,8 +2,14 @@ package com.example.config;
 
 
 
+import com.example.api.ApiProvider;
+import com.example.api.CultureJsonApiProvider;
+import com.example.api.ProjectApiRatePolicy;
+import com.example.repository.JdbcCultureRegisterRepository;
 import com.example.repository.JdbcUserRepository;
 import com.example.repository.UserRepository;
+import com.example.service.CultureRegisterServiceImpl;
+import com.example.service.RegisterService;
 import com.example.service.UserService;
 import com.example.service.UserServiceImpl;
 
@@ -15,6 +21,7 @@ import java.sql.SQLException;
 
 public class AppConfig {
 
+    ///////////////////////user
     //userService
     public UserService userService() {
         return new UserServiceImpl(
@@ -25,6 +32,17 @@ public class AppConfig {
     public UserRepository userRepository(DataSource ds) {
         return new JdbcUserRepository(ds);
     }
+
+    ///////////////////////culture
+    public RegisterService registerService(){
+        ApiProvider apiProvider = new CultureJsonApiProvider
+                ("6653645678736b6139317441527257","문화행사");
+            return new CultureRegisterServiceImpl(
+                    apiProvider,new ProjectApiRatePolicy()
+                    ,new JdbcCultureRegisterRepository(dataSource()));
+    }
+
+
 
     //dataSource
     private DataSource dataSource() {
