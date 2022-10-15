@@ -16,7 +16,7 @@ import java.util.Optional;
 public class JdbcUserRepository implements UserRepository {
 
     DataSource ds;
-    SingletonService instance = SingletonService.getInstance();
+    SingletonService instance = SingletonService.getInstance(); //ds close() 용도
 
     public JdbcUserRepository(DataSource ds) {
         super();
@@ -61,8 +61,9 @@ public class JdbcUserRepository implements UserRepository {
             conn.setAutoCommit(true);
         } catch (SQLException e) {
             instance.rollback(conn);
-            System.out.println("회원가입에 실패했습니다");
             e.printStackTrace();
+            System.out.println("회원가입에 실패했습니다");
+            throw new RuntimeException(e);
         } finally {
             instance.close(pstmt);
             instance.close(conn);
@@ -100,17 +101,14 @@ public class JdbcUserRepository implements UserRepository {
                     .gender(rs.getInt("gender"))
                     .build();
             return Optional.ofNullable(user);
-        } catch (SQLException e) {
-            System.out.println("회원정보 조회에 실패 했습니다");
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
             System.out.println("회원정보 조회에 실패 했습니다");
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             instance.close(rs);
             instance.close(pstmt);
             instance.close(conn);
         }
-        return null;
     }
 }

@@ -22,6 +22,8 @@ public class SingletonService {
         return instance;
     }
 
+    ///////////////////user
+
     //userService
     public UserService userService() {
         return appConfig.userService();
@@ -31,6 +33,11 @@ public class SingletonService {
     public UserRepository userRepository(DataSource ds) {
         return appConfig.userRepository(ds);
     }
+
+    ///////////////////culture
+
+
+
 
     //getConnection
     public Connection getConnection() {

@@ -1,4 +1,7 @@
 package com.example.repository;
 
-public interface RegisterRepository {
+import com.example.domain.Culture;
+
+public interface RegisterRepository<T> {
+    void insert(T t);
 }
