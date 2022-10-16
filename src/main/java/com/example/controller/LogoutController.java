@@ -14,11 +14,12 @@ public class LogoutController extends UserController {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("logout ... get");
         HttpSession session = req.getSession();
+        //
         session.removeAttribute("user");
         Cookie cookie = new Cookie("logined_cookie","delete");
         cookie.setMaxAge(0);
         resp.addCookie(cookie);
         System.out.println("로그아웃 합니다");
-        resp.sendRedirect("/");
+        resp.sendRedirect("/project");
     }
 }

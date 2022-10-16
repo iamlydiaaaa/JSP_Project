@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: kimnamhyun
@@ -11,7 +12,7 @@
     <title>임시</title>
 </head>
 <body>
-<form action="/register" method="post">
+<form action="<c:url value="/register"/>" method="post">
     <button type="submit">api등록</button>
 </form>
 </body>

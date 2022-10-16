@@ -5,8 +5,10 @@ package com.example.config;
 import com.example.api.ApiProvider;
 import com.example.api.CultureJsonApiProvider;
 import com.example.api.ProjectApiRatePolicy;
+import com.example.domain.Culture;
 import com.example.repository.JdbcCultureRegisterRepository;
 import com.example.repository.JdbcUserRepository;
+import com.example.repository.RegisterRepository;
 import com.example.repository.UserRepository;
 import com.example.service.CultureRegisterServiceImpl;
 import com.example.service.RegisterService;
@@ -33,13 +35,20 @@ public class AppConfig {
         return new JdbcUserRepository(ds);
     }
 
-    ///////////////////////culture
+    ///////////////////////register<culture>
+
+    //registerService
     public RegisterService registerService(){
         ApiProvider apiProvider = new CultureJsonApiProvider
                 ("6653645678736b6139317441527257","문화행사");
             return new CultureRegisterServiceImpl(
                     apiProvider,new ProjectApiRatePolicy()
                     ,new JdbcCultureRegisterRepository(dataSource()));
+    }
+
+    //registerRepository
+    public RegisterRepository<Culture> registerRepository() {
+        return new JdbcCultureRegisterRepository(dataSource());
     }
 
 

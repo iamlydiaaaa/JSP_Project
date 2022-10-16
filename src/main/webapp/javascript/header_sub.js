@@ -11,9 +11,9 @@ var header_sub = `
                 </ul>
             </nav>
             <div id="header_login">
-                <a href="/login">로그인</a>
-                <a href="/logout">로그아웃</a>
-                <a href="/join">회원가입</a>
+                <a href="/project/login">로그인</a>
+                <a href="/project/logout">로그아웃</a>
+                <a href="/project/join">회원가입</a>
             </div>
         </div>
     </header>

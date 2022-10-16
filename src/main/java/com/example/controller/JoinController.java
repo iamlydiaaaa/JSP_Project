@@ -17,7 +17,7 @@ public class JoinController extends UserController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("register ... get");
-        req.getRequestDispatcher("/join.jsp").forward(req, resp);
+        req.getRequestDispatcher("join.jsp").forward(req, resp);
 
     }
 
@@ -47,6 +47,6 @@ public class JoinController extends UserController {
         userService.join(user);
         //회원 로그인 기억 세션
         session.setAttribute("user", user.getId());
-        resp.sendRedirect("/");
+        resp.sendRedirect("/project");
     }
 }

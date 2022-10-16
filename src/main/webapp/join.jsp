@@ -82,7 +82,7 @@
                 <div id="sub_banner">
                     <p><strong>회원 가입</strong></p>
                 </div>
-                <form action="/join" method="post" id="join_form">
+                <form action="<c:url value="/join"/>" method="post" id="join_form">
                     <div class="personal_info">
                         <strong class="join_tit">1) <br>개인정보 <br>입력</strong>
                         <p>
