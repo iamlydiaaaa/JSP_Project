@@ -1,26 +1,27 @@
-package com.example.service;
+package com.example.config;
 
 
 
-import com.example.config.AppConfig;
 import com.example.domain.Culture;
 import com.example.repository.RegisterRepository;
 import com.example.repository.UserRepository;
+import com.example.service.CultureService;
+import com.example.service.UserService;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class SingletonService {
-    private static final SingletonService instance = new SingletonService();
+public class SingletonProvider {
+    private static final SingletonProvider instance = new SingletonProvider();
     private final AppConfig appConfig;
 
-    private SingletonService() {
+    private SingletonProvider() {
         appConfig = new AppConfig();
     }
 
-    public static SingletonService getInstance() {
+    public static SingletonProvider getInstance() {
         return instance;
     }
 
@@ -36,14 +37,14 @@ public class SingletonService {
         return appConfig.userRepository(ds);
     }
 
-    ///////////////////register<culture>
+    ///////////////////culture
 
-    //registerService
-    public RegisterService registerService() {
+    //cultureService
+    public CultureService registerService() {
         return appConfig.registerService();
     }
 
-    //registerRepository
+    //cultureRepository
     public RegisterRepository<Culture> registerRepository() {
         return appConfig.registerRepository();
     }

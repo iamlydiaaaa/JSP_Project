@@ -6,12 +6,12 @@ import com.example.api.ApiProvider;
 import com.example.api.CultureJsonApiProvider;
 import com.example.api.ProjectApiRatePolicy;
 import com.example.domain.Culture;
-import com.example.repository.JdbcCultureRegisterRepository;
+import com.example.repository.JdbcCultureRepository;
 import com.example.repository.JdbcUserRepository;
 import com.example.repository.RegisterRepository;
 import com.example.repository.UserRepository;
-import com.example.service.CultureRegisterServiceImpl;
-import com.example.service.RegisterService;
+import com.example.service.CultureServiceImpl;
+import com.example.service.CultureService;
 import com.example.service.UserService;
 import com.example.service.UserServiceImpl;
 
@@ -24,6 +24,7 @@ import java.sql.SQLException;
 public class AppConfig {
 
     ///////////////////////user
+
     //userService
     public UserService userService() {
         return new UserServiceImpl(
@@ -35,20 +36,20 @@ public class AppConfig {
         return new JdbcUserRepository(ds);
     }
 
-    ///////////////////////register<culture>
+    ///////////////////////culture
 
-    //registerService
-    public RegisterService registerService(){
+    //cultureService
+    public CultureService registerService(){
         ApiProvider apiProvider = new CultureJsonApiProvider
                 ("6653645678736b6139317441527257","문화행사");
-            return new CultureRegisterServiceImpl(
+            return new CultureServiceImpl(
                     apiProvider,new ProjectApiRatePolicy()
-                    ,new JdbcCultureRegisterRepository(dataSource()));
+                    ,new JdbcCultureRepository(dataSource()));
     }
 
-    //registerRepository
+    //cultureRepository
     public RegisterRepository<Culture> registerRepository() {
-        return new JdbcCultureRegisterRepository(dataSource());
+        return new JdbcCultureRepository(dataSource());
     }
 
 

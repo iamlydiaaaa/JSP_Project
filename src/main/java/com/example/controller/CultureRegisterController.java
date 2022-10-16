@@ -1,7 +1,7 @@
 package com.example.controller;
 
-import com.example.service.RegisterService;
-import com.example.service.SingletonService;
+import com.example.service.CultureService;
+import com.example.config.SingletonProvider;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name="registerController",value="/register")
-public class RegisterController extends HttpServlet {
-
-    SingletonService instance = SingletonService.getInstance();
-    RegisterService registerService = instance.registerService();
+public class CultureRegisterController extends CultureController{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +25,7 @@ public class RegisterController extends HttpServlet {
         //다음달 내용 업데이트 위해 현재 culture의 모든 내용을 전부 삭제 시키는 코드 추가 해야함
 
         //
-        registerService.register();
+        cultureService.register();
         System.out.println("db 최신화 성공");
         resp.sendRedirect("/project");
     }

@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class CultureRegisterServiceImpl implements RegisterService{
+public class CultureServiceImpl implements CultureService {
 
-    ApiProvider apiProvider;
-    ApiRatePolicy apiRatePolicy;
-    RegisterRepository<Culture> registerRepository;
+    private final ApiProvider apiProvider;
+    private final ApiRatePolicy apiRatePolicy;
+    private final RegisterRepository<Culture> registerRepository;
 
-    public CultureRegisterServiceImpl(
+    public CultureServiceImpl(
             ApiProvider apiProvider, ApiRatePolicy apiRatePolicy , RegisterRepository<Culture> registerRepository) {
         this.apiProvider = apiProvider;
         this.apiRatePolicy = apiRatePolicy;

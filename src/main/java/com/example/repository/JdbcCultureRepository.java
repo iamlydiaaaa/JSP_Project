@@ -1,19 +1,19 @@
 package com.example.repository;
 
 import com.example.domain.Culture;
-import com.example.service.SingletonService;
+import com.example.config.SingletonProvider;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class JdbcCultureRegisterRepository implements RegisterRepository<Culture>{
+public class JdbcCultureRepository implements RegisterRepository<Culture>{
     private static Long cno = 1L;
-    DataSource ds;
-    SingletonService instance = SingletonService.getInstance();
+    private final DataSource ds;
+    SingletonProvider instance = SingletonProvider.getInstance();
 
-    public JdbcCultureRegisterRepository(DataSource ds) {
+    public JdbcCultureRepository(DataSource ds) {
         this.ds = ds;
     }
 
