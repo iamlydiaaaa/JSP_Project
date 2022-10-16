@@ -74,6 +74,14 @@
 
 <body>
    <script src="javascript/header_sub.js"></script>
+   <script>
+       let query = window.location.search;
+       let param = new URLSearchParams(query);
+       let msg = param.get('msg');
+       if(msg!=null){
+           alert(msg)
+       }
+   </script>
     <div id="wrap">
         <script src="common/header_sub.js"></script>
 

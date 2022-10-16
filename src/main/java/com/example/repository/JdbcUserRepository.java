@@ -2,7 +2,7 @@ package com.example.repository;
 
 
 
-import com.example.service.SingletonService;
+import com.example.config.SingletonProvider;
 import com.example.domain.User;
 
 import javax.sql.DataSource;
@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class JdbcUserRepository implements UserRepository {
 
-    DataSource ds;
-    SingletonService instance = SingletonService.getInstance(); //ds close() 용도
+    private final DataSource ds;
+    SingletonProvider instance = SingletonProvider.getInstance(); //ds close() 용도
 
     public JdbcUserRepository(DataSource ds) {
         super();

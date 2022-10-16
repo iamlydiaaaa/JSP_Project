@@ -18,7 +18,10 @@ public class UTF8Filter implements Filter {
         //그래서 http관련 설정을 하고 싶다면 다운캐스팅 해야함
         HttpServletRequest req=(HttpServletRequest) request;
         HttpServletResponse resp=(HttpServletResponse) response;
+
+        //utf-8 필터
         req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTf-8");
         chain.doFilter(request,response);
     }
 }

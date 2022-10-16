@@ -2,16 +2,16 @@ package com.example.service;
 
 
 
+import com.example.config.SingletonProvider;
 import com.example.domain.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLDataException;
 import java.util.Optional;
 
 public class UserServiceTest {
-    UserService userService = SingletonService.getInstance().userService();
+    UserService userService = SingletonProvider.getInstance().userService();
 
     @Test
     @DisplayName("유저 조회")
@@ -32,7 +32,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("로그인 실패")
     public void loginTest2(){
-        Assertions.assertThrows(NullPointerException.class,
+        Assertions.assertThrows(RuntimeException.class,
                 ()->userService.login("user2", "user2"));
     }
 }

@@ -10,9 +10,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLDataException;
 
 @WebServlet(name = "loginController", value = "/login")
-public class LoginController extends UserController {
+public class UserLoginController extends UserController {
 
 
     @Override
@@ -29,7 +30,6 @@ public class LoginController extends UserController {
         System.out.println("login post ...");
 
         HttpSession session = req.getSession();
-        resp.setCharacterEncoding("UTF-8");
         String msg = "";
 
         //id pwd chk(1=아이디기억 , 2=로그인유지)
@@ -57,7 +57,7 @@ public class LoginController extends UserController {
                 resp.sendRedirect("/project?msg="+msg);
             }//if
             else{
-                throw new RuntimeException("로그인 실패");
+                throw new SQLDataException("로그인 실패");
             }
         } catch (Exception e) {
             //로그인 실패시 login ... get

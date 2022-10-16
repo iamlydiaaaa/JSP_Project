@@ -13,8 +13,8 @@ public class Hikari_ds {
     private final String USERNAME = "root";
     private final String PASSWORD = "root";
     private final String CACHE_PREP_STMTS = "true";
-    HikariDataSource ds;
-    HikariConfig config;
+    private HikariDataSource ds;
+    private HikariConfig config;
 
     public DataSource config() {
         /* HikariCP 로드 */
