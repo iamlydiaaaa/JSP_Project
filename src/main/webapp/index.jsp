@@ -10,8 +10,14 @@
     <link rel="stylesheet" href="css/common.css">
 </head>
 <script>
-    var logined = ${logined}
-    if(logined){
+    //로그인유지체크 + 로그인성공시 msg=remember_login 이 전달됨
+    let query = window.location.search;
+    let param = new URLSearchParams(query);
+    let msg = param.get('msg');
+    //체크된 경우
+    if(msg!=null){
+        alert(msg)
+        //logined_cookie를 생성
         setCookie("logined_cookie","true",7);
     }
     function setCookie(cookieName, value, exdays) {

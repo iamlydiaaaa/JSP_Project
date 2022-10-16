@@ -1,8 +1,8 @@
 package com.example.api;
 
+
+
 import com.example.config.AppConfig;
-import com.example.repository.JdbcCultureRegisterRepository;
-import com.example.service.CultureRegisterServiceImpl;
 import com.example.service.RegisterService;
 import com.example.service.SingletonService;
 import org.junit.jupiter.api.Assertions;
@@ -16,8 +16,8 @@ public class ApiProviderTest {
     ApiProvider apiProvider = new CultureJsonApiProvider
             ("6653645678736b6139317441527257","문화행사");
 
-    AppConfig appConfig = new AppConfig();
-    RegisterService registerService = appConfig.registerService();
+    SingletonService instance = SingletonService.getInstance();
+    RegisterService registerService = instance.registerService();
 
     @Test
     @DisplayName("불러온 데이터의 수 일치")
@@ -30,4 +30,6 @@ public class ApiProviderTest {
     void registerServiceTest(){
         registerService.register();
     }
+
+    //appconfig 싱글톤 정리 -> 클래스다이어그램
 }

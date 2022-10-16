@@ -3,6 +3,8 @@ package com.example.service;
 
 
 import com.example.config.AppConfig;
+import com.example.domain.Culture;
+import com.example.repository.RegisterRepository;
 import com.example.repository.UserRepository;
 
 import javax.sql.DataSource;
@@ -34,9 +36,17 @@ public class SingletonService {
         return appConfig.userRepository(ds);
     }
 
-    ///////////////////culture
+    ///////////////////register<culture>
 
+    //registerService
+    public RegisterService registerService() {
+        return appConfig.registerService();
+    }
 
+    //registerRepository
+    public RegisterRepository<Culture> registerRepository() {
+        return appConfig.registerRepository();
+    }
 
 
     //getConnection

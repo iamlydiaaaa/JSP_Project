@@ -13,8 +13,12 @@ import java.io.IOException;
 
 public class UserController extends HttpServlet {
     //**session id 목록**
-    // user - 로그인여부 저장 (userid,adminid)
-    // islogin - 아이디저장과 로그인실패 저장 (true,false,fail)
+    // user - 로그인 성공저장 (userid,adminid)
+
+    //**cookie id 목록**
+    //key(remember_id) 아이디기억
+    //remember_login 로그인유지
+
     SingletonService instance = SingletonService.getInstance();
     UserService userService = instance.userService();
 

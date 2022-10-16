@@ -1,3 +1,5 @@
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -10,7 +12,6 @@
   <title>로그인</title>
   <script src="javascript/jquery-3.6.0.min.js"></script>
   <script src="javascript/login_cookie.js"></script>
-
   <script>
     $(document).ready(function() {
 
@@ -56,6 +57,14 @@
 
 <body>
 <script src="javascript/header_sub.js"></script>
+<script>
+  let query = window.location.search;
+  let param = new URLSearchParams(query);
+  let msg = param.get('msg');
+  if(msg!=null){
+    alert(msg)
+  }
+</script>
 <div id="wrap">
   <main id="main">
     <div id="login_bg">
@@ -69,7 +78,7 @@
 
       <div id="login_con">
         <div id="login1" class="login_box">
-          <form action="/login" method="post">
+          <form action="<c:url value="/login"/>" method="post">
             <p class="u_txt"><label for="u_id" class="u_id_txt">아이디</label>
               <input type="text" id="u_id" autocomplete="off" name="id" placeholder="">
             </p>
@@ -90,7 +99,7 @@
 
             <p class="login_account">
               <a href="#" class="search1">아이디/비밀번호 찾기</a>
-              <a href="../join.html" class="join1">회원가입</a>
+              <a href="<c:url value="/join"/>" class="join1">회원가입</a>
             </p>
           </form>
         </div><!-- 회원로그인, login1 -->

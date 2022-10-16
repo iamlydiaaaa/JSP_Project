@@ -28,7 +28,7 @@ $(document).ready(function () {
 
     //////////////
 
-
+    // 로그인 유지 쿠키
     // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
     var logined = getCookie("logined");
 
