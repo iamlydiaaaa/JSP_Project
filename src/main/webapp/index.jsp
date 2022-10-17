@@ -15,7 +15,7 @@
     let param = new URLSearchParams(query);
     let msg = param.get('msg');
     //체크된 경우
-    if(msg!=null){
+    if(msg!=null&&msg.length>0){
         alert(msg)
         //logined_cookie를 생성
         setCookie("logined_cookie","true",7);

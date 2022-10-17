@@ -1,8 +1,8 @@
-package com.example.service;
+package com.example.user.service;
 
 
 import com.example.domain.User;
-import com.example.repository.UserRepository;
+import com.example.user.repository.UserRepository;
 
 import java.util.Optional;
 

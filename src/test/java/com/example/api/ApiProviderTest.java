@@ -2,7 +2,7 @@ package com.example.api;
 
 
 
-import com.example.service.CultureService;
+import com.example.culture.service.CultureService;
 import com.example.config.SingletonProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

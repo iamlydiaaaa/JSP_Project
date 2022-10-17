@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.culture.service;
 
 public interface CultureService {
     //api 등록 기능

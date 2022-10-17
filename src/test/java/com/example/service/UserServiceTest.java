@@ -4,6 +4,7 @@ package com.example.service;
 
 import com.example.config.SingletonProvider;
 import com.example.domain.User;
+import com.example.user.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -6,14 +6,14 @@ import com.example.api.ApiProvider;
 import com.example.api.CultureJsonApiProvider;
 import com.example.api.ProjectApiRatePolicy;
 import com.example.domain.Culture;
-import com.example.repository.JdbcCultureRepository;
-import com.example.repository.JdbcUserRepository;
-import com.example.repository.RegisterRepository;
-import com.example.repository.UserRepository;
-import com.example.service.CultureServiceImpl;
-import com.example.service.CultureService;
-import com.example.service.UserService;
-import com.example.service.UserServiceImpl;
+import com.example.culture.repository.JdbcCultureRepository;
+import com.example.user.repository.JdbcUserRepository;
+import com.example.culture.repository.RegisterRepository;
+import com.example.user.repository.UserRepository;
+import com.example.culture.service.CultureServiceImpl;
+import com.example.culture.service.CultureService;
+import com.example.user.service.UserService;
+import com.example.user.service.UserServiceImpl;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -23,12 +23,18 @@ import java.sql.SQLException;
 
 public class AppConfig {
 
+    private final DataSource ds;
+
+    public AppConfig() {
+        this.ds = dataSource();
+    }
+
     ///////////////////////user
 
     //userService
     public UserService userService() {
         return new UserServiceImpl(
-                userRepository(dataSource()));
+                userRepository(ds));
     }
 
     //userRepository
@@ -44,12 +50,12 @@ public class AppConfig {
                 ("6653645678736b6139317441527257","문화행사");
             return new CultureServiceImpl(
                     apiProvider,new ProjectApiRatePolicy()
-                    ,new JdbcCultureRepository(dataSource()));
+                    ,new JdbcCultureRepository(ds));
     }
 
     //cultureRepository
     public RegisterRepository<Culture> registerRepository() {
-        return new JdbcCultureRepository(dataSource());
+        return new JdbcCultureRepository(ds);
     }
 
 
@@ -62,7 +68,7 @@ public class AppConfig {
     //getConnection
     public Connection getConnection() {
         try {
-            return dataSource().getConnection();
+            return ds.getConnection();
         } catch (SQLException e) {
             System.out.println("db커넥션을 얻어오지 못했습니다.");
             e.printStackTrace();

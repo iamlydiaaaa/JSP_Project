@@ -1,4 +1,4 @@
-package com.example.repository;
+package com.example.culture.repository;
 
 import com.example.domain.Culture;
 import com.example.config.SingletonProvider;
