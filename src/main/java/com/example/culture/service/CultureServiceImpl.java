@@ -1,9 +1,9 @@
-package com.example.service;
+package com.example.culture.service;
 
 import com.example.api.ApiProvider;
 import com.example.api.ApiRatePolicy;
 import com.example.domain.Culture;
-import com.example.repository.RegisterRepository;
+import com.example.culture.repository.RegisterRepository;
 
 import java.io.IOException;
 import java.util.List;

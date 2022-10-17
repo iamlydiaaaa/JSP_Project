@@ -3,10 +3,10 @@ package com.example.config;
 
 
 import com.example.domain.Culture;
-import com.example.repository.RegisterRepository;
-import com.example.repository.UserRepository;
-import com.example.service.CultureService;
-import com.example.service.UserService;
+import com.example.culture.repository.RegisterRepository;
+import com.example.user.repository.UserRepository;
+import com.example.culture.service.CultureService;
+import com.example.user.service.UserService;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

@@ -1,9 +1,9 @@
-package com.example.controller;
+package com.example.user.controller;
 
 
 
 import com.example.config.SingletonProvider;
-import com.example.service.UserService;
+import com.example.user.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

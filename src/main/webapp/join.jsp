@@ -78,7 +78,7 @@
        let query = window.location.search;
        let param = new URLSearchParams(query);
        let msg = param.get('msg');
-       if(msg!=null){
+       if(msg!=null&&msg.length>0){
            alert(msg)
        }
    </script>

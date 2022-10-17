@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+    //유효성검사 @valid 추가해야함
     private String id; // pk
     private String pwd;
     private String name;

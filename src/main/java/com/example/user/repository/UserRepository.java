@@ -1,4 +1,4 @@
-package com.example.repository;
+package com.example.user.repository;
 
 
 import com.example.domain.User;
