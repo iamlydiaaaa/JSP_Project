@@ -1,4 +1,4 @@
-package com.example.filter;
+package com.example.util.filter;
 
 import lombok.extern.log4j.Log4j2;
 

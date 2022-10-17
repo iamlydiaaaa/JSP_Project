@@ -17,8 +17,10 @@
     //체크된 경우
     if(msg!=null&&msg.length>0){
         alert(msg)
-        //logined_cookie를 생성
-        setCookie("logined_cookie","true",7);
+        if(msg==='remember_login'){
+            //logined_cookie를 생성
+            setCookie("logined_cookie","true",7);
+        }
     }
     function setCookie(cookieName, value, exdays) {
         var exdate = new Date();
@@ -39,7 +41,8 @@
                    <p class="bg02"></p>
                    <p class="bg03"></p>
                </div>
-               <p class="main_txt">SEOUL FESTIVALㅎㅎㅎ
+               <p class="main_txt">SEOUL FESTIVAL
+                   <a href="<c:url value="/list"/>">list</a>
                 </p>
             </section>
         </div>

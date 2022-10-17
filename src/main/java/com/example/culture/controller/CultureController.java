@@ -1,6 +1,6 @@
 package com.example.culture.controller;
 
-import com.example.config.SingletonProvider;
+import com.example.util.SingletonProvideUtil;
 import com.example.culture.service.CultureService;
 
 import javax.servlet.ServletException;
@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CultureController extends HttpServlet {
-    SingletonProvider instance = SingletonProvider.getInstance();
-    protected final CultureService cultureService = instance.registerService();
+    protected final CultureService cultureService = SingletonProvideUtil.SINGLETON_UTIL.cultureService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

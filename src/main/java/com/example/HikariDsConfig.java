@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Hikari_ds {
+public class HikariDsConfig {
     private final String CLASSNAME = "org.mariadb.jdbc.Driver";
     private final String JDBC_URL = "jdbc:mariadb://localhost:3306/culture_db";
     private final String USERNAME = "root";
@@ -32,22 +32,4 @@ public class Hikari_ds {
 
         return ds;
     }
-
-
-    public Connection getConnection() {
-        Connection conn = null;
-        try {
-            conn = ds.getConnection();
-            if (conn != null) {
-                System.out.println("DB 접속 성공");
-                return conn;
-            }
-        } catch (SQLException e) {
-            System.out.println("DB 접속 실패");
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    //close 메서드 만들기
 }

@@ -7,6 +7,5 @@ import com.example.domain.PageResponse;
 public interface CultureRepository<T> {
     void insert(T t);
     PageResponse<Culture> select(PageRequest pageRequest);
-
-    String test();
+    int selectCount();
 }

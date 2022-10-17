@@ -17,8 +17,9 @@ public class CultureServiceImpl implements CultureService {
     private final ApiRatePolicy apiRatePolicy;
     private final CultureRepository<Culture> cultureRepository;
 
-    public CultureServiceImpl(
-            ApiProvider apiProvider, ApiRatePolicy apiRatePolicy , CultureRepository<Culture> cultureRepository) {
+    public CultureServiceImpl(ApiProvider apiProvider,
+              ApiRatePolicy apiRatePolicy ,
+              CultureRepository<Culture> cultureRepository) {
         this.apiProvider = apiProvider;
         this.apiRatePolicy = apiRatePolicy;
         this.cultureRepository = cultureRepository;
@@ -28,9 +29,9 @@ public class CultureServiceImpl implements CultureService {
     public void register() {
         try {
             //가져온 api 데이터로 culture 객체를 완성 후 insert
-            Map<String,Integer> map = apiRatePolicy.apiRatePolicy();
             List<Culture> list = (List<Culture>) apiProvider.apiProvide();
             for (Culture culture : list) {
+                Map<String,Integer> map = apiRatePolicy.apiRatePolicy();
                 culture.setCapacity(map.get("capacity"));
                 if(culture.getPay_ay_nm().contains("유료")){
                     culture.setPrice(map.get("price"));
@@ -38,11 +39,11 @@ public class CultureServiceImpl implements CultureService {
                 else{
                     culture.setPrice(0);
                 }
-                String dtlcont = culture.getDtlcont();
-                dtlcont = dtlcont.replace("\r\n","000");
-                dtlcont = dtlcont.replace("\t","000");
-                System.out.println("dtlcont = "+dtlcont);
-                culture.setDtlcont(dtlcont);
+//                String dtlcont = culture.getDtlcont();
+//                dtlcont = dtlcont.replace("\r\n","000");
+//                dtlcont = dtlcont.replace("\t","000");
+//                System.out.println("dtlcont = "+dtlcont);
+//                culture.setDtlcont(dtlcont);
                 //repository에 insert
                 cultureRepository.insert(culture);
             }//for
@@ -56,11 +57,6 @@ public class CultureServiceImpl implements CultureService {
 
     @Override
     public PageResponse<Culture> getCultures(PageRequest pageRequest) {
-        return null;
-    }
-
-    @Override
-    public String test() {
-        return cultureRepository.test();
+        return cultureRepository.select(pageRequest);
     }
 }
