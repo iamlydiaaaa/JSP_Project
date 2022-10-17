@@ -28,7 +28,8 @@
     }
 </script>
 <body>
-    <script src="javascript/header_sub.js"></script>
+<%--    <script src="javascript/header_sub.js"></script>--%>
+    <jsp:include page="header_sub.jsp" flush="true"/>
     <main>
         <div id="main">
             <section id="visual">
@@ -38,7 +39,7 @@
                    <p class="bg02"></p>
                    <p class="bg03"></p>
                </div>
-               <p class="main_txt">SEOUL FESTIVAL
+               <p class="main_txt">SEOUL FESTIVALㅎㅎㅎ
                 </p>
             </section>
         </div>
