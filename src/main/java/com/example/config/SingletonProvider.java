@@ -3,7 +3,7 @@ package com.example.config;
 
 
 import com.example.domain.Culture;
-import com.example.culture.repository.RegisterRepository;
+import com.example.culture.repository.CultureRepository;
 import com.example.user.repository.UserRepository;
 import com.example.culture.service.CultureService;
 import com.example.user.service.UserService;
@@ -45,7 +45,7 @@ public class SingletonProvider {
     }
 
     //cultureRepository
-    public RegisterRepository<Culture> registerRepository() {
+    public CultureRepository<Culture> registerRepository() {
         return appConfig.registerRepository();
     }
 

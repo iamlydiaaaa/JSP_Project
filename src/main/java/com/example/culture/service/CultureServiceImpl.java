@@ -3,7 +3,9 @@ package com.example.culture.service;
 import com.example.api.ApiProvider;
 import com.example.api.ApiRatePolicy;
 import com.example.domain.Culture;
-import com.example.culture.repository.RegisterRepository;
+import com.example.culture.repository.CultureRepository;
+import com.example.domain.PageRequest;
+import com.example.domain.PageResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,13 +15,13 @@ public class CultureServiceImpl implements CultureService {
 
     private final ApiProvider apiProvider;
     private final ApiRatePolicy apiRatePolicy;
-    private final RegisterRepository<Culture> registerRepository;
+    private final CultureRepository<Culture> cultureRepository;
 
     public CultureServiceImpl(
-            ApiProvider apiProvider, ApiRatePolicy apiRatePolicy , RegisterRepository<Culture> registerRepository) {
+            ApiProvider apiProvider, ApiRatePolicy apiRatePolicy , CultureRepository<Culture> cultureRepository) {
         this.apiProvider = apiProvider;
         this.apiRatePolicy = apiRatePolicy;
-        this.registerRepository = registerRepository;
+        this.cultureRepository = cultureRepository;
     }
 
     @Override
@@ -36,8 +38,13 @@ public class CultureServiceImpl implements CultureService {
                 else{
                     culture.setPrice(0);
                 }
+                String dtlcont = culture.getDtlcont();
+                dtlcont = dtlcont.replace("\r\n","000");
+                dtlcont = dtlcont.replace("\t","000");
+                System.out.println("dtlcont = "+dtlcont);
+                culture.setDtlcont(dtlcont);
                 //repository에 insert
-                registerRepository.insert(culture);
+                cultureRepository.insert(culture);
             }//for
 
         } catch (IOException e) {
@@ -45,6 +52,15 @@ public class CultureServiceImpl implements CultureService {
             System.out.println("api 등록에 실패했습니다");
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    public PageResponse<Culture> getCultures(PageRequest pageRequest) {
+        return null;
+    }
+
+    @Override
+    public String test() {
+        return cultureRepository.test();
     }
 }
