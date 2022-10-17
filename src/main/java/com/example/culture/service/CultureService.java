@@ -11,5 +11,4 @@ public interface CultureService {
     //조회
     //수정
     //삭제
-    String test();
 }

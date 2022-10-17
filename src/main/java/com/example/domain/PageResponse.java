@@ -27,7 +27,7 @@ public class PageResponse<E> {
         this.total=total;
         this.start=(this.page-1)/10*10+1;
         this.last=(int)(Math.ceil(this.total/(double)this.size));
-        this.end=this.last<this.start+9?this.last:this.start+9;
+        this.end= Math.min(this.last, this.start + 9);
         this.showPrev=this.start!=1;
         this.showNext=this.last>this.end;
     }

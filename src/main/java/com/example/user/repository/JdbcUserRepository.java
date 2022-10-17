@@ -2,10 +2,8 @@ package com.example.user.repository;
 
 
 
-import com.example.config.SingletonProvider;
 import com.example.domain.User;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,15 +11,9 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 
+import static com.example.util.ConnectionUtil.*;
+
 public class JdbcUserRepository implements UserRepository {
-
-    private final DataSource ds;
-    SingletonProvider instance = SingletonProvider.getInstance(); //ds close() 용도
-
-    public JdbcUserRepository(DataSource ds) {
-        super();
-        this.ds = ds;
-    }
 
     @Override
     public void insert(User user) {
@@ -31,7 +23,7 @@ public class JdbcUserRepository implements UserRepository {
             String sql = "insert into user_basic "
                     + "(id,pwd,name)"
                     + " values(?,?,?) ";
-            conn = ds.getConnection();
+            conn = CONN_UTIL.getConnection();
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, user.getId());
@@ -60,13 +52,18 @@ public class JdbcUserRepository implements UserRepository {
             conn.commit();
             conn.setAutoCommit(true);
         } catch (SQLException e) {
-            instance.rollback(conn);
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("user insert를 롤백합니다");
+                throw new RuntimeException(ex);
+            }
             e.printStackTrace();
             System.out.println("회원가입에 실패했습니다");
             throw new RuntimeException(e);
         } finally {
-            instance.close(pstmt);
-            instance.close(conn);
+            CONN_UTIL.close(pstmt,conn);
         }
     }
 
@@ -85,7 +82,7 @@ public class JdbcUserRepository implements UserRepository {
         ResultSet rs = null;
         User user = null;
         try {
-            conn = instance.getConnection();
+            conn = CONN_UTIL.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
@@ -106,9 +103,7 @@ public class JdbcUserRepository implements UserRepository {
             System.out.println("회원정보 조회에 실패 했습니다");
             throw new RuntimeException(e);
         } finally {
-            instance.close(rs);
-            instance.close(pstmt);
-            instance.close(conn);
+            CONN_UTIL.close(rs,pstmt,conn);
         }
     }
 }

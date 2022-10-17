@@ -1,8 +1,8 @@
-package com.example.service;
+package com.example.user;
 
 
 
-import com.example.config.SingletonProvider;
+import com.example.util.SingletonProvideUtil;
 import com.example.domain.User;
 import com.example.user.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static com.example.util.SingletonProvideUtil.*;
+
 public class UserServiceTest {
-    UserService userService = SingletonProvider.getInstance().userService();
+
+    UserService userService = SINGLETON_UTIL.userService();
 
     @Test
     @DisplayName("유저 조회")

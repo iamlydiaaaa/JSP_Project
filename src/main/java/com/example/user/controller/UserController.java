@@ -2,7 +2,7 @@ package com.example.user.controller;
 
 
 
-import com.example.config.SingletonProvider;
+import com.example.util.SingletonProvideUtil;
 import com.example.user.service.UserService;
 
 import javax.servlet.ServletException;
@@ -19,8 +19,7 @@ public class UserController extends HttpServlet {
     //key(remember_id) 아이디기억
     //remember_login 로그인유지
 
-    SingletonProvider instance = SingletonProvider.getInstance();
-    protected final UserService userService = instance.userService();
+    protected final UserService userService = SingletonProvideUtil.SINGLETON_UTIL.userService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
