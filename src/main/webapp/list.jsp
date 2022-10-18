@@ -27,9 +27,9 @@
             </div>
             <ul id="list_wrap">
 <%--                <c:out value="${requestScope.pageResponse}"></c:out>--%>
-                <c:forEach items="${requestScope.pageResponse.getPageList()}" var="list">
+                <c:forEach items="${requestScope.pageResponse.getPageList()}" var="culture">
                     <li>
-                            ${fn:replace(fn:replace(list, "\\r\\n", " "), "\\t", " ")}
+                            ${fn:replace(fn:replace(culture.getSvc_nm(), "\\r\\n", " "), "\\t", " ")}
 <%--                                <c:out value="${list.getImg_url()}"></c:out>--%>
 <%--                            <c:out value="${list.getSvc_nm()}"></c:out>--%>
 <%--                            ${fn:replace(fn:replace(list.getDtlcont(), "\\r\\n", " "), "\\t", " ")}--%>

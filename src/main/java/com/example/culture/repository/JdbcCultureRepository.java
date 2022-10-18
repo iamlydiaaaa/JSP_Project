@@ -92,7 +92,7 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
 
     //작성중
     @Override
-    public PageResponse<Culture> select(PageRequest pageRequest) {
+    public PageResponse<Culture> selectAll(PageRequest pageRequest) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -106,7 +106,7 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
                     "(culture_basic as basic inner join culture_info as info on basic.cno=info.cno " +
                     "inner join culture_res as res on info.cno=res.cno " +
                     "inner join culture_schedule as sch on res.cno=sch.cno) " +
-                    "order by basic.cno " +
+                    "order by basic.cno desc " +
                     "limit ? , ?;";
             conn = CONN_UTIL.getConnection();
             pstmt = conn.prepareStatement(sql);

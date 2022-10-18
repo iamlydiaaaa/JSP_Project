@@ -6,6 +6,6 @@ import com.example.domain.PageResponse;
 
 public interface CultureRepository<T> {
     void insert(T t);
-    PageResponse<Culture> select(PageRequest pageRequest);
+    PageResponse<Culture> selectAll(PageRequest pageRequest);
     int selectCount();
 }

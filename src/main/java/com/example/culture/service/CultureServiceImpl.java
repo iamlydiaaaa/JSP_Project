@@ -39,11 +39,6 @@ public class CultureServiceImpl implements CultureService {
                 else{
                     culture.setPrice(0);
                 }
-//                String dtlcont = culture.getDtlcont();
-//                dtlcont = dtlcont.replace("\r\n","000");
-//                dtlcont = dtlcont.replace("\t","000");
-//                System.out.println("dtlcont = "+dtlcont);
-//                culture.setDtlcont(dtlcont);
                 //repository에 insert
                 cultureRepository.insert(culture);
             }//for
@@ -57,6 +52,12 @@ public class CultureServiceImpl implements CultureService {
 
     @Override
     public PageResponse<Culture> getCultures(PageRequest pageRequest) {
-        return cultureRepository.select(pageRequest);
+        return cultureRepository.selectAll(pageRequest);
+    }
+
+    @Override
+    public Culture getCulture(Long cno) {
+//        return cultureRepository.selectOne(cno);
+        return null;
     }
 }

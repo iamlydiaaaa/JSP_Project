@@ -53,8 +53,6 @@ public class Culture {
 //        9	PLACENM	장소명
 //        10	USETGTINFO	서비스대상
 //        11	SVCURL	바로가기URL
-//        12	X	장소X좌표
-//        13	Y	장소Y좌표
 //        14	SVCOPNBGNDT	서비스개시시작일시
 //        15	SVCOPNENDDT	서비스개시종료일시
 //        16	RCPTBGNDT	접수시작일시
