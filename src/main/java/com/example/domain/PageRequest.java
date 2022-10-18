@@ -19,8 +19,8 @@ public class PageRequest {
     private int page=1;
     @Builder.Default
     @Positive
-    @Size(min=6,max=120)
-    private int size=6;
+    @Size(min=12,max=120)
+    private int size=12;
     public int getSkip(){
         return (page-1)*size;
     }

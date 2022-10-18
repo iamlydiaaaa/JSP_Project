@@ -26,30 +26,26 @@
                 <button type="submit" id="list_search_btn">검색</button>
             </div>
             <ul id="list_wrap">
-<%--                <c:out value="${requestScope.pageResponse}"></c:out>--%>
-                <c:forEach items="${requestScope.pageResponse.getPageList()}" var="list">
+                <c:forEach items="${requestScope.pageResponse.getPageList()}" var="culture">
+<%--                    ${fn:replace(fn:replace(culture.getSvc_nm(), "\\r\\n", " "), "\\t", " ")}--%>
                     <li>
-                            ${fn:replace(fn:replace(list, "\\r\\n", " "), "\\t", " ")}
-<%--                                <c:out value="${list.getImg_url()}"></c:out>--%>
-<%--                            <c:out value="${list.getSvc_nm()}"></c:out>--%>
-<%--                            ${fn:replace(fn:replace(list.getDtlcont(), "\\r\\n", " "), "\\t", " ")}--%>
+                        <a href="festivalDetail.html">
+                            <p id="list_img">
+                                <img src="${culture.getImg_url()}" alt=""> </p>
+                            <div class="list_box">
+                                <p id="list_pro_name">${culture.getSvc_nm()}</p>
+                                <ul id="list_pro_info">
+                                    <li><strong>장소명</strong><span>${culture.getPlace_nm()}</span></li>
+                                    <li><strong>이용대상</strong><span>${culture.getUse_tgt_info()}</span></li>
+                                    <li><strong>접수기간</strong><span>${culture.getRcpt_bgn_dt()}~${culture.getRcpt_end_dt()}</span></li>
+                                    <li><strong>이용기간</strong><span>${culture.getSvc_opn_bgn_dt()}~${culture.getSvc_opn_end_dt()}</span></li>
+                                </ul>
+                            </div>
+                        </a>
                     </li>
                 </c:forEach>
-<%--
-<%--                <li>--%>
-<%--                    <a href="festivalDetail.html">--%>
-<%--                        <img id="list_img" src="images/bg04.jpg" alt="">--%>
-<%--                        <div class="list_box">--%>
-<%--                            <p id="list_pro_name">서울물재생체험관 단체관람 예약</p>--%>
-<%--                            <ul id="list_pro_info">--%>
-<%--                                <li><strong>장소명</strong><span>서울물재생체험관</span></li>--%>
-<%--                                <li><strong>이용대상</strong><span>성인,어린이</span></li>--%>
-<%--                                <li><strong>접수기간</strong><span>2022-07-01~2022.12.25</span></li>--%>
-<%--                                <li><strong>이용기간</strong><span>2022.08.02-2022.12.31</span></li>--%>
-<%--                            </ul>--%>
-<%--                        </div>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
+
+
             </ul>
         </div>
 
