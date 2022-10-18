@@ -18,7 +18,7 @@
     z-index: -1;
 }
 
-#sub_banner{width: 100%; min-width: 1000px; height: 250px; background: #ccc url(../images/location.jpg) no-repeat center -800px; display: table;
+#sub_banner{width: 100%; min-width: 1000px; height: 250px; background: #ccc url(../images/bg_list.jpg) no-repeat center -800px; display: table;
 }
 #sub_banner p{display: table-cell; vertical-align: middle; text-align: center; color: #fff;
     text-shadow: 0 0 10px rgba(0,0,0,0.5);
