@@ -13,6 +13,14 @@
 
 <body>
     <script src="javascript/header_sub.js"></script>
+    <script>
+        let query = window.location.search;
+        let param = new URLSearchParams(query);
+        let msg = param.get('msg');
+        if(msg!=null){
+            alert(msg)
+        }
+    </script>
     <main id="festival_list">
         <div class="sub_tit_wrap">
             <div class="sub_tit_inner">
@@ -27,9 +35,8 @@
             </div>
             <ul id="list_wrap">
                 <c:forEach items="${requestScope.pageResponse.getPageList()}" var="culture">
-<%--                    ${fn:replace(fn:replace(culture.getSvc_nm(), "\\r\\n", " "), "\\t", " ")}--%>
                     <li>
-                        <a href="festivalDetail.html">
+                        <a href="<c:url value="/detail?cno=${culture.getCno()}"/>">
                             <p id="list_img">
                                 <img src="${culture.getImg_url()}" alt=""> </p>
                             <div class="list_box">

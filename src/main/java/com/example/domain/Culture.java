@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,6 +15,11 @@ import lombok.NoArgsConstructor;
 public class Culture {
     //서비스명 말고 다 null가능하게
 
+    @Positive
+    @NotNull
+    private Long cno;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private String svc_nm="";//서비스명 SVCNM
 
     //지역명+장소명 = 주소
@@ -53,8 +61,6 @@ public class Culture {
 //        9	PLACENM	장소명
 //        10	USETGTINFO	서비스대상
 //        11	SVCURL	바로가기URL
-//        12	X	장소X좌표
-//        13	Y	장소Y좌표
 //        14	SVCOPNBGNDT	서비스개시시작일시
 //        15	SVCOPNENDDT	서비스개시종료일시
 //        16	RCPTBGNDT	접수시작일시

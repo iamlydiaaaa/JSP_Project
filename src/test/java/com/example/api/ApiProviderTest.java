@@ -1,9 +1,7 @@
 package com.example.api;
 
 
-
 import com.example.culture.service.CultureService;
-import com.example.util.SingletonProvideUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.util.SingletonProvideUtil.*;
+import static com.example.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 public class ApiProviderTest {
     ApiProvider apiProvider = new CultureJsonApiProvider
@@ -20,16 +18,17 @@ public class ApiProviderTest {
     CultureService cultureService = SINGLETON_UTIL.cultureService();
 
     @Test
-    @DisplayName("불러온 데이터의 수 일치")
+    @DisplayName("서울시 문화행사 api 연결")
     void apiProviderTest() throws IOException {
        List<?> list =  apiProvider.apiProvide();
-        Assertions.assertEquals(list.size(),62);
+       System.out.println("불러온 데이터의 수 : "+list.size());
+       Assertions.assertNotNull(list);
     }
 
     @Test
+    @DisplayName("서울시 문화행사 api db 최신화")
     void registerServiceTest(){
+        cultureService.removeAll();
         cultureService.register();
     }
-
-    //appconfig 싱글톤 정리 -> 클래스다이어그램
 }

@@ -1,8 +1,5 @@
 package com.example.user;
 
-
-
-import com.example.util.SingletonProvideUtil;
 import com.example.domain.User;
 import com.example.user.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.example.util.SingletonProvideUtil.*;
+import static com.example.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 public class UserServiceTest {
 
@@ -36,7 +33,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("로그인 실패")
     public void loginTest2(){
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(Exception.class,
                 ()->userService.login("user2", "user2"));
     }
 }

@@ -10,9 +10,11 @@ import java.sql.SQLException;
 
 public class ConnectionUtil {
 
-    public static final ConnectionUtil CONN_UTIL = new ConnectionUtil();
+    public static final ConnectionUtil CONN_UTIL
+            = new ConnectionUtil();
 
     private final DataSource ds;
+
     private ConnectionUtil() {
         AppConfig appConfig = new AppConfig();
         this.ds= appConfig.dataSource();

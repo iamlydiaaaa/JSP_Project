@@ -2,28 +2,31 @@ package com.example.culture.service;
 
 import com.example.api.ApiProvider;
 import com.example.api.ApiRatePolicy;
-import com.example.domain.Culture;
 import com.example.culture.repository.CultureRepository;
+import com.example.domain.Culture;
 import com.example.domain.PageRequest;
 import com.example.domain.PageResponse;
+import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+@RequiredArgsConstructor
 public class CultureServiceImpl implements CultureService {
 
     private final ApiProvider apiProvider;
     private final ApiRatePolicy apiRatePolicy;
     private final CultureRepository<Culture> cultureRepository;
 
-    public CultureServiceImpl(ApiProvider apiProvider,
-              ApiRatePolicy apiRatePolicy ,
-              CultureRepository<Culture> cultureRepository) {
-        this.apiProvider = apiProvider;
-        this.apiRatePolicy = apiRatePolicy;
-        this.cultureRepository = cultureRepository;
-    }
+//    public CultureServiceImpl(ApiProvider apiProvider,
+//              ApiRatePolicy apiRatePolicy ,
+//              CultureRepository<Culture> cultureRepository) {
+//        this.apiProvider = apiProvider;
+//        this.apiRatePolicy = apiRatePolicy;
+//        this.cultureRepository = cultureRepository;
+//    }
 
     @Override
     public void register() {
@@ -39,11 +42,6 @@ public class CultureServiceImpl implements CultureService {
                 else{
                     culture.setPrice(0);
                 }
-//                String dtlcont = culture.getDtlcont();
-//                dtlcont = dtlcont.replace("\r\n","000");
-//                dtlcont = dtlcont.replace("\t","000");
-//                System.out.println("dtlcont = "+dtlcont);
-//                culture.setDtlcont(dtlcont);
                 //repository에 insert
                 cultureRepository.insert(culture);
             }//for
@@ -57,6 +55,17 @@ public class CultureServiceImpl implements CultureService {
 
     @Override
     public PageResponse<Culture> getCultures(PageRequest pageRequest) {
-        return cultureRepository.select(pageRequest);
+        return cultureRepository.selectAll(pageRequest);
+    }
+
+    @Override
+    public Culture getCulture(Long cno) {
+        Optional<Culture> result = cultureRepository.selectOne(cno);
+        return result.orElseThrow(); //NoSuchElementException
+    }
+
+    @Override
+    public void removeAll() {
+        cultureRepository.deleteAll();
     }
 }

@@ -1,7 +1,6 @@
 package com.example.user.repository;
 
 
-
 import com.example.domain.User;
 
 import java.sql.Connection;
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.example.util.ConnectionUtil.*;
+import static com.example.util.ConnectionUtil.CONN_UTIL;
 
 public class JdbcUserRepository implements UserRepository {
 

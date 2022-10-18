@@ -2,7 +2,6 @@ package com.example.domain;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
