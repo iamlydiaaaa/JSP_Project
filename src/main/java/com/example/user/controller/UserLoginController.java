@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLDataException;
 
-@WebServlet(name = "loginController", value = "/login")
+@WebServlet(name = "userLoginController", value = "/login")
 public class UserLoginController extends UserController {
 
 

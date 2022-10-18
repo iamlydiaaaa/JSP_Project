@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet(name = "joinController", value = "/join")
+@WebServlet(name = "userJoinController", value = "/join")
 public class UserJoinController extends UserController {
 
     @Override

@@ -1,9 +1,11 @@
 package com.example.api;
 
+import com.example.domain.Culture;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.RequiredArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,17 +15,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.domain.Culture;
-
+@RequiredArgsConstructor
 public class CultureJsonApiProvider implements ApiProvider{
     private final String KEY; //인증키 6653645678736b6139317441527257
     private final String SUB_CATEGORY; //문화행사
+    private Long cno = 1L;
 
 
-    public CultureJsonApiProvider(String KEY, String SUB_CATEGORY) {
-        this.KEY = KEY;
-        this.SUB_CATEGORY = SUB_CATEGORY;
-    }
+//    public CultureJsonApiProvider(String KEY, String SUB_CATEGORY) {
+//        this.KEY = KEY;
+//        this.SUB_CATEGORY = SUB_CATEGORY;
+//    }
 
     @Override
     public List<Culture> apiProvide() throws IOException {
@@ -57,6 +59,7 @@ public class CultureJsonApiProvider implements ApiProvider{
             for(int i = 0 ; i<row.size();i++){
                 JsonObject element = (JsonObject) row.get(i);
                 Culture culture = Culture.builder()
+                        .cno(cno)
                         .svc_nm(parseNonDQM(element.get("SVCNM")))
                         .area_nm(parseNonDQM(element.get("AREANM")))
                         .place_nm(parseNonDQM(element.get("PLACENM")))
@@ -76,6 +79,7 @@ public class CultureJsonApiProvider implements ApiProvider{
                         .revstd_day(parseNonDQM(element.get("REVSTDDAY")))
                         .build();
                 apiList.add(culture);
+                cno++;
             }
         } catch (IOException e) {
             e.printStackTrace();

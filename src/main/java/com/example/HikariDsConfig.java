@@ -4,8 +4,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class HikariDsConfig {
     private final String CLASSNAME = "org.mariadb.jdbc.Driver";

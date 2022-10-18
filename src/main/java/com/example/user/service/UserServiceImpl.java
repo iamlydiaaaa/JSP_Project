@@ -3,18 +3,20 @@ package com.example.user.service;
 
 import com.example.domain.User;
 import com.example.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
 
-    public UserServiceImpl(UserRepository userRepository) {
-        super();
-        this.userRepository = userRepository;
-    }
+//    public UserServiceImpl(UserRepository userRepository) {
+//        super();
+//        this.userRepository = userRepository;
+//    }
 
     @Override
     public void join(User user) {
