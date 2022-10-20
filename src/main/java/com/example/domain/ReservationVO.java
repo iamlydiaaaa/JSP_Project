@@ -9,12 +9,11 @@ import java.util.Date;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Reservation {
+public class ReservationVO {
     private Long rno;//pk
     private String id;//유저아이디
     private Long cno;//행사번호
-    private Date regDate;
-    private Date user_res_schedule;//예약한 날짜
+    private Integer res_price;
+    private Date user_res_schedule;//예약희망 날짜
+    private Date regDate;//예약한 날짜
 }

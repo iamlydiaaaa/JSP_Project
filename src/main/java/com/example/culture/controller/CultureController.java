@@ -1,7 +1,7 @@
 package com.example.culture.controller;
 
+import com.example.common.SingletonProvideUtil;
 import com.example.culture.service.CultureService;
-import com.example.util.SingletonProvideUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

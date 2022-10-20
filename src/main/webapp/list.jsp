@@ -51,7 +51,25 @@
                         </a>
                     </li>
                 </c:forEach>
-
+                <div class="nav">
+                    <ul>
+                        <c:if test="${requestScope.pageResponse.isShowPrev()}">
+                            <a href="/project/list?page=${requestScope.pageResponse.page-1}&size=${requestScope.pageResponse.size}">
+                                <li>[PREV]</li>
+                            </a>
+                        </c:if>
+                        <c:forEach begin="${requestScope.pageResponse.start}" end="${requestScope.pageResponse.end}" var="num">
+                            <a href="/project/list?page=${num}&size=${requestScope.pageResponse.size}">
+                                <li class="${num==requestScope.pageResponse.page?'sel':''}">${num}</li>
+                            </a>
+                        </c:forEach>
+                        <c:if test="${requestScope.pageResponse.isShowNext()}">
+                            <a href="/project/list?page=${requestScope.pageResponse.page+1}&size=${requestScope.pageResponse.size}">
+                                <li>[NEXT]</li>
+                            </a>
+                        </c:if>
+                    </ul>
+                </div>
 
             </ul>
         </div>

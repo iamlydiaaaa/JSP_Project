@@ -1,6 +1,6 @@
 package com.example.culture.controller;
 
-import com.example.domain.Culture;
+import com.example.domain.CultureVO;
 import com.example.domain.PageRequest;
 import com.example.domain.PageResponse;
 
@@ -47,10 +47,8 @@ public class CultureListController extends CultureController {
                         .build();
             }
             //생성한 PageRequest객체를 전달해 pageResponse를 받아온다
-            PageResponse<Culture> pageResponse = cultureService.getCultures(pageRequest);
+            PageResponse<CultureVO> pageResponse = cultureService.getCultures(pageRequest);
             //받아온 pageResponse를 list.jsp에 전달
-//            HttpSession session = req.getSession();
-//            session.setAttribute("pageResponse",pageResponse);
             req.setAttribute("pageResponse",pageResponse);
             req.getRequestDispatcher("list.jsp").forward(req,resp);
 

@@ -1,8 +1,8 @@
 package com.example.user.controller;
 
 
+import com.example.common.SingletonProvideUtil;
 import com.example.user.service.UserService;
-import com.example.util.SingletonProvideUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,11 +12,11 @@ import java.io.IOException;
 
 public class UserController extends HttpServlet {
     //**session id 목록**
-    // user - 로그인 성공저장 (userid,adminid)
+    // "user" 로그인 성공저장(일반유저 - userid,관리자 - adminid)
 
     //**cookie id 목록**
-    //key(remember_id) 아이디기억
-    //remember_login 로그인유지
+    //"key" 아이디기억(remember_id)
+    //"remember_login" 로그인유지
 
     protected final UserService userService = SingletonProvideUtil.SINGLETON_UTIL.userService();
 
