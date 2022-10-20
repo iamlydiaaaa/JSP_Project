@@ -1,6 +1,8 @@
 package com.example.user.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -13,12 +15,13 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLDataException;
 
 @WebServlet(name = "userLoginController", value = "/login")
+@Slf4j
 public class UserLoginController extends UserController {
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("login get ...");
+        log.info("login get ...");
         HttpSession session = req.getSession();
         Cookie[] cookies = req.getCookies();
         req.getRequestDispatcher("login.jsp")
@@ -27,7 +30,7 @@ public class UserLoginController extends UserController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("login post ...");
+        log.info("login post ...");
 
         HttpSession session = req.getSession();
         String msg = "";
@@ -40,7 +43,7 @@ public class UserLoginController extends UserController {
         //로그인체크
         try {
             if (userService.login(id, pwd)) {
-                System.out.println("로그인 성공");
+                log.info("로그인 성공");
                 //로그인 성공후 로그인 유지 기능이 체크되어 있으면
                 if("2".equals(chk2)){
                     msg = URLEncoder.encode("remember_login", StandardCharsets.UTF_8);

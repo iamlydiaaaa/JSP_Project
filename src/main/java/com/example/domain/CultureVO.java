@@ -1,20 +1,13 @@
 package com.example.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 @Data
 @Builder
 public class CultureVO {
     //서비스명 말고 다 null가능하게
 
-    @Positive
-    @NotNull
     private Long cno;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

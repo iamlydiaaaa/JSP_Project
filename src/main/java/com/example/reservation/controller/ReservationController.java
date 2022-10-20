@@ -3,6 +3,7 @@ package com.example.reservation.controller;
 import com.example.domain.CultureVO;
 import com.example.reservation.service.ReservationService;
 import com.example.reservation.service.ReservationServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +14,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 
 @WebServlet(name="reservationController",value="/reservation")
+@Slf4j
 public class ReservationController extends HttpServlet {
 
     //임시코드
@@ -23,13 +24,13 @@ public class ReservationController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("ReservationController.doGet");
+        log.info("ReservationController.doGet");
         doPost(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("ReservationController.doPost");
+        log.info("ReservationController.doPost");
         try {
             HttpSession session = req.getSession();
             String res_dt = req.getParameter("res_dt"); //2022-10-29
@@ -42,11 +43,11 @@ public class ReservationController extends HttpServlet {
         } catch (IllegalStateException e){
             e.printStackTrace();
             String msg = URLEncoder.encode("잘못된 값을 입력하셨습니다", StandardCharsets.UTF_8);
-            resp.sendRedirect("/project?msg="+msg);
+            resp.sendRedirect("/project/list?msg="+msg);
         } catch (Exception e) {
             e.printStackTrace();
             String msg = URLEncoder.encode("다시 시도해 주세요", StandardCharsets.UTF_8);
-            resp.sendRedirect("/project?msg="+msg);
+            resp.sendRedirect("/project/list?msg="+msg);
         }
     }
 }

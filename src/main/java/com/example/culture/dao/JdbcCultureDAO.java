@@ -1,4 +1,4 @@
-package com.example.culture.repository;
+package com.example.culture.dao;
 
 import com.example.domain.CultureVO;
 import com.example.domain.PageRequest;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static com.example.common.ConnectionUtil.CONN_UTIL;
 
-public class JdbcCultureRepository implements CultureRepository<CultureVO> {
+public class JdbcCultureDAO implements CultureDAO<CultureVO> {
 
     @Override
     public void insert(CultureVO cultureVO) {
@@ -77,12 +77,10 @@ public class JdbcCultureRepository implements CultureRepository<CultureVO> {
                 conn.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                System.out.println("culture insert를 롤백합니다");
-                throw new RuntimeException(ex);
+                throw new RuntimeException("culture insert를 롤백합니다");
             }
             e.printStackTrace();
-            System.out.println("cultrue 등록에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("cultrue 등록에 실패했습니다");
         } finally {
             CONN_UTIL.close(pstmt,conn);
         }
@@ -145,8 +143,7 @@ public class JdbcCultureRepository implements CultureRepository<CultureVO> {
             return pageResponse;
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("cultrue 조회에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("cultrue 조회에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
@@ -166,8 +163,7 @@ public class JdbcCultureRepository implements CultureRepository<CultureVO> {
             return rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("cultrue 조회(count)에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("cultrue 조회(count)에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
@@ -196,8 +192,7 @@ public class JdbcCultureRepository implements CultureRepository<CultureVO> {
             pstmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("culture 삭제에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("culture 삭제에 실패했습니다");
         } finally {
             CONN_UTIL.close(pstmt,conn);
         }
@@ -248,8 +243,7 @@ public class JdbcCultureRepository implements CultureRepository<CultureVO> {
             return Optional.ofNullable(cultureVO);
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("cultrue 조회에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("cultrue 조회에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }

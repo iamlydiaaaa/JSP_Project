@@ -2,6 +2,7 @@ package com.example.api;
 
 
 import com.example.culture.service.CultureService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
 
+@Slf4j
 public class ApiProviderTest {
     ApiProvider apiProvider = new CultureJsonApiProvider
             ("6653645678736b6139317441527257","문화행사");
@@ -21,7 +23,7 @@ public class ApiProviderTest {
     @DisplayName("서울시 문화행사 api 연결")
     void apiProviderTest() throws IOException {
        List<?> list =  apiProvider.apiProvide();
-       System.out.println("불러온 데이터의 수 : "+list.size());
+       log.info("불러온 데이터의 수 : "+list.size());
        Assertions.assertNotNull(list);
     }
 
