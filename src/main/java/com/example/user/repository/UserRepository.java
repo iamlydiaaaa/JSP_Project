@@ -1,12 +1,12 @@
 package com.example.user.repository;
 
 
-import com.example.domain.User;
+import com.example.domain.UserVO;
 
 import java.util.Optional;
 
 public interface UserRepository {
-    void insert(User user);
+    void insert(UserVO userVO);
 
-    Optional<User> getById(String id);
+    Optional<UserVO> getById(String id);
 }

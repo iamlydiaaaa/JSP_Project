@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.domain.Culture;
+import com.example.domain.CultureVO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,13 +28,13 @@ public class CultureJsonApiProvider implements ApiProvider{
 //    }
 
     @Override
-    public List<Culture> apiProvide() throws IOException {
+    public List<CultureVO> apiProvide() throws IOException {
         //먼저 불러올 데이터의 개수를 찾음
         Integer list_total_count = getTotalCnt();
         if(list_total_count==-1){
             throw new IOException();
         }
-        List<Culture> apiList = new ArrayList<>(); //변환한 데이터를 저장 & 반환 할 리스트
+        List<CultureVO> apiList = new ArrayList<>(); //변환한 데이터를 저장 & 반환 할 리스트
         try {
             //전체 api 리스트 카운트
             getTotalCnt();
@@ -58,7 +58,7 @@ public class CultureJsonApiProvider implements ApiProvider{
             //추출한 row에서 필요한 정보만 culture 객체로 저장
             for(int i = 0 ; i<row.size();i++){
                 JsonObject element = (JsonObject) row.get(i);
-                Culture culture = Culture.builder()
+                CultureVO cultureVO = CultureVO.builder()
                         .cno(cno)
                         .svc_nm(parseNonDQM(element.get("SVCNM")))
                         .area_nm(parseNonDQM(element.get("AREANM")))
@@ -78,7 +78,7 @@ public class CultureJsonApiProvider implements ApiProvider{
                         .revstd_day_nm(parseNonDQM(element.get("REVSTDDAYNM")))
                         .revstd_day(parseNonDQM(element.get("REVSTDDAY")))
                         .build();
-                apiList.add(culture);
+                apiList.add(cultureVO);
                 cno++;
             }
         } catch (IOException e) {

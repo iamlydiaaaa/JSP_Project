@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.util.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
 
 public class ApiProviderTest {
     ApiProvider apiProvider = new CultureJsonApiProvider

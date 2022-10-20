@@ -10,9 +10,7 @@ import javax.validation.constraints.Positive;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Culture {
+public class CultureVO {
     //서비스명 말고 다 null가능하게
 
     @Positive

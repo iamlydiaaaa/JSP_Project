@@ -9,7 +9,7 @@ import com.example.culture.repository.CultureRepository;
 import com.example.culture.repository.JdbcCultureRepository;
 import com.example.culture.service.CultureService;
 import com.example.culture.service.CultureServiceImpl;
-import com.example.domain.Culture;
+import com.example.domain.CultureVO;
 import com.example.user.repository.JdbcUserRepository;
 import com.example.user.repository.UserRepository;
 import com.example.user.service.UserService;
@@ -60,7 +60,7 @@ public class AppConfig {
     }
 
     //cultureRepository
-    public CultureRepository<Culture> cultureRepository() {
+    public CultureRepository<CultureVO> cultureRepository() {
         return new JdbcCultureRepository();
     }
 

@@ -1,6 +1,6 @@
 package com.example.user;
 
-import com.example.domain.User;
+import com.example.domain.UserVO;
 import com.example.user.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,19 +8,19 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.example.util.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
 
-public class UserServiceTest {
+public class UserVOServiceTest {
 
     UserService userService = SINGLETON_UTIL.userService();
 
     @Test
     @DisplayName("유저 조회")
     public void selectTest(){
-        Optional<User> result = userService.getUSer("user1");
-        User user = result.get();
-        System.out.println(user);
-        Assertions.assertNotNull(user);
+        Optional<UserVO> result = userService.getUSer("user1");
+        UserVO userVO = result.get();
+        System.out.println(userVO);
+        Assertions.assertNotNull(userVO);
     }
 
     @Test

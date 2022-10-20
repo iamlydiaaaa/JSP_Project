@@ -1,6 +1,6 @@
 package com.example.culture.repository;
 
-import com.example.domain.Culture;
+import com.example.domain.CultureVO;
 import com.example.domain.PageRequest;
 import com.example.domain.PageResponse;
 
@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.util.ConnectionUtil.CONN_UTIL;
+import static com.example.common.ConnectionUtil.CONN_UTIL;
 
-public class JdbcCultureRepository implements CultureRepository<Culture> {
+public class JdbcCultureRepository implements CultureRepository<CultureVO> {
 
     @Override
-    public void insert(Culture culture) {
+    public void insert(CultureVO cultureVO) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -27,47 +27,47 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
             conn = CONN_UTIL.getConnection();
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,culture.getSvc_nm());
-            pstmt.setString(2,culture.getArea_nm());
-            pstmt.setString(3,culture.getPlace_nm());
-            pstmt.setString(4,culture.getTel_no());
-            pstmt.setLong(5,culture.getCno());
+            pstmt.setString(1, cultureVO.getSvc_nm());
+            pstmt.setString(2, cultureVO.getArea_nm());
+            pstmt.setString(3, cultureVO.getPlace_nm());
+            pstmt.setString(4, cultureVO.getTel_no());
+            pstmt.setLong(5, cultureVO.getCno());
             pstmt.executeUpdate();
 
             sql = "insert into culture_info " +
                     "(pay_ay_nm,use_tgt_info,svc_url,img_url,dtlcont,cno) " +
                     "values(?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,culture.getPay_ay_nm());
-            pstmt.setString(2,culture.getUse_tgt_info());
-            pstmt.setString(3,culture.getSvc_url());
-            pstmt.setString(4,culture.getImg_url());
-            pstmt.setString(5,culture.getDtlcont());
-            pstmt.setLong(6,culture.getCno());
+            pstmt.setString(1, cultureVO.getPay_ay_nm());
+            pstmt.setString(2, cultureVO.getUse_tgt_info());
+            pstmt.setString(3, cultureVO.getSvc_url());
+            pstmt.setString(4, cultureVO.getImg_url());
+            pstmt.setString(5, cultureVO.getDtlcont());
+            pstmt.setLong(6, cultureVO.getCno());
             pstmt.executeUpdate();
 
             sql = "insert into culture_res " +
                     "(capacity,price,cno,revstd_day_nm,revstd_day) " +
                     "values(?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,culture.getCapacity());
-            pstmt.setInt(2,culture.getPrice());
-            pstmt.setLong(3,culture.getCno());
-            pstmt.setString(4,culture.getRevstd_day_nm());
-            pstmt.setString(5,culture.getRevstd_day());
+            pstmt.setInt(1, cultureVO.getCapacity());
+            pstmt.setInt(2, cultureVO.getPrice());
+            pstmt.setLong(3, cultureVO.getCno());
+            pstmt.setString(4, cultureVO.getRevstd_day_nm());
+            pstmt.setString(5, cultureVO.getRevstd_day());
             pstmt.executeUpdate();
 
             sql = "insert into culture_schedule " +
                     "(svc_opn_bgn_dt,svc_opn_end_dt,v_min,v_max,rcpt_bgn_dt,rcpt_end_dt,cno) " +
                     "values(?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,culture.getSvc_opn_bgn_dt());
-            pstmt.setString(2,culture.getSvc_opn_end_dt());
-            pstmt.setString(3,culture.getV_min());
-            pstmt.setString(4,culture.getV_max());
-            pstmt.setString(5,culture.getRcpt_bgn_dt());
-            pstmt.setString(6,culture.getRcpt_end_dt());
-            pstmt.setLong(7,culture.getCno());
+            pstmt.setString(1, cultureVO.getSvc_opn_bgn_dt());
+            pstmt.setString(2, cultureVO.getSvc_opn_end_dt());
+            pstmt.setString(3, cultureVO.getV_min());
+            pstmt.setString(4, cultureVO.getV_max());
+            pstmt.setString(5, cultureVO.getRcpt_bgn_dt());
+            pstmt.setString(6, cultureVO.getRcpt_end_dt());
+            pstmt.setLong(7, cultureVO.getCno());
             pstmt.executeUpdate();
 
             conn.commit();
@@ -90,11 +90,11 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
 
     //작성중
     @Override
-    public PageResponse<Culture> selectAll(PageRequest pageRequest) {
+    public PageResponse<CultureVO> selectAll(PageRequest pageRequest) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        PageResponse<Culture> pageResponse = null;
+        PageResponse<CultureVO> pageResponse = null;
         try {
             String sql = "select basic.cno,basic.svc_nm,basic.area_nm,basic.place_nm,basic.tel_no," +
                     "info.pay_ay_nm,info.use_tgt_info,info.svc_url,info.img_url,info.dtlcont," +
@@ -111,9 +111,9 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
             pstmt.setInt(1,pageRequest.getSkip());
             pstmt.setInt(2,pageRequest.getSize());
             rs = pstmt.executeQuery();
-            List<Culture> cultures = new ArrayList<>();
+            List<CultureVO> cultureVOS = new ArrayList<>();
             while(rs.next()){
-                Culture culture = Culture.builder()
+                CultureVO cultureVO = CultureVO.builder()
                         .cno(rs.getLong("cno"))
                         .svc_nm(rs.getString("svc_nm"))
                         .area_nm(rs.getString("area_nm"))
@@ -135,12 +135,12 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
                         .revstd_day_nm(rs.getString("revstd_day_nm"))
                         .revstd_day(rs.getString("revstd_day"))
                         .build();
-                cultures.add(culture);
+                cultureVOS.add(cultureVO);
             }
-             pageResponse = PageResponse.<Culture>withAll()
+             pageResponse = PageResponse.<CultureVO>withAll()
                 .pageRequestDTO(pageRequest)
                 .total(selectCount())
-                .pageList(cultures)
+                .pageList(cultureVOS)
                 .build();
             return pageResponse;
         } catch (SQLException e) {
@@ -204,7 +204,7 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
     }
 
     @Override
-    public Optional<Culture> selectOne(Long cno) {
+    public Optional<CultureVO> selectOne(Long cno) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -223,7 +223,7 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
             pstmt.setLong(1,cno);
             rs = pstmt.executeQuery();
             rs.next();
-            Culture culture = Culture.builder()
+            CultureVO cultureVO = CultureVO.builder()
                     .cno(rs.getLong("cno"))
                     .svc_nm(rs.getString("svc_nm"))
                     .area_nm(rs.getString("area_nm"))
@@ -245,7 +245,7 @@ public class JdbcCultureRepository implements CultureRepository<Culture> {
                     .revstd_day_nm(rs.getString("revstd_day_nm"))
                     .revstd_day(rs.getString("revstd_day"))
                     .build();
-            return Optional.ofNullable(culture);
+            return Optional.ofNullable(cultureVO);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("cultrue 조회에 실패했습니다");

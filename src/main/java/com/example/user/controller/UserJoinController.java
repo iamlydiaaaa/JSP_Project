@@ -2,7 +2,7 @@ package com.example.user.controller;
 
 
 
-import com.example.domain.User;
+import com.example.domain.UserVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +37,7 @@ public class UserJoinController extends UserController {
                     + req.getParameter("phone3");
             Integer age = Integer.parseInt(req.getParameter("age"));
             Integer gender = Integer.parseInt(req.getParameter("gender"));
-            User user = User.builder()
+            UserVO userVO = UserVO.builder()
                     .id(req.getParameter("id"))
                     .pwd(req.getParameter("pwd"))
                     .name(req.getParameter("name"))
@@ -47,9 +47,9 @@ public class UserJoinController extends UserController {
                     .gender(gender)
                     .build();
             //회원가입후 세션에 저장
-            userService.join(user);
+            userService.join(userVO);
             //회원 로그인 기억 세션
-            session.setAttribute("user", user.getId());
+            session.setAttribute("user", userVO.getId());
             System.out.println("회원가입 성공");
             resp.sendRedirect("/project");
         } catch (IOException | RuntimeException e) {

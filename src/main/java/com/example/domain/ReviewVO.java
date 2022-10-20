@@ -9,12 +9,10 @@ import java.util.Date;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class QnA_A {
-    private Long qano;//pk
-    private Long qqno;//QnA_Q번호
-    private Date regDate;
-    private String title;
+public class ReviewVO {
+    private Long re_no;//pk
+    private String id;//유저아이디
+    private Long cno;//행사번호
     private String content;
+    private Date regDate;
 }

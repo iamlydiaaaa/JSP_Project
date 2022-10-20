@@ -9,9 +9,7 @@ import java.util.Date;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class User {
+public class UserVO {
     //유효성검사 @valid 추가해야함
     private String id; // pk
     private String pwd;

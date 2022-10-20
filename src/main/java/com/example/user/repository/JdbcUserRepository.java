@@ -1,7 +1,7 @@
 package com.example.user.repository;
 
 
-import com.example.domain.User;
+import com.example.domain.UserVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.example.util.ConnectionUtil.CONN_UTIL;
+import static com.example.common.ConnectionUtil.CONN_UTIL;
 
 public class JdbcUserRepository implements UserRepository {
 
     @Override
-    public void insert(User user) {
+    public void insert(UserVO userVO) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -25,27 +25,27 @@ public class JdbcUserRepository implements UserRepository {
             conn = CONN_UTIL.getConnection();
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, user.getId());
-            pstmt.setString(2, user.getPwd());
-            pstmt.setString(3, user.getName());
+            pstmt.setString(1, userVO.getId());
+            pstmt.setString(2, userVO.getPwd());
+            pstmt.setString(3, userVO.getName());
             pstmt.executeUpdate();
 
             sql = "insert into user_info "
                     + "(id,age,gender)"
                     + " values(?,?,?) ";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, user.getId());
-            pstmt.setInt(2, user.getAge());
-            pstmt.setInt(3, user.getGender());
+            pstmt.setString(1, userVO.getId());
+            pstmt.setInt(2, userVO.getAge());
+            pstmt.setInt(3, userVO.getGender());
             pstmt.executeUpdate();
 
             sql = "insert into user_res "
                     + "(id,email,phone)"
                     + " values(?,?,?) ";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, user.getId());
-            pstmt.setString(2, user.getEmail());
-            pstmt.setString(3, user.getPhone());
+            pstmt.setString(1, userVO.getId());
+            pstmt.setString(2, userVO.getEmail());
+            pstmt.setString(3, userVO.getPhone());
             pstmt.executeUpdate();
 
             conn.commit();
@@ -67,7 +67,7 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> getById(String id) {
+    public Optional<UserVO> getById(String id) {
         String sql = "select basic.id,basic.pwd,basic.name,basic.regDate," +
                 "res.email,res.phone,info.age,info.gender from " +
                 "(user_basic as basic inner join user_info as info " +
@@ -79,14 +79,14 @@ public class JdbcUserRepository implements UserRepository {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        User user = null;
+        UserVO userVO = null;
         try {
             conn = CONN_UTIL.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
             rs.next();
-            user = User.builder()
+            userVO = UserVO.builder()
                     .id(rs.getString("id"))
                     .pwd(rs.getString("pwd"))
                     .name(rs.getString("name"))
@@ -96,7 +96,7 @@ public class JdbcUserRepository implements UserRepository {
                     .age(rs.getInt("age"))
                     .gender(rs.getInt("gender"))
                     .build();
-            return Optional.ofNullable(user);
+            return Optional.ofNullable(userVO);
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             System.out.println("회원정보 조회에 실패 했습니다");
