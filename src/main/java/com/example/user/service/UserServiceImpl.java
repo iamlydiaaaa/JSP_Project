@@ -2,7 +2,7 @@ package com.example.user.service;
 
 
 import com.example.domain.UserVO;
-import com.example.user.repository.UserRepository;
+import com.example.user.dao.UserDAO;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -10,7 +10,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserDAO userDAO;
 
 
 //    public UserServiceImpl(UserRepository userRepository) {
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void join(UserVO userVO) {
-        userRepository.insert(userVO);
+        userDAO.insert(userVO);
     }
 
     @Override
@@ -38,6 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserVO> getUSer(String id) {
-        return userRepository.getById(id);
+        return userDAO.getById(id);
     }
 }

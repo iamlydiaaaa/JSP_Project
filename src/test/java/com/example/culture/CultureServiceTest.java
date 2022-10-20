@@ -13,7 +13,7 @@ import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class CultureVOServiceTest {
+public class CultureServiceTest {
     CultureService cultureService = SINGLETON_UTIL.cultureService();
 
     @Test

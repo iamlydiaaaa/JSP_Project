@@ -1,7 +1,7 @@
-package com.example.reservation.repository;
+package com.example.reservation.dao;
 
 import com.example.domain.ReservationVO;
 
-public interface ReservationRepository {
+public interface ReservationDAO {
     void insert(ReservationVO reservation);
 }

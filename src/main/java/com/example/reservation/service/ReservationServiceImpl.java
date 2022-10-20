@@ -2,16 +2,17 @@ package com.example.reservation.service;
 
 import com.example.domain.CultureVO;
 import com.example.domain.ReservationVO;
-import com.example.reservation.repository.JdbcReservationRepository;
-import com.example.reservation.repository.ReservationRepository;
+import com.example.reservation.dao.JdbcReservationDAO;
+import com.example.reservation.dao.ReservationDAO;
+import lombok.extern.slf4j.Slf4j;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
 public class ReservationServiceImpl implements ReservationService{
     //임시
-    ReservationRepository reservationRepository = new JdbcReservationRepository();
+    ReservationDAO reservationDAO = new JdbcReservationDAO();
 
     @Override
     public void reservation(CultureVO culture, String id, String res_dt) throws IllegalStateException {
@@ -43,7 +44,7 @@ public class ReservationServiceImpl implements ReservationService{
                     .res_price(culture.getPrice())
                     .user_res_schedule(res)
                     .build();
-            reservationRepository.insert(reservation);
+            reservationDAO.insert(reservation);
 
             //컨트롤러로 검증 예외를 던짐(이게맞나)
         } catch (IllegalStateException e) {

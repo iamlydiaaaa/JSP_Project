@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
 
-public class UserVOServiceTest {
+public class UserServiceTest {
 
     UserService userService = SINGLETON_UTIL.userService();
 

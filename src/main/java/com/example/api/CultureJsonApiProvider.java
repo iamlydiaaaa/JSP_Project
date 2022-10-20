@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Slf4j
 public class CultureJsonApiProvider implements ApiProvider{
     private final String KEY; //인증키 6653645678736b6139317441527257
     private final String SUB_CATEGORY; //문화행사
@@ -29,15 +31,13 @@ public class CultureJsonApiProvider implements ApiProvider{
 
     @Override
     public List<CultureVO> apiProvide() throws IOException {
-        //먼저 불러올 데이터의 개수를 찾음
+        //전체 api 리스트 카운트
         Integer list_total_count = getTotalCnt();
         if(list_total_count==-1){
             throw new IOException();
         }
         List<CultureVO> apiList = new ArrayList<>(); //변환한 데이터를 저장 & 반환 할 리스트
         try {
-            //전체 api 리스트 카운트
-            getTotalCnt();
             //해당 api url을 지정하고
             URL url = new URL("http://openapi.seoul.go.kr:8088/"+KEY+
                     "/json/ListPublicReservationCulture/1/"+list_total_count+"/문화행사");
@@ -83,8 +83,7 @@ public class CultureJsonApiProvider implements ApiProvider{
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("api 리스트를 불러오지 못했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("api 리스트를 불러오지 못했습니다");
         }
         return apiList;
     }
@@ -103,8 +102,6 @@ public class CultureJsonApiProvider implements ApiProvider{
             //전체 리스트 카운트 저장
             return ListPublicReservationCulture.get("list_total_count").getAsInt();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("api 리스트를 불러오지 못했습니다");
             return -1;
         }
     }

@@ -1,4 +1,4 @@
-package com.example.user.repository;
+package com.example.user.dao;
 
 
 import com.example.domain.UserVO;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static com.example.common.ConnectionUtil.CONN_UTIL;
 
-public class JdbcUserRepository implements UserRepository {
+public class JdbcUserDAO implements UserDAO {
 
     @Override
     public void insert(UserVO userVO) {
@@ -55,12 +55,10 @@ public class JdbcUserRepository implements UserRepository {
                 conn.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                System.out.println("user insert를 롤백합니다");
-                throw new RuntimeException(ex);
+                throw new RuntimeException("user insert를 롤백합니다");
             }
             e.printStackTrace();
-            System.out.println("회원가입에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("회원가입에 실패했습니다");
         } finally {
             CONN_UTIL.close(pstmt,conn);
         }
@@ -99,8 +97,7 @@ public class JdbcUserRepository implements UserRepository {
             return Optional.ofNullable(userVO);
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
-            System.out.println("회원정보 조회에 실패 했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("회원정보 조회에 실패 했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }

@@ -1,4 +1,4 @@
-package com.example.culture.repository;
+package com.example.culture.dao;
 
 import com.example.domain.CultureVO;
 import com.example.domain.PageRequest;
@@ -6,7 +6,7 @@ import com.example.domain.PageResponse;
 
 import java.util.Optional;
 
-public interface CultureRepository<T> {
+public interface CultureDAO<T> {
     void insert(T t);
     PageResponse<CultureVO> selectAll(PageRequest pageRequest);
     Optional<CultureVO> selectOne(Long cno);

@@ -3,6 +3,7 @@ package com.example.user.controller;
 
 
 import com.example.domain.UserVO;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,18 +15,19 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @WebServlet(name = "userJoinController", value = "/join")
+@Slf4j
 public class UserJoinController extends UserController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("register ... get");
+        log.info("register ... get");
         req.getRequestDispatcher("join.jsp").forward(req, resp);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("register ... post");
+        log.info("register ... post");
 
         HttpSession session = req.getSession();
         String msg = "";
@@ -50,7 +52,7 @@ public class UserJoinController extends UserController {
             userService.join(userVO);
             //회원 로그인 기억 세션
             session.setAttribute("user", userVO.getId());
-            System.out.println("회원가입 성공");
+            log.info("회원가입 성공");
             resp.sendRedirect("/project");
         } catch (IOException | RuntimeException e) {
             //회원가입 실패시 join ... get

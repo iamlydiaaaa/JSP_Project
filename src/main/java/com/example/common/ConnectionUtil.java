@@ -1,6 +1,7 @@
 package com.example.common;
 
 import com.example.AppConfig;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -8,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Slf4j
 public class ConnectionUtil {
 
     public static final ConnectionUtil CONN_UTIL
@@ -26,12 +28,12 @@ public class ConnectionUtil {
         try {
             conn = ds.getConnection();
             if (conn != null) {
-                System.out.println("DB 연결 성공");
+                log.info("DB 연결 성공");
                 return conn;
             }
         } catch (SQLException e) {
-            System.out.println("DB 연결 실패");
             e.printStackTrace();
+            throw new RuntimeException("DB 연결 실패");
         }
         return null;
     }
@@ -47,8 +49,7 @@ public class ConnectionUtil {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("db자원 반환에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("db자원 반환에 실패했습니다");
         }
     }
     public void close(ResultSet rs,PreparedStatement pstmt,Connection conn){
@@ -64,8 +65,7 @@ public class ConnectionUtil {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("db자원 반환에 실패했습니다");
-            throw new RuntimeException(e);
+            throw new RuntimeException("db자원 반환에 실패했습니다");
         }
     }
 }

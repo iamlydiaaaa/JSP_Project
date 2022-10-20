@@ -2,7 +2,7 @@ package com.example.culture.service;
 
 import com.example.api.ApiProvider;
 import com.example.api.ApiRatePolicy;
-import com.example.culture.repository.CultureRepository;
+import com.example.culture.dao.CultureDAO;
 import com.example.domain.CultureVO;
 import com.example.domain.PageRequest;
 import com.example.domain.PageResponse;
@@ -18,7 +18,7 @@ public class CultureServiceImpl implements CultureService {
 
     private final ApiProvider apiProvider;
     private final ApiRatePolicy apiRatePolicy;
-    private final CultureRepository<CultureVO> cultureRepository;
+    private final CultureDAO<CultureVO> cultureDAO;
 
 //    public CultureServiceImpl(ApiProvider apiProvider,
 //              ApiRatePolicy apiRatePolicy ,
@@ -43,7 +43,7 @@ public class CultureServiceImpl implements CultureService {
                     cultureVO.setPrice(0);
                 }
                 //repository에 insert
-                cultureRepository.insert(cultureVO);
+                cultureDAO.insert(cultureVO);
             }//for
 
         } catch (IOException e) {
@@ -55,17 +55,17 @@ public class CultureServiceImpl implements CultureService {
 
     @Override
     public PageResponse<CultureVO> getCultures(PageRequest pageRequest) {
-        return cultureRepository.selectAll(pageRequest);
+        return cultureDAO.selectAll(pageRequest);
     }
 
     @Override
     public CultureVO getCulture(Long cno) {
-        Optional<CultureVO> result = cultureRepository.selectOne(cno);
+        Optional<CultureVO> result = cultureDAO.selectOne(cno);
         return result.orElseThrow(); //NoSuchElementException
     }
 
     @Override
     public void removeAll() {
-        cultureRepository.deleteAll();
+        cultureDAO.deleteAll();
     }
 }
