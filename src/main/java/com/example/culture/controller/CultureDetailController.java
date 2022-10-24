@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,11 +25,17 @@ public class CultureDetailController extends CultureController{
         HttpSession session = req.getSession();
         String msg = "";
         try {
-            //로그인중에만 detail.jsp 가능하게
-/*            if(session.getAttribute("user")==null){
-                msg = URLEncoder.encode("먼저 로그인을 해주세요", StandardCharsets.UTF_8);
+            //로그인중에만 detail.jsp 가능하게 , 쿠키부터 검색
+            Cookie[] cookies = req.getCookies();
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals("logined_cookie")){
+                    session.setAttribute("user", urlEncoding(cookie.getValue()));
+                }
+            }
+            if(session.getAttribute("user")==null){
+                msg = urlEncoding("먼저 로그인을 해주세요");
                 throw new Exception("비로그인 예외");
-            }*/
+            }
             //1. 클릭한 목록의 cno를 가져와 db에서 조회
             //2. request영역에 저장후 detail.jsp로 전달
             Long cno = Long.valueOf(req.getParameter("cno"));
@@ -39,7 +46,7 @@ public class CultureDetailController extends CultureController{
             e.printStackTrace();
             log.error("culture 조회에 실패했습니다");
             if("".equals(msg)){
-                msg = URLEncoder.encode("다시 조회해 주세요", StandardCharsets.UTF_8);
+                msg = urlEncoding("다시 조회해 주세요");
             }
             resp.sendRedirect("/project?msg="+msg);
         }
@@ -56,5 +63,9 @@ public class CultureDetailController extends CultureController{
         CultureVO culture = cultureService.getCulture(Long.valueOf(cno));
         session.setAttribute("culture",culture);
         resp.sendRedirect("/project/reservation?res_dt="+res_dt);
+    }
+
+    private String urlEncoding(String msg){
+        return URLEncoder.encode(msg, StandardCharsets.UTF_8);
     }
 }

@@ -13,6 +13,7 @@ import java.util.Optional;
 import static com.example.common.ConnectionUtil.CONN_UTIL;
 
 public class JdbcUserDAO implements UserDAO {
+    //유저테이블 수정 해야함
 
     @Override
     public void insert(UserVO userVO) {
