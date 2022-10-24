@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/common.css">
+    <link rel="icon" href="images/favicon.ico">
 </head>
 <script>
     //로그인유지체크 + 로그인성공시 msg=remember_login 이 전달됨
@@ -30,7 +31,6 @@
     }
 </script>
 <body>
-<%--    <script src="javascript/header_sub.js"></script>--%>
     <jsp:include page="header_sub.jsp" flush="true"/>
     <main>
         <div id="main">

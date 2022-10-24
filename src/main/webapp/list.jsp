@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/sub.css">
+    <link rel="stylesheet" href="css/list.css">
+    <link rel="icon" href="images/favicon.ico">
 </head>
 
 <body>
-    <script src="javascript/header_sub.js"></script>
+    <jsp:include page="header_sub.jsp" flush="true"/>
     <script>
         let query = window.location.search;
         let param = new URLSearchParams(query);
@@ -54,23 +56,27 @@
                 <div class="nav">
                     <ul>
                         <c:if test="${requestScope.pageResponse.isShowPrev()}">
-                            <a href="/project/list?page=${requestScope.pageResponse.page-1}&size=${requestScope.pageResponse.size}">
-                                <li>[PREV]</li>
-                            </a>
+                            <li class="nav_prev">
+                                <a href="/project/list?page=${requestScope.pageResponse.page-1}&size=${requestScope.pageResponse.size}">
+                                    [PREV]
+                                </a>
+                            </li>
                         </c:if>
                         <c:forEach begin="${requestScope.pageResponse.start}" end="${requestScope.pageResponse.end}" var="num">
-                            <a href="/project/list?page=${num}&size=${requestScope.pageResponse.size}">
-                                <li class="${num==requestScope.pageResponse.page?'sel':''}">${num}</li>
-                            </a>
+                            <li>
+                                <a href="/project/list?page=${num}&size=${requestScope.pageResponse.size}"
+                                   class="${num==requestScope.pageResponse.page?'sel':''}">${num} </a>
+                            </li>
                         </c:forEach>
                         <c:if test="${requestScope.pageResponse.isShowNext()}">
-                            <a href="/project/list?page=${requestScope.pageResponse.page+1}&size=${requestScope.pageResponse.size}">
-                                <li>[NEXT]</li>
-                            </a>
+                            <li class="nav_next">
+                                <a href="/project/list?page=${requestScope.pageResponse.page+1}&size=${requestScope.pageResponse.size}">
+                                    [NEXT]
+                                </a>
+                            </li>
                         </c:if>
                     </ul>
                 </div>
-
             </ul>
         </div>
 

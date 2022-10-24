@@ -56,7 +56,7 @@
 <!-- ------------------------------------------- -->
 
 <body>
-<script src="javascript/header_sub.js"></script>
+<jsp:include page="header_sub.jsp" flush="true"/>
 <script>
   let query = window.location.search;
   let param = new URLSearchParams(query);
