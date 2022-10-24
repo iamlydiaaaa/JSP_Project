@@ -25,10 +25,10 @@ public class CultureDetailController extends CultureController{
         String msg = "";
         try {
             //로그인중에만 detail.jsp 가능하게
-            if(session.getAttribute("user")==null){
+/*            if(session.getAttribute("user")==null){
                 msg = URLEncoder.encode("먼저 로그인을 해주세요", StandardCharsets.UTF_8);
                 throw new Exception("비로그인 예외");
-            }
+            }*/
             //1. 클릭한 목록의 cno를 가져와 db에서 조회
             //2. request영역에 저장후 detail.jsp로 전달
             Long cno = Long.valueOf(req.getParameter("cno"));
