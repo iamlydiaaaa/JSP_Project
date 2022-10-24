@@ -35,4 +35,9 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewVO getReview(Long re_no) {
         return reviewDAO.select(re_no);
     }
+
+    @Override
+    public ReviewVO getReview(String id,Long cno) {
+        return reviewDAO.select(id,cno);
+    }
 }

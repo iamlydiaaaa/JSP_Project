@@ -15,4 +15,5 @@ public class ReviewVO {
     private String content;
     private Integer grade;
     private Date regDate;
+    private Date upDate;
 }

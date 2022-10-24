@@ -11,4 +11,5 @@ public interface ReviewDAO {
     void delete(Long re_no);
     int selectCount(Long cno);
     ReviewVO select(Long re_no);
+    ReviewVO select(String id,Long cno);
 }

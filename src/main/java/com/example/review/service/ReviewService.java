@@ -10,4 +10,5 @@ public interface ReviewService {
     ReviewVO updateReview(ReviewVO reviewVO);
     void removeReview(Long re_no);
     ReviewVO getReview(Long re_no);
+    ReviewVO getReview(String id,Long cno);
 }

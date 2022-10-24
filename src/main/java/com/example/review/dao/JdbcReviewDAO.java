@@ -66,6 +66,7 @@ public class JdbcReviewDAO implements ReviewDAO {
                         .content(rs.getString(4))
                         .grade(rs.getInt(5))
                         .regDate(rs.getDate(6))
+                        .upDate(rs.getDate(7))
                         .build();
                 reviewVOS.add(reviewVO);
             }
@@ -89,7 +90,7 @@ public class JdbcReviewDAO implements ReviewDAO {
         PreparedStatement pstmt = null;
         try {
             String sql = "update review\n" +
-                    "set content = ? , grade = ?\n" +
+                    "set content = ? , grade = ? , `upDate` = now() \n" +
                     "where re_no = ?;";
             conn = CONN_UTIL.getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -153,7 +154,7 @@ public class JdbcReviewDAO implements ReviewDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        PageResponse<ReviewVO> pageResponse = null;
+        ReviewVO reviewVO = null;
         try {
             String sql = "select * from review " +
                     "where re_no = ?";
@@ -161,15 +162,52 @@ public class JdbcReviewDAO implements ReviewDAO {
             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1,re_no);
             rs = pstmt.executeQuery();
-            rs.next();
-            return ReviewVO.builder()
-                    .re_no(rs.getLong(1))
-                    .id(rs.getString(2))
-                    .cno(rs.getLong(3))
-                    .content(rs.getString(4))
-                    .grade(rs.getInt(5))
-                    .regDate(rs.getDate(6))
-                    .build();
+            if(rs.next()){
+                reviewVO = ReviewVO.builder()
+                        .re_no(rs.getLong(1))
+                        .id(rs.getString(2))
+                        .cno(rs.getLong(3))
+                        .content(rs.getString(4))
+                        .grade(rs.getInt(5))
+                        .regDate(rs.getDate(6))
+                        .upDate(rs.getDate(7))
+                        .build();
+            }
+            return reviewVO;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("review 조회에 실패했습니다");
+        } finally {
+            CONN_UTIL.close(rs, pstmt, conn);
+        }
+    }
+
+    @Override
+    public ReviewVO select(String id,Long cno) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ReviewVO reviewVO = null;
+        try {
+            String sql = "select * from review " +
+                    "where id = ? and cno = ?";
+            conn = CONN_UTIL.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,id);
+            pstmt.setLong(2,cno);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                reviewVO = ReviewVO.builder()
+                        .re_no(rs.getLong(1))
+                        .id(rs.getString(2))
+                        .cno(rs.getLong(3))
+                        .content(rs.getString(4))
+                        .grade(rs.getInt(5))
+                        .regDate(rs.getDate(6))
+                        .upDate(rs.getDate(7))
+                        .build();
+            }
+            return reviewVO;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("review 조회에 실패했습니다");

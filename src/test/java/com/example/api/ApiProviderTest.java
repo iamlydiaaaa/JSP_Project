@@ -30,7 +30,9 @@ public class ApiProviderTest {
     @Test
     @DisplayName("서울시 문화행사 api db 최신화")
     void registerServiceTest(){
-        cultureService.removeAll();
-        cultureService.register();
+        //삭제하고 최신화 할때 // review cno과 reservation cno가 달라지니 // 같이 삭제해야함
+        //아니면 기존 cno 뒤에 붙이고 기간으로 컷해야함
+//        cultureService.removeAll();
+//        cultureService.register();
     }
 }
