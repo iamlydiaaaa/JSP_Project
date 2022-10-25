@@ -13,5 +13,7 @@ public class ReviewVO {
     private String id;//유저아이디
     private Long cno;//행사번호
     private String content;
+    private Integer grade;
     private Date regDate;
+    private Date upDate;
 }

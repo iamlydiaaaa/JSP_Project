@@ -55,6 +55,9 @@ public class CultureJsonApiProvider implements ApiProvider{
             //ListPublicReservationCulture의 row만 추출
             JsonArray row = (JsonArray) ListPublicReservationCulture.get("row");
 
+            //임시코드
+
+
             //추출한 row에서 필요한 정보만 culture 객체로 저장
             for(int i = 0 ; i<row.size();i++){
                 JsonObject element = (JsonObject) row.get(i);
