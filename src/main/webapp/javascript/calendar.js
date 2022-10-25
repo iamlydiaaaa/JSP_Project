@@ -161,8 +161,12 @@ function calendarChoiceDay(column) {
     // @param 선택일 클래스명 변경
     column.classList.add("choiceDay");
 
-    document.getElementById("cal_getDate").innerText =
-        selYear + " / " + selMonth + " / " + selDay;
+    document.getElementById("cal_getYear").value =
+        selYear;
+    document.getElementById("cal_getMonth").value =
+        selMonth;
+    document.getElementById("cal_getDay").value =
+        selDay;
 }
 
 /**
