@@ -104,11 +104,11 @@ public class ReviewController extends HttpServlet {
             return;
         }
         //같은 cno에 리뷰를 이미 썼으면 400에러 리턴
-        if(reviewService.getReview(reviewVO.getId(),reviewVO.getCno())!=null) {
-            log.error("중복 cno,id 리뷰 등록");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
-            return;
-        }
+//        if(reviewService.getReview(reviewVO.getId(),reviewVO.getCno())!=null) {
+//            log.error("중복 cno,id 리뷰 등록");
+//            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+//            return;
+//        }
         //reviewVO!=null && 중복id x
         reviewService.writeReview(reviewVO);
         resp.setStatus(200); //200 OK

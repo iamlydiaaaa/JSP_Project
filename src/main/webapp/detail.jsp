@@ -97,8 +97,19 @@
                     <tbody></tbody>
                 </table>
                 <div class="calendar_desc">
-                    <p>선택한 날짜: <span id="cal_getDate"></span></p>
-                    <p class="btn_reservation"><input type="submit" value="예약하기" /></p>
+                    <form action="/project/Servlet/calendar" method="post">
+                        <p>선택한 날짜:
+                            <input type="text" name="sel_y" id="cal_getYear" value=""/> /
+                            <input type="text" name="sel_m" id="cal_getMonth" value=""/> /
+                            <input type="text" name="sel_d" id="cal_getDay" value=""/>
+                    <%--        <span name="sel_y" id="cal_getYear"></span> /
+                            <span name="sel_m" id="cal_getMonth"></span> /
+                            <span name="sel_d" id="cal_getDay"></span>--%>
+                        </p>
+                        <p class="btn_reservation">
+                            <input type="submit" value="예약하기" />
+                        </p>
+                    </form>
                 </div>
             </div>
         </section>
@@ -110,6 +121,24 @@
                 </div>
             </div>
         </section>
+
+
+        <!--리뷰 작성-->
+        <!--댓글작성/수정-->
+        <section class="detail_review">
+            <div class="detail_review_write">
+                리뷰 작성/수정 :
+                <textarea cols="50" rows="10" name="content" id="content" placeholder="리뷰내용"></textarea>
+                <label for="grade">평점 : </label><input type="number" name="grade" id="grade" placeholder="1-5">
+                <button id="writeBtn" type="button">리뷰작성</button>
+                <button id="modBtn" type="button" style="display: none;">리뷰수정 후 전송</button>
+            </div>
+
+            <!--리뷰 리스트-->
+            <div id="reviewList" data-cno="${requestScope.culture.getCno()}" data-id="${sessionScope.user}">
+
+            </div>
+        </section>
     </div>
 <%--    <form action="<c:url value="/detail"/>" method="post">--%>
 <%--        <input type='date' name='res_dt'/>    &lt;%&ndash;res_dt=2022-10-29&ndash;%&gt;--%>
@@ -118,20 +147,6 @@
 <%--        <button type="submit" onclick="return confirm('예약 하시겠습니까?')">전송</button>--%>
 <%--    </form>--%>
 
-
-    <!--리뷰 작성-->
-    <!--댓글작성/수정-->
-    <div>
-        리뷰 작성/수정 : <textarea cols="50" rows="10" name="content" id="content" placeholder="리뷰내용"></textarea>
-        <label for="grade">평점 : </label><input type="number" name="grade" id="grade" placeholder="1-5">
-        <button id="writeBtn" type="button">리뷰작성</button>
-        <button id="modBtn" type="button" style="display: none;">리뷰수정 후 전송</button>
-    </div>
-
-    <!--리뷰 리스트-->
-    <div id="reviewList" data-cno="${requestScope.culture.getCno()}" data-id="${sessionScope.user}">
-
-    </div>
     <script>
         $(document).ready(function(){
             let data_cno = $("#reviewList").attr("data-cno");
