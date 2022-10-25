@@ -1,7 +1,7 @@
 package com.example.user.controller;
 
 
-import com.example.common.SingletonProvideUtil;
+import com.example.common.util.SingletonProvideUtil;
 import com.example.user.service.UserService;
 
 import javax.servlet.ServletException;

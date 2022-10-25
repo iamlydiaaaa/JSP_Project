@@ -17,7 +17,7 @@
     let msg = param.get('msg');
     //체크된 경우
     if(msg!=null&&msg.length>0){
-        alert(msg + ' 로그인 기억');
+        alert(msg);
         //logined_cookie를 생성
         setCookie("logined_cookie",msg,7);
     }

@@ -1,6 +1,6 @@
-package com.example.common;
+package com.example.common.util;
 
-import com.example.AppConfig;
+import com.example.common.config.AppConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;

@@ -2,9 +2,9 @@ package com.example.review;
 
 
 
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
-import com.example.domain.ReviewVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
+import com.example.review.vo.ReviewVO;
 import com.example.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -13,11 +13,10 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
-import static com.example.common.ConnectionUtil.CONN_UTIL;
-import static com.example.common.SingletonProvideUtil.*;
+import static com.example.common.util.ConnectionUtil.CONN_UTIL;
+import static com.example.common.util.SingletonProvideUtil.*;
 
 @Slf4j
 public class ReviewServiceTest {
@@ -48,28 +47,28 @@ public class ReviewServiceTest {
     public void readReviewsTest() throws Exception {
         //given
         Long cno = 1L;
-        PageRequest pageRequest = PageRequest.builder().build();
-        log.info("page = "+pageRequest.getPage());
-        log.info("size = "+pageRequest.getSize());
+        PageRequestVO pageRequestVO = PageRequestVO.builder().build();
+        log.info("page = "+ pageRequestVO.getPage());
+        log.info("size = "+ pageRequestVO.getSize());
         //when
-        PageResponse<ReviewVO> pageResponse =
-                reviewService.getReviews(cno,pageRequest);
+        PageResponseVO<ReviewVO> pageResponseVO =
+                reviewService.getReviews(cno, pageRequestVO);
         //then
-        Assertions.assertNotNull(pageResponse);
+        Assertions.assertNotNull(pageResponseVO);
 
-        boolean showPrev = pageResponse.isShowPrev();
+        boolean showPrev = pageResponseVO.isShowPrev();
         System.out.println("showPrev = " + showPrev);
-        List<ReviewVO> reviewVOS = pageResponse.getPageList();
+        List<ReviewVO> reviewVOS = pageResponseVO.getPageList();
         System.out.println("reviewVOS = " + reviewVOS);
-        boolean showNext = pageResponse.isShowNext();
+        boolean showNext = pageResponseVO.isShowNext();
         System.out.println("showNext = " + showNext);
-        int start = pageResponse.getStart();
+        int start = pageResponseVO.getStart();
         System.out.println("start = " + start);
-        int end = pageResponse.getEnd();
+        int end = pageResponseVO.getEnd();
         System.out.println("end = " + end);
-        int last = pageResponse.getLast();
+        int last = pageResponseVO.getLast();
         System.out.println("last = " + last);
-        int totalCnt = pageResponse.getTotal();
+        int totalCnt = pageResponseVO.getTotal();
         System.out.println("totalCnt = " + totalCnt);
     }
 
@@ -77,7 +76,7 @@ public class ReviewServiceTest {
     @DisplayName("리뷰 업데이트 테스트")
     public void updateReviewTest(){
         //given
-        Long re_no = 1L;
+        Long re_no = 2L;
         String updatedContent = "updated Content";
         ReviewVO reviewVO1 = reviewService.getReview(re_no);
         reviewVO1.setContent(updatedContent);
@@ -92,7 +91,7 @@ public class ReviewServiceTest {
     @Test
     @DisplayName("리뷰 삭제 테스트")
     public void deleteReviewTest() throws Exception {
-        Long re_no = 1L;
+        Long re_no = 2L;
         Connection conn = null;
         PreparedStatement pstmt = null;
         String sql = "delete\n" +

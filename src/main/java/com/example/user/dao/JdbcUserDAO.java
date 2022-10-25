@@ -1,7 +1,7 @@
 package com.example.user.dao;
 
 
-import com.example.domain.UserVO;
+import com.example.user.vo.UserVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.example.common.ConnectionUtil.CONN_UTIL;
+import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
 public class JdbcUserDAO implements UserDAO {
     //유저테이블 수정 해야함

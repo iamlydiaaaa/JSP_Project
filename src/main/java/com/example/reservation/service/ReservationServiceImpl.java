@@ -1,7 +1,7 @@
 package com.example.reservation.service;
 
-import com.example.domain.CultureVO;
-import com.example.domain.ReservationVO;
+import com.example.culture.vo.CultureVO;
+import com.example.reservation.vo.ReservationVO;
 import com.example.reservation.dao.JdbcReservationDAO;
 import com.example.reservation.dao.ReservationDAO;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +40,6 @@ public class ReservationServiceImpl implements ReservationService{
             //  예약에 성공하면 다시 상세페이지로(msg)
             ReservationVO reservation = ReservationVO.builder()
                     .id(id)
-                    .cno(culture.getCno())
-                    .res_price(culture.getPrice())
-                    .user_res_schedule(res)
                     .build();
             reservationDAO.insert(reservation);
 

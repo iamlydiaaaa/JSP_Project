@@ -189,7 +189,6 @@
             $("#reviewList").on("click",".reviewPage",function(){
                 //페이지를 cno와 같이 넘겨준다
                 let page = $(this).text();
-                alert(page);
                 getReviews2(data_cno,page);
             })//리뷰 페이징
 
@@ -222,8 +221,6 @@
 
                 success : function(result){
                     //result = pageresponse
-                    alert('start = '+result.start);
-                    alert('end = '+result.end);
                     $("#reviewList").html(toHtml(result));
                 },
                 error: function() {
@@ -305,7 +302,7 @@
             if(pageResponse.showPrev){
                 tmp += '[PREV]';
             }
-            for(var i = pageResponse.start; i<pageResponse.end ; i++){
+            for(var i = pageResponse.start; i<=pageResponse.end ; i++){
                 tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer;">'+i+'</div>';
             }
             if(pageResponse.showNext){

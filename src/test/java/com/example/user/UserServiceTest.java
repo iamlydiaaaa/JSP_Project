@@ -1,6 +1,6 @@
 package com.example.user;
 
-import com.example.domain.UserVO;
+import com.example.user.vo.UserVO;
 import com.example.user.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 public class UserServiceTest {
 

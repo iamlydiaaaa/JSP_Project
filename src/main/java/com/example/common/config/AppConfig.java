@@ -1,4 +1,4 @@
-package com.example;
+package com.example.common.config;
 
 
 import com.example.api.ApiProvider;
@@ -9,7 +9,7 @@ import com.example.culture.dao.CultureDAO;
 import com.example.culture.dao.JdbcCultureDAO;
 import com.example.culture.service.CultureService;
 import com.example.culture.service.CultureServiceImpl;
-import com.example.domain.CultureVO;
+import com.example.culture.vo.CultureVO;
 import com.example.review.dao.JdbcReviewDAO;
 import com.example.review.dao.ReviewDAO;
 import com.example.review.service.ReviewService;

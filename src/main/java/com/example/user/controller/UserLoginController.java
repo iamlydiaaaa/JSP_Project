@@ -45,7 +45,7 @@ public class UserLoginController extends UserController {
                 log.info("로그인 성공");
                 //로그인 성공후 로그인 유지 기능이 체크되어 있으면
                 if("2".equals(chk2)){
-                    msg = URLEncoder.encode(id, StandardCharsets.UTF_8);
+                    msg = URLEncoder.encode(id+" 로그인 기억", StandardCharsets.UTF_8);
                 }
                 //관리자모드
                 if ("admin".equals(id)) {
