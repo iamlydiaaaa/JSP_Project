@@ -6,15 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 목록</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/common.css">
+    <jsp:include page="common/commonFiles.jsp" flush="true"/>
     <link rel="stylesheet" href="css/sub.css">
     <link rel="stylesheet" href="css/list.css">
-    <link rel="icon" href="images/favicon.ico">
 </head>
 
 <body>
-    <jsp:include page="header_sub.jsp" flush="true"/>
+    <jsp:include page="common/header.jsp" flush="true"/>
     <script>
         let query = window.location.search;
         let param = new URLSearchParams(query);

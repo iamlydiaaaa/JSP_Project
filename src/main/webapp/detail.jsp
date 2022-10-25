@@ -11,16 +11,14 @@
 <html>
 <head>
     <title>${culture.getSvc_nm()}</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/common.css">
+    <jsp:include page="common/commonFiles.jsp" flush="true"/>
     <link rel="stylesheet" href="css/sub.css">
     <link rel="stylesheet" href="css/detail.css">
-    <link rel="icon" href="images/favicon.ico">
     <script src="javascript/calendar.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 </head>
 <body>
-<jsp:include page="header_sub.jsp" flush="true"/>
+<jsp:include page="common/header.jsp" flush="true"/>
+<jsp:include page="common/navigation.jsp" flush="true"/>
 <main id="festival_detail">
     <div class="sub_tit_line">
         <ul>
@@ -100,6 +98,7 @@
                 </table>
                 <div class="calendar_desc">
                     <p>선택한 날짜: <span id="cal_getDate"></span></p>
+                    <p class="btn_reservation"><input type="submit" value="예약하기" /></p>
                 </div>
             </div>
         </section>

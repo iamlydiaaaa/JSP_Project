@@ -32,7 +32,7 @@ public class ApiProviderTest {
     void registerServiceTest(){
         //삭제하고 최신화 할때 // review cno과 reservation cno가 달라지니 // 같이 삭제해야함
         //아니면 기존 cno 뒤에 붙이고 기간으로 컷해야함
-//        cultureService.removeAll();
-//        cultureService.register();
+        cultureService.removeAll();
+        cultureService.register();
     }
 }

@@ -8,9 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <script src="javascript/jquery-3.6.0.min.js"></script>
+    <jsp:include page="common/commonFiles.jsp" flush="true"/>
+    <link rel="stylesheet" href="css/join.css">
     <script src="javascript/agreetxt.js"></script>
-
     <script>
         $(document).ready(function() {
             //아이디/비밀번호에 포커스하면 텍스트 효과
@@ -57,23 +57,11 @@
                     $(".type02").removeClass("checked");
                 }
             })
-
-
-
         })
-
     </script>
-    <!-- ------------------------------------------- -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/join.css">
-    <link rel="icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="css/common.css">
-
 </head>
-<!-- ------------------------------------------- -->
-
 <body>
-    <jsp:include page="header_sub.jsp" flush="true"/>
+    <jsp:include page="common/header.jsp" flush="true"/>
    <script>
        let query = window.location.search;
        let param = new URLSearchParams(query);

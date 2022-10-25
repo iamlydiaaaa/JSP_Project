@@ -6,8 +6,8 @@
             <ul>
                 <li><a href="#">축제안내</a></li>
                 <li><a href="/project/list">예약하기</a></li>
-                <li><a href="notice.html">공지사항</a></li>
-                <li><a href="myPage.html">그외</a></li>
+                <li><a href="../notice.html">공지사항</a></li>
+                <li><a href="../myPage.html">그외</a></li>
             </ul>
         </nav>
         <div id="header_login">
