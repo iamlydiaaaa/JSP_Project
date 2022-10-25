@@ -1,6 +1,6 @@
 package com.example.reservation.service;
 
-import com.example.domain.CultureVO;
+import com.example.culture.vo.CultureVO;
 
 import java.text.ParseException;
 

@@ -3,9 +3,9 @@ package com.example.culture.service;
 import com.example.api.ApiProvider;
 import com.example.api.ApiRatePolicy;
 import com.example.culture.dao.CultureDAO;
-import com.example.domain.CultureVO;
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
+import com.example.culture.vo.CultureVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -54,8 +54,8 @@ public class CultureServiceImpl implements CultureService {
     }
 
     @Override
-    public PageResponse<CultureVO> getCultures(PageRequest pageRequest) {
-        return cultureDAO.selectAll(pageRequest);
+    public PageResponseVO<CultureVO> getCultures(PageRequestVO pageRequestVO) {
+        return cultureDAO.selectAll(pageRequestVO);
     }
 
     @Override

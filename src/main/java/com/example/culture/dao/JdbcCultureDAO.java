@@ -1,8 +1,8 @@
 package com.example.culture.dao;
 
-import com.example.domain.CultureVO;
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
+import com.example.culture.vo.CultureVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.common.ConnectionUtil.CONN_UTIL;
+import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
 public class JdbcCultureDAO implements CultureDAO<CultureVO> {
 
@@ -88,11 +88,11 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
 
     //작성중
     @Override
-    public PageResponse<CultureVO> selectAll(PageRequest pageRequest) {
+    public PageResponseVO<CultureVO> selectAll(PageRequestVO pageRequestVO) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        PageResponse<CultureVO> pageResponse = null;
+        PageResponseVO<CultureVO> pageResponseVO = null;
         try {
             String sql = "select basic.cno,basic.svc_nm,basic.area_nm,basic.place_nm,basic.tel_no," +
                     "info.pay_ay_nm,info.use_tgt_info,info.svc_url,info.img_url,info.dtlcont," +
@@ -106,8 +106,8 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                     "limit ? , ?;";
             conn = CONN_UTIL.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,pageRequest.getSkip());
-            pstmt.setInt(2,pageRequest.getSize());
+            pstmt.setInt(1, pageRequestVO.getSkip());
+            pstmt.setInt(2, pageRequestVO.getSize());
             rs = pstmt.executeQuery();
             List<CultureVO> cultureVOS = new ArrayList<>();
             while(rs.next()){
@@ -135,12 +135,12 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                         .build();
                 cultureVOS.add(cultureVO);
             }
-             pageResponse = PageResponse.<CultureVO>withAll()
-                .pageRequestDTO(pageRequest)
+             pageResponseVO = PageResponseVO.<CultureVO>withAll()
+                .pageRequestVO(pageRequestVO)
                 .total(selectCount())
                 .pageList(cultureVOS)
                 .build();
-            return pageResponse;
+            return pageResponseVO;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("cultrue 조회에 실패했습니다");

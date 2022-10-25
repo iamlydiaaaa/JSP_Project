@@ -1,6 +1,6 @@
 package com.example.reservation.controller;
 
-import com.example.domain.CultureVO;
+import com.example.culture.vo.CultureVO;
 import com.example.reservation.service.ReservationService;
 import com.example.reservation.service.ReservationServiceImpl;
 import lombok.extern.slf4j.Slf4j;

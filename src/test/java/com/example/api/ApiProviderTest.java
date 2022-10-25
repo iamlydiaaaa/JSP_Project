@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 @Slf4j
 public class ApiProviderTest {

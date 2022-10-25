@@ -1,12 +1,12 @@
 package com.example.review.dao;
 
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
-import com.example.domain.ReviewVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
+import com.example.review.vo.ReviewVO;
 
 public interface ReviewDAO {
     Long insert(ReviewVO reviewVO);
-    PageResponse<ReviewVO> selectAll_byCno(Long cno,PageRequest pageRequest);
+    PageResponseVO<ReviewVO> selectAll_byCno(Long cno, PageRequestVO pageRequestVO);
     ReviewVO update(ReviewVO reviewVO);
     void delete(Long re_no);
     int selectCount(Long cno);

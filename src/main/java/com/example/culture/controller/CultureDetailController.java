@@ -1,6 +1,6 @@
 package com.example.culture.controller;
 
-import com.example.domain.CultureVO;
+import com.example.culture.vo.CultureVO;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;

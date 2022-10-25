@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.domain.CultureVO;
+import com.example.culture.vo.CultureVO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

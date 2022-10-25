@@ -1,4 +1,4 @@
-package com.example.domain;
+package com.example.user.vo;
 
 import lombok.Builder;
 import lombok.Data;

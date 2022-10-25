@@ -1,7 +1,7 @@
 package com.example.user.dao;
 
 
-import com.example.domain.UserVO;
+import com.example.user.vo.UserVO;
 
 import java.util.Optional;
 

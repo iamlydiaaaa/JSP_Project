@@ -1,6 +1,6 @@
 package com.example.reservation.dao;
 
-import com.example.domain.ReservationVO;
+import com.example.reservation.vo.ReservationVO;
 
 public interface ReservationDAO {
     void insert(ReservationVO reservation);

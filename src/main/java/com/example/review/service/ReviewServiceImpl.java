@@ -1,8 +1,8 @@
 package com.example.review.service;
 
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
-import com.example.domain.ReviewVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
+import com.example.review.vo.ReviewVO;
 import com.example.review.dao.ReviewDAO;
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +17,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public PageResponse<ReviewVO> getReviews(Long cno, PageRequest pageRequest) {
-        return reviewDAO.selectAll_byCno(cno,pageRequest);
+    public PageResponseVO<ReviewVO> getReviews(Long cno, PageRequestVO pageRequestVO) {
+        return reviewDAO.selectAll_byCno(cno, pageRequestVO);
     }
 
     @Override

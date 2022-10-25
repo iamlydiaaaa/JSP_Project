@@ -1,14 +1,14 @@
 package com.example.culture.dao;
 
-import com.example.domain.CultureVO;
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
+import com.example.culture.vo.CultureVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
 
 import java.util.Optional;
 
 public interface CultureDAO<T> {
     void insert(T t);
-    PageResponse<CultureVO> selectAll(PageRequest pageRequest);
+    PageResponseVO<CultureVO> selectAll(PageRequestVO pageRequestVO);
     Optional<CultureVO> selectOne(Long cno);
     int selectCount();
     void deleteAll();
