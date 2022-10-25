@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,7 +44,9 @@ public class ReviewController extends HttpServlet {
         try {
             Long cno = Long.valueOf(req.getParameter("cno"));
             String paramPage = req.getParameter("page");
+            System.out.println("paramPage = " + paramPage);
             String paramSize = req.getParameter("size");
+            System.out.println("paramSize = " + paramSize);
             PageRequest pageRequest;
             //쿼리스트링으로 받아온 page size를 검증후 그에 맞는 PageRequest생성
             if(paramPage==null&&paramSize==null){
@@ -56,7 +59,7 @@ public class ReviewController extends HttpServlet {
             }
             else if (paramSize==null|| "".equals(paramSize)) {
                 pageRequest = PageRequest.builder()
-                        .size(Integer.parseInt(paramPage))
+                        .page(Integer.parseInt(paramPage))
                         .build();
             }
             else{ //paramPage!=null && paramSize!=null
@@ -65,15 +68,18 @@ public class ReviewController extends HttpServlet {
                         .size(Integer.parseInt(paramSize))
                         .build();
             }
+            System.out.println("pageRequest!!!!!!!!!!!!!!!!!!! = " + pageRequest);
             PageResponse<ReviewVO> pageResponse = reviewService.getReviews(cno,pageRequest);
             //고의 예외발생 테스트
 //            throw new Exception("고의 발생 예외");
             sendAsJson(resp,pageResponse);
         } catch (Exception e) {
             e.printStackTrace();
-            resp.setStatus(404);
-            sendAsJson(resp,"WRITE_ERR");
-            throw new RuntimeException("잘못된 요청이 들어왔습니다");
+            log.error("리뷰작성 실패");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+//            resp.setStatus(404);
+//            sendAsJson(resp,"WRITE_ERR");
+//            throw new RuntimeException("잘못된 요청이 들어왔습니다");
         }
     }//review get
 
@@ -169,6 +175,7 @@ public class ReviewController extends HttpServlet {
     //dodelete 리팩토링 해야함
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("ReviewController.doDelete");
+        HttpSession session = req.getSession();
         String pathInfo = req.getPathInfo();
 
         if(pathInfo == null || pathInfo.equals("/")){
@@ -192,7 +199,7 @@ public class ReviewController extends HttpServlet {
 
         ReviewVO reviewVO = reviewService.getReview(re_no);
 
-        if(reviewVO==null){
+        if(reviewVO==null||reviewVO.getId()!=session.getAttribute("user")){
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
