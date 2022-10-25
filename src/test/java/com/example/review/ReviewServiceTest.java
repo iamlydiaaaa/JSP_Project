@@ -1,11 +1,10 @@
 package com.example.review;
 
 
-
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
-import com.example.review.vo.ReviewVO;
 import com.example.review.service.ReviewService;
+import com.example.review.vo.ReviewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +15,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
-import static com.example.common.util.SingletonProvideUtil.*;
+import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 @Slf4j
 public class ReviewServiceTest {

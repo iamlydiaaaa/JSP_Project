@@ -68,4 +68,37 @@ public class ConnectionUtil {
             throw new RuntimeException("db자원 반환에 실패했습니다");
         }
     }
+
+    public void close(ResultSet rs){
+        try {
+            if(rs!=null){
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("db자원 반환에 실패했습니다");
+        }
+    }
+
+    public void close(PreparedStatement pstmt){
+        try {
+            if(pstmt!=null){
+                pstmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("db자원 반환에 실패했습니다");
+        }
+    }
+
+    public void close(Connection conn){
+        try {
+            if(conn!=null){
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("db자원 반환에 실패했습니다");
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.user;
 
-import com.example.user.vo.UserVO;
 import com.example.user.service.UserService;
+import com.example.user.vo.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

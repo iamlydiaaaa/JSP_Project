@@ -10,6 +10,10 @@ import com.example.culture.dao.JdbcCultureDAO;
 import com.example.culture.service.CultureService;
 import com.example.culture.service.CultureServiceImpl;
 import com.example.culture.vo.CultureVO;
+import com.example.reservation.dao.JdbcReservationDAO;
+import com.example.reservation.dao.ReservationDAO;
+import com.example.reservation.service.ReservationService;
+import com.example.reservation.service.ReservationServiceImpl;
 import com.example.review.dao.JdbcReviewDAO;
 import com.example.review.dao.ReviewDAO;
 import com.example.review.service.ReviewService;
@@ -78,6 +82,15 @@ public class AppConfig {
 
     ////////////////////////reservation
 
+    //reservationService
+    public ReservationService reservationService() {
+        return new ReservationServiceImpl(reservationDAO());
+    }
+
+    //reservationDAO
+    public ReservationDAO reservationDAO() {
+        return new JdbcReservationDAO();
+    }
 
     ////////////////////////review
 

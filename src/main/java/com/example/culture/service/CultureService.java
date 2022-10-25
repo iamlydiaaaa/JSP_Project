@@ -1,8 +1,8 @@
 package com.example.culture.service;
 
-import com.example.culture.vo.CultureVO;
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
+import com.example.culture.vo.CultureVO;
 
 public interface CultureService {
 

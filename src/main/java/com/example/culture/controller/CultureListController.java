@@ -1,8 +1,8 @@
 package com.example.culture.controller;
 
-import com.example.culture.vo.CultureVO;
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
+import com.example.culture.vo.CultureVO;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
