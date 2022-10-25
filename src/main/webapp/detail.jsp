@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/sub.css">
     <link rel="stylesheet" href="css/detail.css">
     <link rel="icon" href="images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="javascript/calendar.js"></script>
 </head>
 <body>
@@ -99,6 +100,7 @@
                 </table>
                 <div class="calendar_desc">
                     <p>선택한 날짜: <span id="cal_getDate"></span></p>
+                    <p class="btn_reservation"><input type="submit" value="예약하기" /></p>
                 </div>
             </div>
         </section>
