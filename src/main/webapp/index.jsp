@@ -5,10 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>축제</title>
-    <link rel="stylesheet" href="css/reset.css">
+    <jsp:include page="common/commonFiles.jsp" flush="true"/>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="icon" href="images/favicon.ico">
 </head>
 <script>
     //로그인유지체크 + 로그인성공시 msg=remember_login 이 전달됨
@@ -29,7 +27,7 @@
     }
 </script>
 <body>
-    <jsp:include page="header_sub.jsp" flush="true"/>
+    <jsp:include page="common/header.jsp" flush="true"/>
     <main>
         <div id="main">
             <section id="visual">

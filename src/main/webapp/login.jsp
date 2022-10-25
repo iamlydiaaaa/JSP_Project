@@ -10,7 +10,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
-  <script src="javascript/jquery-3.6.0.min.js"></script>
+  <jsp:include page="common/commonFiles.jsp" flush="true"/>
+  <link rel="stylesheet" href="css/login.css">
   <script src="javascript/login_cookie.js"></script>
   <script>
     $(document).ready(function() {
@@ -25,7 +26,6 @@
           $(this).siblings("label").addClass("focus");
         }
       })
-
 
       //아이디저장, 로그인상태 유지
       $("#chk1,#chk2").change(function() {
@@ -47,16 +47,9 @@
 
     })
   </script>
-  <!-- ------------------------------------------- -->
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/login.css">
-  <link rel="stylesheet" href="css/common.css">
-
 </head>
-<!-- ------------------------------------------- -->
-
 <body>
-<jsp:include page="header_sub.jsp" flush="true"/>
+<jsp:include page="common/header.jsp" flush="true"/>
 <script>
   let query = window.location.search;
   let param = new URLSearchParams(query);

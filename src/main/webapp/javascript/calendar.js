@@ -37,11 +37,8 @@ function buildCalendar() {
         tbCalendar.deleteRow(tbCalendar.rows.length - 1);
     }
 
-
     // @param 첫번째 개행
     let row = tbCalendar.insertRow();
-
-
 
     // @param 날짜가 표기될 열의 증가값
     let dom = 1;
@@ -59,23 +56,18 @@ function buildCalendar() {
         // @param 평일( 전월일과 익월일의 데이터 제외 )
         if (Math.sign(day) == 1 && lastDate.getDate() >= day) {
 
-
             // @param 평일 날짜 데이터 삽입
-
             column.innerText = autoLeftPad(day, 2);
 
-
             // @param 일요일인 경우
-            if (dom % 7 == 1) {
+            if (dom % 7 == 1)
                 column.style.color = "#FF4D4D";
-            }
 
             // @param 토요일인 경우
             if (dom % 7 == 0) {
                 column.style.color = "#4D4DFF";
                 row = tbCalendar.insertRow(); // @param 토요일이 지나면 다시 가로 행을 한줄 추가한다.
             }
-
         }
 
         // @param 평일 전월일과 익월일의 데이터 날짜변경
@@ -93,34 +85,27 @@ function buildCalendar() {
             if (today.getMonth() == date.getMonth()) {
 
                 // @details 오늘보다 이전인 경우이면서 이번달에 포함되는 일인경우
-                if (date.getDate() > day && Math.sign(day) == 1) {
+                if (date.getDate() > day && Math.sign(day) == 1)
                     column.style.backgroundColor = "#c5c5c5";
-                }
 
                 // @details 오늘보다 이후이면서 이번달에 포함되는 일인경우
                 else if (date.getDate() < day && lastDate.getDate() >= day) {
                     column.style.backgroundColor = "#FFFFFF";
                     column.style.cursor = "pointer";
-                    column.onclick = function () {
-                        calendarChoiceDay(this);
-
-                    }
+                    column.onclick = function() {calendarChoiceDay(this);}
                 }
 
                 // @details 오늘인 경우
                 else if (date.getDate() == day) {
                     column.style.backgroundColor = "#FFFFE6";
                     column.style.cursor = "pointer";
-                    column.onclick = function () {
-                        calendarChoiceDay(this);
-                    }
+                    column.onclick = function() {calendarChoiceDay(this);}
                 }
 
                 // @details 이번달보다 이전인경우
             } else if (today.getMonth() < date.getMonth()) {
-                if (Math.sign(day) == 1 && day <= lastDate.getDate()) {
+                if (Math.sign(day) == 1 && day <= lastDate.getDate())
                     column.style.backgroundColor = "#c5c5c5";
-                }
             }
 
             // @details 이번달보다 이후인경우
@@ -128,18 +113,16 @@ function buildCalendar() {
                 if (Math.sign(day) == 1 && day <= lastDate.getDate()) {
                     column.style.backgroundColor = "#FFFFFF";
                     column.style.cursor = "pointer";
-                    column.onclick = function () {
-                        calendarChoiceDay(this);
-                    }
+                    column.onclick = function() {calendarChoiceDay(this);}
+
                 }
             }
         }
 
         // @details 선택한년도가 현재년도보다 작은경우
         else if (today.getFullYear() < date.getFullYear()) {
-            if (Math.sign(day) == 1 && day <= lastDate.getDate()) {
+            if (Math.sign(day) == 1 && day <= lastDate.getDate())
                 column.style.backgroundColor = "#c5c5c5";
-            }
         }
 
         // @details 선택한년도가 현재년도보다 큰경우
@@ -147,15 +130,10 @@ function buildCalendar() {
             if (Math.sign(day) == 1 && day <= lastDate.getDate()) {
                 column.style.backgroundColor = "#FFFFFF";
                 column.style.cursor = "pointer";
-                column.onclick = function () {
-                    calendarChoiceDay(this);
-                }
+                column.onclick = function() {calendarChoiceDay(this);}
             }
         }
-
-
         dom++;
-
     }
 }
 
@@ -183,10 +161,8 @@ function calendarChoiceDay(column) {
     // @param 선택일 클래스명 변경
     column.classList.add("choiceDay");
 
-    //선택한 년/월/일을 가져온다.
     document.getElementById("cal_getDate").innerText =
-        selYear +"/ " + selMonth + "/ " + selDay;
-
+        selYear + " / " + selMonth + " / " + selDay;
 }
 
 /**
