@@ -35,7 +35,7 @@ public class CultureListController extends CultureController {
             }
             else if (paramSize==null|| "".equals(paramSize)) {
                 pageRequest = PageRequest.builder()
-                        .size(Integer.parseInt(paramPage))
+                        .page(Integer.parseInt(paramPage))
                         .build();
             }
             else{ //paramPage!=null && paramSize!=null

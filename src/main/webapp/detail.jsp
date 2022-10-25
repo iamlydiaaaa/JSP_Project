@@ -158,7 +158,7 @@
                 $("#modBtn").css("display","block");
                 //2. 수정에 필요한 content,grade
                 let data_cno = $("#reviewList").attr("data-cno");
-                let data_content = $(this).prev().prev().prev().text();
+                let data_content = $(this).siblings(':eq(1)').text();
                 let data_grade = $(this).parent().attr("data-grade");
                 //3. 검증에 필요한 re_no
                 let data_re_no = $(this).parent().attr("data-re_no");
@@ -186,6 +186,13 @@
                 deleteReview(re_no,cno);
             })//리뷰삭제버튼 클릭이벤트
 
+            $("#reviewList").on("click",".reviewPage",function(){
+                //페이지를 cno와 같이 넘겨준다
+                let page = $(this).text();
+                alert(page);
+                getReviews2(data_cno,page);
+            })//리뷰 페이징
+
 
         }); //document.ready
 
@@ -199,6 +206,24 @@
 
                 success : function(result){
                     //result = pageresponse
+                    $("#reviewList").html(toHtml(result));
+                },
+                error: function() {
+                    alert("error");
+                }
+            });//ajax
+        }//getReviews
+
+        let getReviews2 = function(cno,page) {
+            $.ajax({
+                url: '/project/review?cno='+cno+'&page='+page,
+                type: 'GET',
+                headers: {"content-type":"application/json"},
+
+                success : function(result){
+                    //result = pageresponse
+                    alert('start = '+result.start);
+                    alert('end = '+result.end);
                     $("#reviewList").html(toHtml(result));
                 },
                 error: function() {
@@ -274,8 +299,19 @@
                 tmp += '<button class = "delBtn">삭제</button>'
                 tmp += '<button class = "modBtn">수정</button>'
                 tmp += '</li>'
-            })
-            return tmp + "</ul>";
+            })//foreach
+            tmp += '</ul>';
+            //page nav
+            if(pageResponse.showPrev){
+                tmp += '[PREV]';
+            }
+            for(var i = pageResponse.start; i<pageResponse.end ; i++){
+                tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer;">'+i+'</div>';
+            }
+            if(pageResponse.showNext){
+                tmp += '[NEXT]';
+            }
+            return tmp;
         }
 
         // if($("#comment").val().trim()==''){ // 입력이 없을때 검증용
