@@ -1,8 +1,8 @@
 package com.example.review.controller;
 
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
-import com.example.domain.ReviewVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
+import com.example.review.vo.ReviewVO;
 import com.example.review.service.ReviewService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 @WebServlet(name="reviewController",value="/review/*")
 @Slf4j
@@ -44,35 +44,32 @@ public class ReviewController extends HttpServlet {
         try {
             Long cno = Long.valueOf(req.getParameter("cno"));
             String paramPage = req.getParameter("page");
-            System.out.println("paramPage = " + paramPage);
             String paramSize = req.getParameter("size");
-            System.out.println("paramSize = " + paramSize);
-            PageRequest pageRequest;
+            PageRequestVO pageRequestVO;
             //쿼리스트링으로 받아온 page size를 검증후 그에 맞는 PageRequest생성
             if(paramPage==null&&paramSize==null){
-                pageRequest=PageRequest.builder().build();
+                pageRequestVO = PageRequestVO.builder().build();
             }
             else if (paramPage==null||"".equals(paramPage)){
-                pageRequest = PageRequest.builder()
+                pageRequestVO = PageRequestVO.builder()
                         .size(Integer.parseInt(paramSize))
                         .build();
             }
             else if (paramSize==null|| "".equals(paramSize)) {
-                pageRequest = PageRequest.builder()
+                pageRequestVO = PageRequestVO.builder()
                         .page(Integer.parseInt(paramPage))
                         .build();
             }
             else{ //paramPage!=null && paramSize!=null
-                pageRequest = PageRequest.builder()
+                pageRequestVO = PageRequestVO.builder()
                         .page(Integer.parseInt(paramPage))
                         .size(Integer.parseInt(paramSize))
                         .build();
             }
-            System.out.println("pageRequest!!!!!!!!!!!!!!!!!!! = " + pageRequest);
-            PageResponse<ReviewVO> pageResponse = reviewService.getReviews(cno,pageRequest);
+            PageResponseVO<ReviewVO> pageResponseVO = reviewService.getReviews(cno, pageRequestVO);
             //고의 예외발생 테스트
 //            throw new Exception("고의 발생 예외");
-            sendAsJson(resp,pageResponse);
+            sendAsJson(resp, pageResponseVO);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("리뷰작성 실패");
@@ -198,8 +195,7 @@ public class ReviewController extends HttpServlet {
         }
 
         ReviewVO reviewVO = reviewService.getReview(re_no);
-
-        if(reviewVO==null||reviewVO.getId()!=session.getAttribute("user")){
+        if(!reviewVO.getId().equals(session.getAttribute("user"))){
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }

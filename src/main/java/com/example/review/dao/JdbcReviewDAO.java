@@ -1,9 +1,8 @@
 package com.example.review.dao;
 
-import com.example.domain.CultureVO;
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
-import com.example.domain.ReviewVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
+import com.example.review.vo.ReviewVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.common.ConnectionUtil.CONN_UTIL;
+import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
 public class JdbcReviewDAO implements ReviewDAO {
 
@@ -41,21 +40,21 @@ public class JdbcReviewDAO implements ReviewDAO {
     }
 
     @Override
-    public PageResponse<ReviewVO> selectAll_byCno(Long cno,PageRequest pageRequest) {
+    public PageResponseVO<ReviewVO> selectAll_byCno(Long cno, PageRequestVO pageRequestVO) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        PageResponse<ReviewVO> pageResponse = null;
+        PageResponseVO<ReviewVO> pageResponseVO = null;
         try {
             String sql = "select * from review \n" +
                     "         where cno = ? \n" +
-                    "         order by re_no \n" +
+                    "         order by re_no desc\n" +
                     "limit ?,?";
             conn = CONN_UTIL.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1,cno);
-            pstmt.setInt(2, pageRequest.getSkip());
-            pstmt.setInt(3, pageRequest.getSize());
+            pstmt.setInt(2, pageRequestVO.getSkip());
+            pstmt.setInt(3, pageRequestVO.getSize());
             rs = pstmt.executeQuery();
             List<ReviewVO> reviewVOS = new ArrayList<>();
             while (rs.next()) {
@@ -70,12 +69,12 @@ public class JdbcReviewDAO implements ReviewDAO {
                         .build();
                 reviewVOS.add(reviewVO);
             }
-            pageResponse = PageResponse.<ReviewVO>withAll()
-                    .pageRequestDTO(pageRequest)
+            pageResponseVO = PageResponseVO.<ReviewVO>withAll()
+                    .pageRequestVO(pageRequestVO)
                     .total(selectCount(cno))
                     .pageList(reviewVOS)
                     .build();
-            return pageResponse;
+            return pageResponseVO;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("review 조회에 실패했습니다");
@@ -90,7 +89,7 @@ public class JdbcReviewDAO implements ReviewDAO {
         PreparedStatement pstmt = null;
         try {
             String sql = "update review\n" +
-                    "set content = ? , grade = ? , `upDate` = now() \n" +
+                    "set content = ? , grade = ? , upDate_time = now() \n" +
                     "where re_no = ?;";
             conn = CONN_UTIL.getConnection();
             pstmt = conn.prepareStatement(sql);

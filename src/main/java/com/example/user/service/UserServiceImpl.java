@@ -1,7 +1,7 @@
 package com.example.user.service;
 
 
-import com.example.domain.UserVO;
+import com.example.user.vo.UserVO;
 import com.example.user.dao.UserDAO;
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.example.domain;
+package com.example.review.vo;
 
 import lombok.Builder;
 import lombok.Data;

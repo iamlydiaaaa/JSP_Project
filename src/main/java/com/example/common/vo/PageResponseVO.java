@@ -1,4 +1,4 @@
-package com.example.domain;
+package com.example.common.vo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @ToString
-public class PageResponse<E> {
+public class PageResponseVO<E> {
     private int page;
     private int size;
     private int total;
@@ -20,9 +20,9 @@ public class PageResponse<E> {
     private List<E> pageList;
 
     @Builder(builderMethodName = "withAll")
-    public PageResponse(PageRequest pageRequestDTO, List<E> pageList, int total){
-        this.page=pageRequestDTO.getPage();
-        this.size=pageRequestDTO.getSize();
+    public PageResponseVO(PageRequestVO pageRequestVO, List<E> pageList, int total){
+        this.page= pageRequestVO.getPage();
+        this.size= pageRequestVO.getSize();
         this.pageList = pageList;
         this.total=total;
         this.start=(this.page-1)/10*10+1;

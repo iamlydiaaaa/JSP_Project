@@ -1,15 +1,15 @@
 package com.example.culture;
 
 import com.example.culture.service.CultureService;
-import com.example.domain.CultureVO;
-import com.example.domain.PageRequest;
-import com.example.domain.PageResponse;
+import com.example.culture.vo.CultureVO;
+import com.example.common.vo.PageRequestVO;
+import com.example.common.vo.PageResponseVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.example.common.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -19,11 +19,11 @@ public class CultureServiceTest {
     @Test
     @DisplayName("culture list 조회1")
     void getCulturesTest1(){
-        PageRequest pageRequest = PageRequest.builder()
+        PageRequestVO pageRequestVO = PageRequestVO.builder()
                 .size(5)
                 .build();
-        PageResponse<CultureVO> pageResponse = cultureService.getCultures(pageRequest);
-        List<CultureVO> cultureVOS = pageResponse.getPageList();
+        PageResponseVO<CultureVO> pageResponseVO = cultureService.getCultures(pageRequestVO);
+        List<CultureVO> cultureVOS = pageResponseVO.getPageList();
         System.out.println("cultures = " + cultureVOS);
         assertEquals(5, cultureVOS.size());
     }
@@ -38,20 +38,20 @@ public class CultureServiceTest {
     @Test
     @DisplayName("culture list 페이징 테스트")
     void getCulturesTest3(){
-        PageRequest pageRequest = PageRequest.builder()
+        PageRequestVO pageRequestVO = PageRequestVO.builder()
                 .size(5)
                 .build();
-        PageResponse<CultureVO> pageResponse = cultureService.getCultures(pageRequest);
+        PageResponseVO<CultureVO> pageResponseVO = cultureService.getCultures(pageRequestVO);
         //페이징 테스트
-        if(pageResponse.isShowPrev()){
+        if(pageResponseVO.isShowPrev()){
             System.out.println("[PREV]");
         }
-        System.out.println(pageResponse.getPageList().size());
-        if(pageResponse.isShowNext()){
+        System.out.println(pageResponseVO.getPageList().size());
+        if(pageResponseVO.isShowNext()){
             System.out.println("[NEXT]");
         }
-        System.out.println("pageResponse.getTotal() = " + pageResponse.getTotal());
-        System.out.println("pageResponse.getLast() = " + pageResponse.getLast());
-        System.out.println("pageResponse.getEnd() = " + pageResponse.getEnd());
+        System.out.println("pageResponse.getTotal() = " + pageResponseVO.getTotal());
+        System.out.println("pageResponse.getLast() = " + pageResponseVO.getLast());
+        System.out.println("pageResponse.getEnd() = " + pageResponseVO.getEnd());
     }
 }

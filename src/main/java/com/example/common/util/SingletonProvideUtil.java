@@ -1,7 +1,7 @@
-package com.example.common;
+package com.example.common.util;
 
 
-import com.example.AppConfig;
+import com.example.common.config.AppConfig;
 import com.example.culture.service.CultureService;
 import com.example.review.service.ReviewService;
 import com.example.user.service.UserService;

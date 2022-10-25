@@ -1,6 +1,6 @@
 package com.example.reservation.dao;
 
-import com.example.domain.ReservationVO;
+import com.example.reservation.vo.ReservationVO;
 
 public class JdbcReservationDAO implements ReservationDAO {
     @Override
