@@ -31,9 +31,9 @@
     <div class="container_wrap">
         <section class="detail_overview">
             <div>
-                <h2>${culture.getSvc_nm()} <br>
+                <h1>${culture.getSvc_nm()} <br>
                     <span class="detail_date">행사 기간 : ${culture.getSvc_opn_bgn_dt()} ~ ${culture.getSvc_opn_end_dt()}</span>
-                </h2>
+                </h1>
                 <table id="detail_table">
                     <tr>
                         <th>대상</th>
@@ -74,37 +74,43 @@
         <section class="detail_select_date">
             <div>
                 <h2>날짜 확인</h2>
-                <table class="calendar">
-                    <thead>
-                    <tr class="calendar_tit">
-                        <td onClick="prevCalendar();" style="cursor:pointer;">&#60;&#60;</td>
-                        <td colspan="5">
-                            <span id="calYear">YYYY</span>년
-                            <span id="calMonth">MM</span>월
-                        </td>
-                        <td onClick="nextCalendar();" style="cursor:pointer;">&#62;&#62;</td>
-                    </tr>
-                    <tr class="calendar_days">
-                        <td>일</td>
-                        <td>월</td>
-                        <td>화</td>
-                        <td>수</td>
-                        <td>목</td>
-                        <td>금</td>
-                        <td>토</td>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div class="calendar_wrap">
+                    <table class="calendar">
+                        <thead>
+                        <tr class="calendar_tit">
+                            <td onClick="prevCalendar();" style="cursor:pointer;">&#60;&#60;</td>
+                            <td colspan="5">
+                                <span id="calYear">YYYY</span>년
+                                <span id="calMonth">MM</span>월
+                            </td>
+                            <td onClick="nextCalendar();" style="cursor:pointer;">&#62;&#62;</td>
+                        </tr>
+                        <tr class="calendar_days">
+                            <td>일</td>
+                            <td>월</td>
+                            <td>화</td>
+                            <td>수</td>
+                            <td>목</td>
+                            <td>금</td>
+                            <td>토</td>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
                 <div class="calendar_desc">
-                    <form action="/project/Servlet/calendar" method="post">
-                        <p>선택한 날짜:
+                    <form action="/project/insertReservation.html" method="post">
+                        <p class="select_date">
+                            <strong><i class="material-icons">date_range</i> 선택한 날짜:</strong>
                             <input type="text" name="sel_y" id="cal_getYear" value=""/> /
                             <input type="text" name="sel_m" id="cal_getMonth" value=""/> /
                             <input type="text" name="sel_d" id="cal_getDay" value=""/>
-                    <%--        <span name="sel_y" id="cal_getYear"></span> /
-                            <span name="sel_m" id="cal_getMonth"></span> /
-                            <span name="sel_d" id="cal_getDay"></span>--%>
+                        </p>
+                        <p class="select_number">
+                            <strong><i class="material-icons">people</i> 이용 인원:</strong>
+                            <span>
+                                <input type='button' onclick='count("minus")' value='-' /><input type="text" id="useNum" value="0" /><input type='button' onclick='count("plus")' value='+' />
+                            </span>
                         </p>
                         <p class="btn_reservation">
                             <input type="submit" value="예약하기" />
@@ -121,22 +127,78 @@
                 </div>
             </div>
         </section>
-
-
         <!--리뷰 작성-->
         <!--댓글작성/수정-->
         <section class="detail_review">
-            <div class="detail_review_write">
-                리뷰 작성/수정 :
-                <textarea cols="50" rows="10" name="content" id="content" placeholder="리뷰내용"></textarea>
-                <label for="grade">평점 : </label><input type="number" name="grade" id="grade" placeholder="1-5">
-                <button id="writeBtn" type="button">리뷰작성</button>
-                <button id="modBtn" type="button" style="display: none;">리뷰수정 후 전송</button>
-            </div>
+            <div>
+                <h2>참여 후기</h2>
+                <ul class="review_overview">
+                    <li class="review_overview_left">
+                        <p><strong>4.6</strong><span>/ 5.0</span></p>
+                        <p class="review_stars">
+                            <img src="images/star1.png" alt="star" width="50">
+                            <img src="images/star1.png" alt="star" width="50">
+                            <img src="images/star1.png" alt="star" width="50">
+                            <img src="images/star1.png" alt="star" width="50">
+                            <img src="images/star1.png" alt="star" width="50">
+                        </p>
+                    </li>
+                    <li class="review_overview_right">
+                        <ul>
+                            <li><span>5점</span><span>0</span><span class="review_count">4</span></li>
+                            <li><span>4점</span><span>0</span><span class="review_count">0</span></li>
+                            <li><span>3점</span><span>0</span><span class="review_count">0</span></li>
+                            <li><span>2점</span><span>0</span><span class="review_count">0</span></li>
+                            <li><span>1점</span><span>0</span><span class="review_count">0</span></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="review_write">
+                    <div>
+                        <h3>리뷰 쓰기</h3>
+                        <p class="review_grade">
+                            <label for="grade">평점 </label>
+                            <strong class="review_write_star">
+                                <span>별</span>
+                                <span>별</span>
+                                <span>별</span>
+                                <span>별</span>
+                                <span>별</span>
+                            </strong>
+                            <input type="text" name="grade" id="grade" placeholder="">
+<%--                            <span name="grade" id="grade">ff</span>--%>
+                        </p>
+                    </div>
+                    <p class="review_txt">
+                        <textarea cols="50" rows="5" name="content" id="content" placeholder="리뷰내용"></textarea>
+                        <button id="writeBtn" type="button">리뷰 등록</button>
+                        <button id="modBtn" type="button" style="display: none;">리뷰 수정</button>
+                    </p>
 
-            <!--리뷰 리스트-->
-            <div id="reviewList" data-cno="${requestScope.culture.getCno()}" data-id="${sessionScope.user}">
+                </div>
 
+                <!--리뷰 리스트-->
+                <div id="reviewList" data-cno="${requestScope.culture.getCno()}" data-id="${sessionScope.user}">
+                    <ul>
+                        <li class="review_default">
+                            아직 등록된 리뷰가 없습니다. 지금 첫 리뷰를 작성해 보세요.
+                        </li>
+                        <li>
+                            <p class="review_list_id"><img src="images/user_default.png" alt="사용자프로필" width="35" /><span class="id">jinkyeong1004</span></p>
+
+                            <div>
+                                <p class="review_list_grade"><span class="grade"><img src="images/star1.png" alt="star"></span></p>
+                                <p class="review_list_date"><span class="date">2022-10-21</span></p>
+                            </div>
+                            <p class="review_list_content"><span class="content">아주 좋아요. 재미있어요.</span></p>
+                            <p class="btn_wrap">
+                                <button class="modBtn">수정</button>
+                                <button class="delBtn">삭제</button>
+                            </p>
+                        </li>
+
+                    </ul>
+                </div>
             </div>
         </section>
     </div>
@@ -148,6 +210,23 @@
 <%--    </form>--%>
 
     <script>
+        function count(type)  {
+            // 결과를 표시할 element
+            const resultElement = document.getElementById('useNum');
+            let number = resultElement.value;
+
+            if(type === 'plus') {
+                number = parseInt(number) + 1;
+                if(number > 10){number = 10; alert('10인 이상은 단체 문의 부탁드립니다.');}
+            }
+            else if(type === 'minus')  {
+                number = parseInt(number) - 1;
+                if(number < 0){number = 0;}
+            }
+
+            // 결과 출력
+            resultElement.value = number;
+        }
         $(document).ready(function(){
             let data_cno = $("#reviewList").attr("data-cno");
             let data_id = $("#reviewList").attr("data-id");
@@ -206,6 +285,13 @@
                 getReviews2(data_cno,page);
             })//리뷰 페이징
 
+            //별 클릭 이벤트
+            $(".review_write_star span").click(function() {
+                $(".review_write_star span").removeClass("on");
+                $(this).addClass("on");
+                $(this).prevAll("span").addClass("on");
+                $("#grade").val($(this).index()+1);
+            });
 
         }); //document.ready
 
@@ -303,13 +389,14 @@
             let tmp = "<ul>";
             reviews.forEach(function(review) {
                 tmp += '<li data-cno='+review.cno +' data-grade='+review.grade+' data-re_no='+review.re_no+'>'
-                tmp += ' 아이디 : <span class="id">'+review.id + '</span>'
-                tmp += ' 리뷰 : <span class="content">' + review.content + '</span>'
-                tmp += ' 평점 : <span class="grade">' + review.grade + '</span>'
-                tmp += ' 등록일 : '+review.regDate
-                tmp += '<button class = "delBtn">삭제</button>'
+                tmp += '<p class="review_list_id"><img src="images/user_default.png" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
+                tmp += '<div><p class="review_list_grade"><span class="grade"><img src="images/star1.png" alt="star">' + review.grade +' / </span></p>'
+                tmp += '<p class="review_list_date"><span class="date">'+review.regDate+'</span></p></div>'
+
+                tmp += '<p class="review_list_content"><span class="content">'+review.content+'</span></p>'
+                tmp += ' <p class="btn_wrap"><button class = "delBtn">삭제</button>'
                 tmp += '<button class = "modBtn">수정</button>'
-                tmp += '</li>'
+                tmp += '</p></li>'
             })//foreach
             tmp += '</ul>';
             //page nav
@@ -325,11 +412,10 @@
             return tmp;
         }
 
-        // if($("#comment").val().trim()==''){ // 입력이 없을때 검증용
-        //   alert('댓글을 입력해주세요');
-        //   $("#comment").focus();
-        //   return;
-        // }
+    if($("#comment").val().trim()==''){ // 입력이 없을때 검증용
+      alert('댓글을 입력해주세요');
+      $("#comment").focus();
+    }
 
     </script>
 </main>
