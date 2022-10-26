@@ -13,9 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
@@ -27,93 +28,18 @@ public class ReservationServiceImpl implements ReservationService{
     private final CultureDAO<CultureVO> cultureDAO;
     private final UserDAO userDAO;
 
-
-
-    private void validateRes(String id , Long cno , Date resDate) throws ParseException,IllegalStateException {
-        Connection conn = CONN_UTIL.getConnection();
-        try {
-            //1.예약가능 날짜가 아닌경우
-            validateRes_resDate(resDate, cultureDAO.selectOne(cno));
-
-            //2.같은 유저의 , 같은 행사 중복 예약
-            //3.같은 유저의 , 예약한 날짜에 / 다른 행사를 예약할경우
-            validateRes_user(id, cno, resDate, conn);
-
-            //4.선택한 예약이 마감됐을경우
-            validateRes_cno(cno, resDate);
-
-        } catch (ParseException | IllegalStateException e) {
-            throw new RuntimeException(e);
-        } finally {
-            CONN_UTIL.close(conn);
-        }
-    }//validateRes
-
-    private void validateRes_cno(Long cno, Date resDate) {
-        //예약인원정보를 가져와서 resDate가 같은 reservationCntVO를 찾아서 검증
-        Map<Long, List<ReservationCntVO>> resCntMap
-                = getReservationCnt(cno);
-
-        List<ReservationCntVO> reservationCntVOList
-                = resCntMap.get(cno);
-
-        for (ReservationCntVO reservationCntVO : reservationCntVOList) {
-            //같은 행사의 같은 예약날짜일때
-            if(resDate.equals(reservationCntVO.getResDate())){
-                //해당 날짜의 예약가능 인원수 체크
-                if(!reservationCntVO.checkResCnt()){
-                    throw new IllegalStateException("선택한 날짜는 예약 마감");
-                }
-            }
-        }
-    }//validateRes_cno
-
-    private void validateRes_user(String id, Long cno, Date resDate, Connection conn) {
-        //id 로 예약한 reservation.rno를 모두 찾고
-        List<Long> rnoList = reservationDAO.selectAllRnoById(id, conn);
-        //rnoList를 순회하며 예약하려는 cno가 예약행사 테이블에 존재하는지 찾는다
-        rnoList.stream().forEach(rno -> {
-            //예약행사 테이블
-            ReservationCultureVO reservationCultureVO
-                    = reservationDAO.selectResCultureByRno(rno, conn);
-            if(Objects.equals(cno,reservationCultureVO.getCno())){
-                //중복 cno가 확인되면
-                throw new IllegalStateException("중복 행사 예약 불가");
-            }
-            if(resDate.equals(reservationCultureVO.getResDate())){
-                //중복 resDate가 확인되면
-                throw new IllegalStateException("중복 날짜 예약 불가");
-            }
-        });
-    }//validateRes_user
-
-    private void validateRes_resDate(Date resDate, CultureVO cultureVO) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date from = df.parse(cultureVO.getRcpt_bgn_dt());
-        Date to = df.parse(cultureVO.getRcpt_end_dt());
-        if(resDate.before(from)|| resDate.after(to)){
-            throw new IllegalStateException("잘못된 예약 날짜");
-        }
-    }//validateRes_resDate
-
     /**
      * 예약하기
      */
     @Override
     @MyTransactional
     public Long reservation(String id, Long cno, Date resDate) {
-
-
-        Connection conn = null;
+        //validation 메서드 만들어서 실행
+        Connection conn = CONN_UTIL.getConnection();
         try {
-            conn = CONN_UTIL.getConnection();
             //////////////////////////
             conn.setAutoCommit(false);
             //////////////////////////
-
-            //유효한 예약정보인지 검증 실패시 throw IllegalstateException
-            validateRes(id,cno,resDate);
-
             //선택한 cno의 요금 조회
             Integer resPrice = reservationDAO.selectPriceFromCulture(cno,conn);
             if(resPrice==null||resPrice<0) {
@@ -153,7 +79,7 @@ public class ReservationServiceImpl implements ReservationService{
                 throw new RuntimeException("롤백 도중 예외가 발생했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("conn.rollback()");
+            throw new RuntimeException("롤백합니다");
         } finally {
             CONN_UTIL.close(conn);
         }
@@ -208,7 +134,7 @@ public class ReservationServiceImpl implements ReservationService{
                 throw new RuntimeException("롤백 도중 예외가 발생했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("conn.rollback()");
+            throw new RuntimeException("롤백합니다");
         } finally {
             CONN_UTIL.close(conn);
         }
@@ -266,7 +192,7 @@ public class ReservationServiceImpl implements ReservationService{
                 throw new RuntimeException("롤백 도중 예외가 발생했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("conn.rollback()");
+            throw new RuntimeException("롤백합니다");
         } finally {
             CONN_UTIL.close(conn);
         }

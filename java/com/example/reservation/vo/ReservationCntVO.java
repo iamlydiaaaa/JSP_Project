@@ -12,8 +12,4 @@ public class ReservationCntVO {
     Date resDate;
     Integer currentResCnt;
     Integer capacity;
-
-    public boolean checkResCnt() {
-        return currentResCnt<capacity;
-    }
 }
