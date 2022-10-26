@@ -2,8 +2,8 @@ package com.example.review.service;
 
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
-import com.example.review.vo.ReviewVO;
 import com.example.review.dao.ReviewDAO;
+import com.example.review.vo.ReviewVO;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

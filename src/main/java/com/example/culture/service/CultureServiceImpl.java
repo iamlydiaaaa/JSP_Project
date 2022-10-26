@@ -2,16 +2,18 @@ package com.example.culture.service;
 
 import com.example.api.ApiProvider;
 import com.example.api.ApiRatePolicy;
-import com.example.culture.dao.CultureDAO;
-import com.example.culture.vo.CultureVO;
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
+import com.example.culture.dao.CultureDAO;
+import com.example.culture.vo.CultureVO;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
+import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
 @RequiredArgsConstructor
 public class CultureServiceImpl implements CultureService {
@@ -20,16 +22,12 @@ public class CultureServiceImpl implements CultureService {
     private final ApiRatePolicy apiRatePolicy;
     private final CultureDAO<CultureVO> cultureDAO;
 
-//    public CultureServiceImpl(ApiProvider apiProvider,
-//              ApiRatePolicy apiRatePolicy ,
-//              CultureRepository<Culture> cultureRepository) {
-//        this.apiProvider = apiProvider;
-//        this.apiRatePolicy = apiRatePolicy;
-//        this.cultureRepository = cultureRepository;
-//    }
-
+    /**
+     * 문화행사 api list로 불러온 후 insert
+     */
     @Override
     public void register() {
+        Connection conn = CONN_UTIL.getConnection();
         try {
             //가져온 api 데이터로 culture 객체를 완성 후 insert
             List<CultureVO> list = (List<CultureVO>) apiProvider.apiProvide();
@@ -60,8 +58,7 @@ public class CultureServiceImpl implements CultureService {
 
     @Override
     public CultureVO getCulture(Long cno) {
-        Optional<CultureVO> result = cultureDAO.selectOne(cno);
-        return result.orElseThrow(); //NoSuchElementException
+        return cultureDAO.selectOne(cno);
     }
 
     @Override

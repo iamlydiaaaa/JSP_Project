@@ -68,7 +68,7 @@ public class JdbcUserDAO implements UserDAO {
     @Override
     public Optional<UserVO> getById(String id) {
         String sql = "select basic.id,basic.pwd,basic.name,basic.regDate," +
-                "res.email,res.phone,info.age,info.gender from " +
+                "res.email,res.phone,res.payment_amount,info.age,info.gender from " +
                 "(user_basic as basic inner join user_info as info " +
                 "on basic.id=info.id " +
                 "inner join user_res as res " +
@@ -92,6 +92,7 @@ public class JdbcUserDAO implements UserDAO {
                     .regDate(new Date(rs.getDate("regDate").getTime()))
                     .email(rs.getString("email"))
                     .phone(rs.getString("phone"))
+                    .payment_amount(rs.getInt("payment_amount"))
                     .age(rs.getInt("age"))
                     .gender(rs.getInt("gender"))
                     .build();

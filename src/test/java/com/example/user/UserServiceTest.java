@@ -1,7 +1,7 @@
 package com.example.user;
 
-import com.example.user.vo.UserVO;
 import com.example.user.service.UserService;
+import com.example.user.vo.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +18,7 @@ public class UserServiceTest {
     @DisplayName("유저 조회")
     public void selectTest(){
         Optional<UserVO> result = userService.getUSer("user1");
-        UserVO userVO = result.get();
-        System.out.println(userVO);
+        UserVO userVO = result.orElse(UserVO.builder().build());
         Assertions.assertNotNull(userVO);
     }
 

@@ -1,9 +1,9 @@
 package com.example.culture;
 
-import com.example.culture.service.CultureService;
-import com.example.culture.vo.CultureVO;
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
+import com.example.culture.service.CultureService;
+import com.example.culture.vo.CultureVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,14 +24,12 @@ public class CultureServiceTest {
                 .build();
         PageResponseVO<CultureVO> pageResponseVO = cultureService.getCultures(pageRequestVO);
         List<CultureVO> cultureVOS = pageResponseVO.getPageList();
-        System.out.println("cultures = " + cultureVOS);
         assertEquals(5, cultureVOS.size());
     }
     @Test
     @DisplayName("culture list 조회2")
     void getCulturesTest2(){
         CultureVO cultureVO = cultureService.getCulture(1L);
-        System.out.println("culture = " + cultureVO);
         assertNotNull(cultureVO);
     }
 

@@ -1,13 +1,14 @@
 package com.example.common.util;
 
 
-import com.example.common.config.AppConfig;
+import com.example.AppConfig;
 import com.example.culture.service.CultureService;
+import com.example.reservation.service.ReservationService;
 import com.example.review.service.ReviewService;
 import com.example.user.service.UserService;
 import com.google.gson.Gson;
 
-public class SingletonProvideUtil {
+public final class SingletonProvideUtil {
 
     public static final SingletonProvideUtil SINGLETON_UTIL
             = new SingletonProvideUtil();
@@ -40,7 +41,10 @@ public class SingletonProvideUtil {
 
     ///////////////////reservation
 
-
+    //reservationService
+    public ReservationService reservationService() {
+        return appConfig.reservationService();
+    }
 
     ////////////////////review
 

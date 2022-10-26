@@ -17,4 +17,5 @@ public class UserVO {
     private String phone;
     private Integer age;
     private Integer gender;
+    private Integer payment_amount;
 }

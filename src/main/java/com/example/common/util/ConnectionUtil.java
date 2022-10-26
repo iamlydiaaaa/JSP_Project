@@ -1,6 +1,6 @@
 package com.example.common.util;
 
-import com.example.common.config.AppConfig;
+import com.example.AppConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
-public class ConnectionUtil {
+public final class ConnectionUtil {
 
     public static final ConnectionUtil CONN_UTIL
             = new ConnectionUtil();
@@ -60,6 +60,39 @@ public class ConnectionUtil {
             if(pstmt!=null){
                 pstmt.close();
             }
+            if(conn!=null){
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("db자원 반환에 실패했습니다");
+        }
+    }
+
+    public void close(ResultSet rs){
+        try {
+            if(rs!=null){
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("db자원 반환에 실패했습니다");
+        }
+    }
+
+    public void close(PreparedStatement pstmt){
+        try {
+            if(pstmt!=null){
+                pstmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("db자원 반환에 실패했습니다");
+        }
+    }
+
+    public void close(Connection conn){
+        try {
             if(conn!=null){
                 conn.close();
             }

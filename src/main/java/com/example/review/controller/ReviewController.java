@@ -2,8 +2,8 @@ package com.example.review.controller;
 
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
-import com.example.review.vo.ReviewVO;
 import com.example.review.service.ReviewService;
+import com.example.review.vo.ReviewVO;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 

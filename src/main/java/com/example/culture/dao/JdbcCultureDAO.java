@@ -1,8 +1,8 @@
 package com.example.culture.dao;
 
-import com.example.culture.vo.CultureVO;
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
+import com.example.culture.vo.CultureVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
@@ -77,10 +76,10 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                 conn.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("culture insert를 롤백합니다");
+                throw new RuntimeException("culture insert를 롤백에 실패했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("cultrue 등록에 실패했습니다");
+            throw new RuntimeException("롤백합니다 cultrue 등록에 실패했습니다");
         } finally {
             CONN_UTIL.close(pstmt,conn);
         }
@@ -143,7 +142,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             return pageResponseVO;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("cultrue 조회에 실패했습니다");
+            throw new RuntimeException("cultrue 조회(리스트)에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
@@ -199,7 +198,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
     }
 
     @Override
-    public Optional<CultureVO> selectOne(Long cno) {
+    public CultureVO selectOne(Long cno) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -240,10 +239,10 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                     .revstd_day_nm(rs.getString("revstd_day_nm"))
                     .revstd_day(rs.getString("revstd_day"))
                     .build();
-            return Optional.ofNullable(cultureVO);
+            return cultureVO;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("cultrue 조회에 실패했습니다");
+            throw new RuntimeException("cultrue 조회(단일)에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
