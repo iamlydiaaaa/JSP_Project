@@ -42,7 +42,7 @@ public class ReviewServiceTest {
     }
     
     @Test
-    @DisplayName("리뷰목록 가져오기")
+    @DisplayName("리뷰목록 가져오기+페이징 테스트")
     public void readReviewsTest() throws Exception {
         //given
         Long cno = 1L;
@@ -79,10 +79,8 @@ public class ReviewServiceTest {
         String updatedContent = "updated Content";
         ReviewVO reviewVO1 = reviewService.getReview(re_no);
         reviewVO1.setContent(updatedContent);
-        System.out.println("reviewVO1 = " + reviewVO1);
         //when
         ReviewVO reviewVO2 = reviewService.updateReview(reviewVO1);
-        System.out.println("reviewVO2 = " + reviewVO2);
         //then
         Assertions.assertEquals(reviewVO2.getContent(),updatedContent);
     }

@@ -1,12 +1,14 @@
 package com.example.reservation.dao;
 
+import com.example.reservation.vo.ReservationCntVO;
+import com.example.reservation.vo.ReservationCultureVO;
 import com.example.reservation.vo.ReservationVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.*;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
@@ -32,7 +34,7 @@ public class JdbcReservationDAO implements ReservationDAO {
     }
 
     @Override
-    public Long insertResCulture(Long rno, Long cno, Integer price, Date resDate , Connection conn) {
+    public void insertResCulture(Long rno, Long cno, Integer price, Date resDate , Connection conn) {
         PreparedStatement pstmt = null;
         try {
             String sql = "insert into res_culture (rno, cno, resPrice, resDate)\n" +
@@ -49,7 +51,6 @@ public class JdbcReservationDAO implements ReservationDAO {
         } finally {
             CONN_UTIL.close(pstmt);
         }
-        return null;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class JdbcReservationDAO implements ReservationDAO {
     }
 
     @Override
-    public Integer updateUserPaymentAmount(String id , Integer price, Connection conn) {
+    public boolean updateUserPaymentAmount(String id , Integer price, Connection conn) {
         PreparedStatement pstmt = null;
         try {
             String sql = "update user_res\n" +
@@ -84,13 +85,13 @@ public class JdbcReservationDAO implements ReservationDAO {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,price);
             pstmt.setString(2,id);
-            pstmt.executeUpdate();
-            return price;
+            return pstmt.executeUpdate()==1;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             CONN_UTIL.close(pstmt);
         }
+        return false;
     }
 
     @Override
@@ -113,5 +114,178 @@ public class JdbcReservationDAO implements ReservationDAO {
             CONN_UTIL.close(pstmt);
         }
         return null;
+    }
+
+//    @Override
+//    public Integer selectCultureResCapacity(Long cno) {
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        try {
+//            String sql = "select capacity from culture_res where cno = ?";
+//            conn = CONN_UTIL.getConnection();
+//            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+//            pstmt.setLong(1,cno);
+//            rs = pstmt.executeQuery();
+//            if(rs.next()){
+//                return rs.getInt(1);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("capacity 조회중 예외 발생");
+//        } finally {
+//            CONN_UTIL.close(rs,pstmt,conn);
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Integer> selectGroupResCulture(Long cno) {
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        try {
+//            String sql = "select count(*) from res_culture " +
+//                    "where cno = ? " +
+//                    "group by resDate " +
+//                    "order by resDate asc";
+//            conn = CONN_UTIL.getConnection();
+//            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+//            pstmt.setLong(1,cno);
+//            rs = pstmt.executeQuery();
+//            List<Integer> list = new ArrayList<>();
+//            while(rs.next()) {
+//                list.add(rs.getInt(1));
+//            }
+//            return list;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("rescultrue group by cno , resDate 조회중 예외 발생");
+//        } finally {
+//            CONN_UTIL.close(rs,pstmt,conn);
+//        }
+//    }
+
+
+    @Override
+    public List<Long> selectAllRnoById(String id,Connection conn) {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select rno from reservation where id = ?";
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setString(1,id);
+            rs = pstmt.executeQuery();
+            List<Long> list = new ArrayList<>();
+            while(rs.next()) {
+                list.add(rs.getLong(1));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("rno 리스트 조회중 예외 발생");
+        } finally {
+            CONN_UTIL.close(rs);
+            CONN_UTIL.close(pstmt);
+        }
+    }
+
+    @Override
+    public ReservationCultureVO selectResCultureByRno(Long rno, Connection conn) {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from res_culture where rno = ?";
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,rno);
+            rs = pstmt.executeQuery();
+            if(rs.next()) {
+                return ReservationCultureVO
+                        .builder()
+                        .rc_no(rs.getLong(1))
+                        .rno(rs.getLong(2))
+                        .cno(rs.getLong(3))
+                        .resPrice(rs.getInt(4))
+                        .resDate(new Date(rs.getDate(5).getTime()))
+                        .regDate(new Date(rs.getDate(6).getTime()))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("예약_행사 테이블 조회중 예외 발생");
+        } finally {
+            CONN_UTIL.close(rs);
+            CONN_UTIL.close(pstmt);
+        }
+        return null;
+    }
+
+    @Override
+    public Map<Long, ReservationCntVO> selectReservationCnt(Long cno) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Map<Long,ReservationCntVO> resCntMap = new HashMap<>();
+        try {
+            String sql = "select rc.cno , rc.resDate , count(*) as currentResCnt , cr.capacity\n" +
+                    "from res_culture as rc\n" +
+                    "inner join culture_res as cr\n" +
+                    "on rc.cno = cr.cno\n" +
+                    "where rc.cno = ?\n" +
+                    "group by resDate\n" +
+                    "order by resDate;";
+            conn = CONN_UTIL.getConnection();
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,cno);
+            rs = pstmt.executeQuery();
+            if(rs.next()) {
+                ReservationCntVO reservationCntVO = ReservationCntVO
+                        .builder()
+                        .cno(rs.getLong("cno"))
+                        .resDate(new Date(rs.getDate("resDate").getTime()))
+                        .currentResCnt(rs.getInt("currentResCnt"))
+                        .capacity(rs.getInt("capacity"))
+                        .build();
+                resCntMap.put(cno,reservationCntVO);
+            }
+            return resCntMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("예약 가능 인원 조회중 예외 발생");
+        } finally {
+            CONN_UTIL.close(rs,pstmt,conn);
+        }
+    }
+
+    @Override
+    public void deleteResCulture(Long rno, Connection conn) {
+        PreparedStatement pstmt = null;
+        try {
+            String sql = "delete from res_culture where rno = ?";
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,rno);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("예약_행사 테이블 삭제중 예외 발생");
+        } finally {
+            CONN_UTIL.close(pstmt);
+        }
+    }
+
+    @Override
+    public void deleteReservation(Long rno, Connection conn) {
+        PreparedStatement pstmt = null;
+        try {
+            String sql = "delete from reservation where rno = ?";
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,rno);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("예약 테이블 삭제중 예외 발생");
+        } finally {
+            CONN_UTIL.close(pstmt);
+        }
     }
 }

@@ -24,14 +24,12 @@ public class CultureServiceTest {
                 .build();
         PageResponseVO<CultureVO> pageResponseVO = cultureService.getCultures(pageRequestVO);
         List<CultureVO> cultureVOS = pageResponseVO.getPageList();
-        System.out.println("cultures = " + cultureVOS);
         assertEquals(5, cultureVOS.size());
     }
     @Test
     @DisplayName("culture list 조회2")
     void getCulturesTest2(){
         CultureVO cultureVO = cultureService.getCulture(1L);
-        System.out.println("culture = " + cultureVO);
         assertNotNull(cultureVO);
     }
 

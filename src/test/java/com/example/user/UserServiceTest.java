@@ -18,8 +18,7 @@ public class UserServiceTest {
     @DisplayName("유저 조회")
     public void selectTest(){
         Optional<UserVO> result = userService.getUSer("user1");
-        UserVO userVO = result.get();
-        System.out.println(userVO);
+        UserVO userVO = result.orElse(UserVO.builder().build());
         Assertions.assertNotNull(userVO);
     }
 

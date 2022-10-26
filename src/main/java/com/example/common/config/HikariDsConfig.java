@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.sql.DataSource;
 
 @Slf4j
-public class HikariDsConfig {
+public final class HikariDsConfig {
     private final String CLASSNAME = "org.mariadb.jdbc.Driver";
     private final String JDBC_URL = "jdbc:mariadb://localhost:3306/culture_db";
     private final String USERNAME = "root";

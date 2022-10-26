@@ -1,6 +1,6 @@
 package com.example.common.util;
 
-import com.example.common.config.AppConfig;
+import com.example.AppConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
-public class ConnectionUtil {
+public final class ConnectionUtil {
 
     public static final ConnectionUtil CONN_UTIL
             = new ConnectionUtil();
