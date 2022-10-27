@@ -11,6 +11,10 @@ import com.example.culture.dao.JdbcCultureDAO;
 import com.example.culture.service.CultureService;
 import com.example.culture.service.CultureServiceImpl;
 import com.example.culture.vo.CultureVO;
+import com.example.qna.dao.JdbcQnADAO;
+import com.example.qna.dao.QnADAO;
+import com.example.qna.service.QnAService;
+import com.example.qna.service.QnAServiceImpl;
 import com.example.reservation.dao.JdbcReservationDAO;
 import com.example.reservation.dao.ReservationDAO;
 import com.example.reservation.service.ReservationService;
@@ -117,4 +121,18 @@ public final class AppConfig {
     }
 
     ///////////////////////review
+
+    ////////////////////////QnA
+
+    //qnaService
+    public QnAService qnAService(){
+        return new QnAServiceImpl(qnADAO());
+    }
+
+    //qnaDao
+    public QnADAO qnADAO() {
+        return new JdbcQnADAO();
+    }
+
+    ////////////////////////QnA
 }
