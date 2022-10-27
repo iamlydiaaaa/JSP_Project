@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:include page="../common/commonFiles.jsp" flush="true"/>
+<script src="javascript/jquery-3.6.0.min.js"></script>
 <header>
     <div id="header">
         <h1 id="logo"><a href="<c:url value="/project"/>">SEOUL<br>FESTIVAL</a></h1>
