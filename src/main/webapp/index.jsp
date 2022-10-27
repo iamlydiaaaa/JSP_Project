@@ -36,8 +36,7 @@
                    <p class="bg02"></p>
                    <p class="bg03"></p>
                </div>
-               <p class="main_txt">SEOUL FESTIVAL
-                </p>
+               <p class="main_txt">SEOUL FESTIVAL</p>
             </section>
         </div>
     </main>
