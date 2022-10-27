@@ -362,9 +362,8 @@
                 tmp += '<p class="review_list_id"><img src="images/user_default.png" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
                 tmp += '<div><p class="review_list_grade"><span class="grade"><img src="images/star1.png" alt="star">' + review.grade +' / </span></p>'
                 tmp += '<p class="review_list_date"><span class="date">'+review.regDate+'</span></p></div>'
-
                 tmp += '<p class="review_list_content"><span class="content">'+review.content+'</span></p>'
-                tmp += ' <p class="btn_wrap"><button class = "delBtn">삭제</button>'
+                tmp += '<p class="btn_wrap"><button class = "delBtn">삭제</button>'
                 tmp += '<button class = "modBtn">수정</button>'
                 tmp += '</p></li>'
             })//foreach
