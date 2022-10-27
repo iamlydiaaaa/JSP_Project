@@ -1,15 +1,20 @@
-package com.example.common.config;
+package com.example;
 
 
 import com.example.api.ApiProvider;
 import com.example.api.ApiRatePolicy;
 import com.example.api.CultureJsonApiProvider;
 import com.example.api.ProjectApiRatePolicy;
+import com.example.common.config.HikariDsConfig;
 import com.example.culture.dao.CultureDAO;
 import com.example.culture.dao.JdbcCultureDAO;
 import com.example.culture.service.CultureService;
 import com.example.culture.service.CultureServiceImpl;
 import com.example.culture.vo.CultureVO;
+import com.example.reservation.dao.JdbcReservationDAO;
+import com.example.reservation.dao.ReservationDAO;
+import com.example.reservation.service.ReservationService;
+import com.example.reservation.service.ReservationServiceImpl;
 import com.example.review.dao.JdbcReviewDAO;
 import com.example.review.dao.ReviewDAO;
 import com.example.review.service.ReviewService;
@@ -22,7 +27,7 @@ import com.google.gson.Gson;
 
 import javax.sql.DataSource;
 
-public class AppConfig {
+public final class AppConfig {
 
     ///////////////////////ds
 
@@ -31,6 +36,8 @@ public class AppConfig {
         return new HikariDsConfig().config();
     }
 
+    ///////////////////////ds
+
     ///////////////////////gson
 
     //gson
@@ -38,15 +45,19 @@ public class AppConfig {
         return new Gson();
     }
 
+    ///////////////////////gson
+
     ///////////////////////user
 
     //userService
     public UserService userService() {
-        return new UserServiceImpl(userRepository());
+        return new UserServiceImpl(userDAO());
     }
 
+    ///////////////////////user
+
     //userDAO
-    public UserDAO userRepository() {
+    public UserDAO userDAO() {
         return new JdbcUserDAO();
     }
 
@@ -64,20 +75,35 @@ public class AppConfig {
         return new ProjectApiRatePolicy();
     }
 
+    ///////////////////////api
+
     ///////////////////////culture
 
     //cultureService
     public CultureService cultureService(){
-            return new CultureServiceImpl(apiProvider(),apiRatePolicy(),cultureRepository());
+            return new CultureServiceImpl(apiProvider(),apiRatePolicy(), cultureDAO());
     }
 
     //cultureDAO
-    public CultureDAO<CultureVO> cultureRepository() {
+    public CultureDAO<CultureVO> cultureDAO() {
         return new JdbcCultureDAO();
     }
 
+    ///////////////////////culture
+
     ////////////////////////reservation
 
+    //reservationService
+    public ReservationService reservationService() {
+        return new ReservationServiceImpl(reservationDAO(), cultureDAO(),userDAO());
+    }
+
+    //reservationDAO
+    public ReservationDAO reservationDAO() {
+        return new JdbcReservationDAO();
+    }
+
+    ///////////////////////reservation
 
     ////////////////////////review
 
@@ -90,4 +116,6 @@ public class AppConfig {
     public ReviewDAO reviewDAO() {
         return new JdbcReviewDAO();
     }
+
+    ///////////////////////review
 }

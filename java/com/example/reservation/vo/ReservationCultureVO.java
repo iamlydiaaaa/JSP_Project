@@ -1,12 +1,16 @@
 package com.example.reservation.vo;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.Date;
 
-public class Reservation_Culture_VO {
+@Data
+@Builder
+public class ReservationCultureVO {
     private Long rc_no; //pk
-    private String id; // 회원 아이디 fk
-    private Long cno; // 행사번호 fk
-    private int resCount; //~cno.capacity
+    private Long rno;
+    private Long cno;
     private int resPrice;
     private Date resDate;
     private Date regDate;

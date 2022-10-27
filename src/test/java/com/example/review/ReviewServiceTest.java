@@ -1,11 +1,10 @@
 package com.example.review;
 
 
-
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
-import com.example.review.vo.ReviewVO;
 import com.example.review.service.ReviewService;
+import com.example.review.vo.ReviewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +15,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
-import static com.example.common.util.SingletonProvideUtil.*;
+import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 @Slf4j
 public class ReviewServiceTest {
@@ -43,7 +42,7 @@ public class ReviewServiceTest {
     }
     
     @Test
-    @DisplayName("리뷰목록 가져오기")
+    @DisplayName("리뷰목록 가져오기+페이징 테스트")
     public void readReviewsTest() throws Exception {
         //given
         Long cno = 1L;
@@ -80,10 +79,8 @@ public class ReviewServiceTest {
         String updatedContent = "updated Content";
         ReviewVO reviewVO1 = reviewService.getReview(re_no);
         reviewVO1.setContent(updatedContent);
-        System.out.println("reviewVO1 = " + reviewVO1);
         //when
         ReviewVO reviewVO2 = reviewService.updateReview(reviewVO1);
-        System.out.println("reviewVO2 = " + reviewVO2);
         //then
         Assertions.assertEquals(reviewVO2.getContent(),updatedContent);
     }
