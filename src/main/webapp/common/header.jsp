@@ -6,13 +6,13 @@
 <script src="javascript/jquery-3.6.0.min.js"></script>
 <header>
     <div id="header">
-        <h1 id="logo"><a href="/project">SEOUL<br>FESTIVAL</a></h1>
+        <h1 id="logo"><a href="<c:url value="/project"/>">SEOUL<br>FESTIVAL</a></h1>
         <nav id="gnb">
             <ul>
                 <li><a href="#">축제안내</a></li>
                 <li><a href="/project/list">예약하기</a></li>
                 <li><a href="/project/notice">공지사항</a></li>
-                <li><a href="/project/myPage.jsp">마이페이지</a></li>
+                <li><a href="/project/myPage">마이페이지</a></li>
             </ul>
         </nav>
         <div id="header_login">
@@ -40,7 +40,7 @@
             </script>
 
             <a href="/project/logout" class="logined">로그아웃</a>
-            <a href="/project/logout" class="logined">마이페이지</a>
+            <a href="/project/myPage" class="logined">마이페이지</a>
             <a href="/project/login" class="logouted">로그인</a>
             <a href="/project/join" class="logouted">회원가입</a>
         </div>
