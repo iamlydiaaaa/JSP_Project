@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 목록</title>
-    <jsp:include page="common/commonFiles.jsp" flush="true"/>
     <link rel="stylesheet" href="css/sub.css">
     <link rel="stylesheet" href="css/list.css">
 </head>

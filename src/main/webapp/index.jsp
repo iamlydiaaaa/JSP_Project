@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>축제</title>
-    <jsp:include page="common/commonFiles.jsp" flush="true"/>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <script>
@@ -17,7 +16,7 @@
     if(msg!=null&&msg.length>0){
         alert(msg);
         //logined_cookie를 생성
-        setCookie("logined_cookie",msg,7);
+        setCookie("logined_cookie","${sessionScope.user}",7);
     }
     function setCookie(cookieName, value, exdays) {
         var exdate = new Date();
@@ -38,7 +37,6 @@
                    <p class="bg03"></p>
                </div>
                <p class="main_txt">SEOUL FESTIVAL
-                   <a href="<c:url value="/list"/>">list</a>
                 </p>
             </section>
         </div>

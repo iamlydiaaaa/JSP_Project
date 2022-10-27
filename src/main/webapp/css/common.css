@@ -44,7 +44,18 @@ header{width: 100vw; height: 100px; background-color: rgba(241, 241, 241, 0.14);
 .logined{display: none;}
 .logouted{display: block;}
 
-/*--------------------*/
+/*--------input-------------*/
+input{
+    border: 1px solid #e5e5e5;
+    outline: none;
+    padding-left: 10px;
+}
+
+input:focus{
+    outline: 2px solid #e8c5fc;
+}
+
+/*----------오른쪽 퀵 메뉴----------*/
 /*navi menu S*/
 #navi{}
 .quick-menu{width: 65px;height: auto;
@@ -96,5 +107,7 @@ header{width: 100vw; height: 100px; background-color: rgba(241, 241, 241, 0.14);
 }
 .quick-top:hover{
     opacity: 1;}
+
+
 
 

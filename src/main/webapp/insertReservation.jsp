@@ -5,17 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 상세</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/reservation.css">
-    <script src="javascript/calendar.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 
 <body>
-    <script src="javascript/header_sub.js"></script>
+<jsp:include page="common/header.jsp" flush="true"/>
     <main id="reservation">
         <div class="sub_tit_line">
             <ul>
@@ -48,30 +43,8 @@
                                 <li>- 원하는 날짜를 선택하세요.</li>
                                 <li>- 10명 이상은 상담센터를 통해 따로 예약 신청 부탁드립니다.</li>
                             </ul>
-                            <div class="calendar_wrap">
-                                <table class="calendar">
-                                    <thead>
-                                        <tr class="calendar_tit">
-                                            <td onClick="prevCalendar();" style="cursor:pointer;">&#60;&#60;</td>
-                                            <td colspan="5">
-                                                <span id="calYear">YYYY</span>년
-                                                <span id="calMonth">MM</span>월
-                                            </td>
-                                            <td onClick="nextCalendar();" style="cursor:pointer;">&#62;&#62;</td>
-                                        </tr>
-                                        <tr class="calendar_days">
-                                            <td>일</td>
-                                            <td>월</td>
-                                            <td>화</td>
-                                            <td>수</td>
-                                            <td>목</td>
-                                            <td>금</td>
-                                            <td>토</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
+                            <%--     캘린더      --%>
+                            <jsp:include page="common/calendar.jsp" flush="true"/>
                             <p>
                                 <strong>선택한 날짜:</strong>
                                 <span id="cal_getDate">2022/01/01</span>

@@ -103,20 +103,7 @@
 .detail_select_date>div>h2{grid-area: tit;}
 
 /*----캘린더 부분----*/
-.calendar {
-    grid-area: a;
-    text-align:center; border: 1px solid #eaeaea;}
-.calendar td { width:60px;height:50px; line-height: 50px; }
-.calendar td:hover{font-weight: bold;}
 
-.calendar thead td{font-weight: bold;}
-.calendar .calendar_tit td { }
-.calendar .calendar_days td { }
-
-.calendar .choiceDay{
-    background-color: #af28fe;
-    color: #ffffff;
-}
 /*오른쪽*/
 .calendar_desc>form{ grid-area: b;}
 .calendar_desc>form>p{margin-bottom: 20px;width: 500px;}

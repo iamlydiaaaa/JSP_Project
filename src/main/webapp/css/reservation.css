@@ -100,14 +100,10 @@ width: 110px; height: 2px; border-bottom: 1px dashed #c19dd6;
     text-align: center;
     background-color: #fafafa;
 }
-.reservation_user_info table input{ 
-    border: 1px solid #eaeaea;
+.reservation_user_info table input{
     height: 40px;
-    padding-left: 10px;
 }
-.reservation_user_info table input:focus{
-    outline: 2px solid #e8c5fc;
-}
+
 
 
 /*--------세번째----------*/
@@ -146,19 +142,7 @@ width: 110px; height: 2px; border-bottom: 1px dashed #c19dd6;
 /*----캘린더 부분----*/
 .calendar_wrap{width: 400px; display: inline-block;}
 .calendar_wrap>p{display: inline-block;}
-.calendar { 
-    text-align:center; border: 1px solid #eaeaea;}
-.calendar td { width:60px;height:50px; line-height: 50px; }
-.calendar td:hover{font-weight: bold;}
 
-.calendar thead td{font-weight: bold;}
-.calendar .calendar_tit td { }
-.calendar .calendar_days td { }
-
-.calendar .choiceDay{
-    background-color: #af28fe;
-    color: #ffffff;
-}
 /*오른쪽*/
 .calendar_desc>form{ grid-area: b;}
 .calendar_desc>form>p{margin-bottom: 20px;width: 500px;}
