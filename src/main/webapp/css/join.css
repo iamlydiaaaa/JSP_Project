@@ -50,16 +50,12 @@
 .personal_info > p{margin-bottom: 30px;}
 .personal_info > p label{width: 100%; display: block; height: 25px; font-size: 0.9em; position: relative;}
 .personal_info > p label span{ position: absolute; right: 10px; font-size: 0.9em; color: #e76060;}
-.personal_info > p input{border: 1px solid #ccc;  
+.personal_info > p input{
     height: 40px;
     width: 100%;
-    outline: none;
     box-sizing: border-box;
-    text-indent: 15px;
     border-radius: 3px;
 }
-.personal_info > p input:focus{border: 3px solid #ccf; }
-
 /*전화번호 폼*/
 .personal_info .tel_wrap input{width: 154px; text-align: center; text-indent: 0;}
 
