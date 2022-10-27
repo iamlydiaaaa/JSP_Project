@@ -83,7 +83,9 @@
 .u_txt label{position: absolute; left: 15px; top: 15px; color: #aaa;
     transition: all 0.3s;
 }
-.u_txt .focus{font-size: 0.7em; top: 0px; color: #8117fe; }
+.u_txt input{border: none;}
+
+.u_txt .focus{font-size: 0.7em; top: 0px; color: #8117fe;}
 
 /*    로그인버튼*/
 #btn_wrap1,
@@ -147,6 +149,10 @@
     height: 0;
     overflow: hidden;
 }
+#chk1:focus, #chk2:focus{
+    border: none;
+}
+
 
 label.type01 {
     background: url(../images/bg_checkbox.png) no-repeat 0 0;

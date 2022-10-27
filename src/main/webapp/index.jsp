@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>축제</title>
-    <jsp:include page="common/commonFiles.jsp" flush="true"/>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <script>
@@ -37,9 +36,7 @@
                    <p class="bg02"></p>
                    <p class="bg03"></p>
                </div>
-               <p class="main_txt">SEOUL FESTIVAL
-
-                </p>
+               <p class="main_txt">SEOUL FESTIVAL</p>
             </section>
         </div>
     </main>

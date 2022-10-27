@@ -1,20 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kimnamhyun
-  Date: 2022/10/19
-  Time: 1:09 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
     <title>${culture.getSvc_nm()}</title>
-    <jsp:include page="common/commonFiles.jsp" flush="true"/>
+
     <link rel="stylesheet" href="css/sub.css">
     <link rel="stylesheet" href="css/detail.css">
-    <script src="javascript/calendar.js"></script>
+    <script src="javascript/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <jsp:include page="common/header.jsp" flush="true"/>
@@ -74,30 +67,7 @@
         <section class="detail_select_date">
             <div>
                 <h2>날짜 확인</h2>
-                <div class="calendar_wrap">
-                    <table class="calendar">
-                        <thead>
-                        <tr class="calendar_tit">
-                            <td onClick="prevCalendar();" style="cursor:pointer;">&#60;&#60;</td>
-                            <td colspan="5">
-                                <span id="calYear">YYYY</span>년
-                                <span id="calMonth">MM</span>월
-                            </td>
-                            <td onClick="nextCalendar();" style="cursor:pointer;">&#62;&#62;</td>
-                        </tr>
-                        <tr class="calendar_days">
-                            <td>일</td>
-                            <td>월</td>
-                            <td>화</td>
-                            <td>수</td>
-                            <td>목</td>
-                            <td>금</td>
-                            <td>토</td>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+                <jsp:include page="common/calendar.jsp" flush="true"/>
                 <div class="calendar_desc">
                     <form action="/project/insertReservation.html" method="post">
                         <p class="select_date">
@@ -202,13 +172,6 @@
             </div>
         </section>
     </div>
-<%--    <form action="<c:url value="/detail"/>" method="post">--%>
-<%--        <input type='date' name='res_dt'/>    &lt;%&ndash;res_dt=2022-10-29&ndash;%&gt;--%>
-<%--        <input type="hidden" name="cno" value="${requestScope.culture.getCno()}"/>--%>
-<%--        <input type="hidden" name="id" value="${sessionScope.user}"/>--%>
-<%--        <button type="submit" onclick="return confirm('예약 하시겠습니까?')">전송</button>--%>
-<%--    </form>--%>
-
     <script>
         function count(type)  {
             // 결과를 표시할 element

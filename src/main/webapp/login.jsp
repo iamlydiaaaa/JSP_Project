@@ -10,43 +10,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
-  <jsp:include page="common/commonFiles.jsp" flush="true"/>
   <link rel="stylesheet" href="css/login.css">
+  <script src="javascript/jquery-3.6.0.min.js"></script>
   <script src="javascript/login_cookie.js"></script>
-  <script>
-    $(document).ready(function() {
-
-      //아이디/비밀번호에 포커스하면 텍스트 효과
-      $(".u_txt input").focus(function() {
-        $(this).siblings("label").addClass("focus");
-      }).blur(function() {
-        if ($(this).val() == "") {
-          $(this).siblings("label").removeClass("focus");
-        } else {
-          $(this).siblings("label").addClass("focus");
-        }
-      })
-
-      //아이디저장, 로그인상태 유지
-      $("#chk1,#chk2").change(function() {
-        var chk1 = $("#chk1").prop("checked");
-        var chk2 = $("#chk2").prop("checked");
-
-        if (chk1) {
-          $(".type02").addClass("checked");
-        } else {
-          $(".type02").removeClass("checked");
-        }
-
-        if (chk2) {
-          $(".type03").addClass("checked");
-        } else {
-          $(".type03").removeClass("checked");
-        }
-      })
-
-    })
-  </script>
 </head>
 <body>
 <jsp:include page="common/header.jsp" flush="true"/>
@@ -99,9 +65,41 @@
       </div><!-- login_con -->
     </div>
   </main>
-  <!--        FOOTER 불러오기 -->
-  <script src="common/footer.js"></script>
-  <!--        FOOTER 불러오기 끝-->
 </div>
+</body>
 
-</body></html>
+<script>
+  $(document).ready(function() {
+
+    //아이디/비밀번호에 포커스하면 텍스트 효과
+    $(".u_txt input").focus(function() {
+      $(this).siblings("label").addClass("focus");
+    }).blur(function() {
+      if ($(this).val() == "") {
+        $(this).siblings("label").removeClass("focus");
+      } else {
+        $(this).siblings("label").addClass("focus");
+      }
+    })
+
+    //아이디저장, 로그인상태 유지
+    $("#chk1,#chk2").change(function() {
+      var chk1 = $("#chk1").prop("checked");
+      var chk2 = $("#chk2").prop("checked");
+
+      if (chk1) {
+        $(".type02").addClass("checked");
+      } else {
+        $(".type02").removeClass("checked");
+      }
+
+      if (chk2) {
+        $(".type03").addClass("checked");
+      } else {
+        $(".type03").removeClass("checked");
+      }
+    })
+
+  })
+</script>
+</html>

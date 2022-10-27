@@ -5,17 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 상세</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/reserveResult.css">
-    <script src="javascript/calendar.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-    <script src="javascript/header_sub.js"></script>
+<jsp:include page="common/header.jsp" flush="true"/>
     <main id="reservation">
         <div class="sub_tit_line">
             <ul>

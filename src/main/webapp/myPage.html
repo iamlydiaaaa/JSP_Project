@@ -6,13 +6,43 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/sub.css">
+    <link rel="stylesheet" href="css/myPage.css">
 </head>
 
 <body>
-    <script src="javascript/header_sub.js"></script>
-    <main id="my_page">
-
-       마이페이지
-
+<jsp:include page="common/header.jsp" flush="true"/>
+    <main id="mypage">
+        <div class="sub_tit_line">
+            <ul>
+                <li class="sub_tit_home"><a href="#">H</a></li>
+                <li><a href="#">마이페이지</a></li>
+                <li><a href="#"></a></li>
+            </ul>
+        </div>
+        <!--     상세페이지 영역       -->
+        <div class="container_wrap">
+            <h2 class="mypage_tit">마이페이지</h2>
+            <section class="mypage_list">
+                <ul>
+                    <li class="on profile"><img src="images/user_default.png" alt=""/><h4>김진경</h4></li>
+                    <li><a href="#">회원 정보 관리</a></li>
+                    <li><a href="#">예약 관리</a></li>
+                    <li><a href="#">1:1 문의 내역</a></li>
+                </ul>
+            </section>
+            <section class="mypage_container">
+                <div>
+                    <h3>내 정보</h3>
+                    <table>
+                        <tr><td>이름</td><td><input type="text"></td></tr>
+                        <tr><td>전화번호</td><td><input type="text"></td></tr>
+                        <tr><td>이메일</td><td><input type="text"></td></tr>
+                        <tr><td>주소</td><td><input type="text"></td></tr>
+                    </table>
+                </div>               
+            </section>
+            
+        </div>
     </main>
+
 </body></html>
