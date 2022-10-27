@@ -24,10 +24,6 @@ public interface ReservationDAO {
 
 
     //조회관련 메서드
-//    Integer selectCultureResCapacity(Long cno);
-//
-//    List<Integer> selectGroupResCulture(Long cno);
-
     Map<Long,List<ReservationCntVO>> selectReservationCnt(Long cno);
     //조회관련 메서드
 

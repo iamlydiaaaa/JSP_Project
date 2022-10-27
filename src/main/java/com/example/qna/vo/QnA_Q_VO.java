@@ -14,4 +14,6 @@ public class QnA_Q_VO {
     private Date regDate;
     private String title;
     private String content;
+    //조회수
+    //댓글카운트
 }

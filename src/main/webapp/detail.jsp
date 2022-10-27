@@ -347,6 +347,7 @@
         }//writeReivew
 
         let updateReview = function(reviewVO) {
+            alert(reviewVO)
             $.ajax({
                 url: '/project/review/'+reviewVO.re_no,
                 type: 'PUT',
@@ -411,12 +412,6 @@
             }
             return tmp;
         }
-
-    if($("#comment").val().trim()==''){ // 입력이 없을때 검증용
-      alert('댓글을 입력해주세요');
-      $("#comment").focus();
-    }
-
     </script>
 </main>
 </body>

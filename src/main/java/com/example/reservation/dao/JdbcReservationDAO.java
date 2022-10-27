@@ -116,57 +116,6 @@ public class JdbcReservationDAO implements ReservationDAO {
         return null;
     }
 
-//    @Override
-//    public Integer selectCultureResCapacity(Long cno) {
-//        Connection conn = null;
-//        PreparedStatement pstmt = null;
-//        ResultSet rs = null;
-//        try {
-//            String sql = "select capacity from culture_res where cno = ?";
-//            conn = CONN_UTIL.getConnection();
-//            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
-//            pstmt.setLong(1,cno);
-//            rs = pstmt.executeQuery();
-//            if(rs.next()){
-//                return rs.getInt(1);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("capacity 조회중 예외 발생");
-//        } finally {
-//            CONN_UTIL.close(rs,pstmt,conn);
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public List<Integer> selectGroupResCulture(Long cno) {
-//        Connection conn = null;
-//        PreparedStatement pstmt = null;
-//        ResultSet rs = null;
-//        try {
-//            String sql = "select count(*) from res_culture " +
-//                    "where cno = ? " +
-//                    "group by resDate " +
-//                    "order by resDate asc";
-//            conn = CONN_UTIL.getConnection();
-//            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
-//            pstmt.setLong(1,cno);
-//            rs = pstmt.executeQuery();
-//            List<Integer> list = new ArrayList<>();
-//            while(rs.next()) {
-//                list.add(rs.getInt(1));
-//            }
-//            return list;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("rescultrue group by cno , resDate 조회중 예외 발생");
-//        } finally {
-//            CONN_UTIL.close(rs,pstmt,conn);
-//        }
-//    }
-
-
     @Override
     public List<Long> selectAllRnoById(String id,Connection conn) {
         PreparedStatement pstmt = null;
