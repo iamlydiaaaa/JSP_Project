@@ -250,4 +250,4 @@
 
 
 /*-------리뷰 글이 없을 경우 대체값---------*/
-.review_default{height: 200px; text-align: center; background-color: #f1f1f1; font-weight: bold; color: #999; line-height: 200px;}
+.review_default{display: none; height: 200px; text-align: center; background-color: #f1f1f1; font-weight: bold; color: #999; line-height: 200px;}

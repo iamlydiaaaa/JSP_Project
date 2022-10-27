@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>공지사항</title>
     <jsp:include page="common/commonFiles.jsp" flush="true"/>
+    <script src="javascript/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="css/sub.css">
 </head>
 

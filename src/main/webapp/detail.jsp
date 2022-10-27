@@ -148,11 +148,11 @@
                 </div>
 
                 <!--리뷰 리스트-->
+                <p class="review_default">
+                    아직 등록된 리뷰가 없습니다. 지금 첫 리뷰를 작성해 보세요.
+                </p>
                 <div id="reviewList" data-cno="${requestScope.culture.getCno()}" data-id="${sessionScope.user}">
                     <ul>
-                        <li class="review_default">
-                            아직 등록된 리뷰가 없습니다. 지금 첫 리뷰를 작성해 보세요.
-                        </li>
                         <li>
                             <p class="review_list_id"><img src="images/user_default.png" alt="사용자프로필" width="35" /><span class="id">jinkyeong1004</span></p>
 
@@ -166,7 +166,6 @@
                                 <button class="delBtn">삭제</button>
                             </p>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -178,6 +177,7 @@
             const resultElement = document.getElementById('useNum');
             let number = resultElement.value;
 
+            //인원이 0~10명 사이에서만 신청 가능하도록 조정
             if(type === 'plus') {
                 number = parseInt(number) + 1;
                 if(number > 10){number = 10; alert('10인 이상은 단체 문의 부탁드립니다.');}
@@ -268,6 +268,12 @@
 
                 success : function(result){
                     //result = pageresponse
+
+                    if(result.total === 0){
+                        $(".review_default").css("display","block");
+                    } else{
+                        $(".review_default").css("display","none");
+                    }
                     $("#reviewList").html(toHtml(result));
                 },
                 error: function() {
