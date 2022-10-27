@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 예약행사 테이블
+ */
 @Data
 @Builder
 public class ReservationCultureVO {

@@ -54,13 +54,12 @@ public final class AppConfig {
         return new UserServiceImpl(userDAO());
     }
 
-    ///////////////////////user
-
     //userDAO
     public UserDAO userDAO() {
         return new JdbcUserDAO();
     }
 
+    ///////////////////////user
 
     ///////////////////////api
 

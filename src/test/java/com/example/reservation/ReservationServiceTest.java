@@ -32,8 +32,8 @@ public class ReservationServiceTest {
         Long cno = 30L; // 유료 6000 10-25 ~ 11-11
         Date resDate = java.sql.Timestamp.valueOf(LocalDate.of(2022,10,25).atStartOfDay());
         //when,then
-//        assertTrue(copied_reservation(id,cno,resDate));
-        reservationService.reservation(id,cno,resDate);
+        assertTrue(copied_reservation(id,cno,resDate));
+//        reservationService.reservation(id,cno,resDate);
     }
 
     @Test

@@ -172,13 +172,6 @@
             </div>
         </section>
     </div>
-<%--    <form action="<c:url value="/detail"/>" method="post">--%>
-<%--        <input type='date' name='res_dt'/>    &lt;%&ndash;res_dt=2022-10-29&ndash;%&gt;--%>
-<%--        <input type="hidden" name="cno" value="${requestScope.culture.getCno()}"/>--%>
-<%--        <input type="hidden" name="id" value="${sessionScope.user}"/>--%>
-<%--        <button type="submit" onclick="return confirm('예약 하시겠습니까?')">전송</button>--%>
-<%--    </form>--%>
-
     <script>
         function count(type)  {
             // 결과를 표시할 element
@@ -222,9 +215,9 @@
                 //2. 수정에 필요한 content,grade
                 let data_cno = $("#reviewList").attr("data-cno");
                 let data_content = $(this).siblings(':eq(1)').text();
-                let data_grade = $(this).parent().attr("data-grade");
+                let data_grade = $(this).parent().parent().attr("data-grade");
                 //3. 검증에 필요한 re_no
-                let data_re_no = $(this).parent().attr("data-re_no");
+                let data_re_no = $(this).parent().parent().attr("data-re_no");
                 //4. 현재 리뷰 내용 textarea에 표시 + 평점도 표시
                 $("textarea[name=content]").val(data_content);
                 $("input[name=grade]").val(data_grade);
@@ -243,7 +236,7 @@
             //리뷰삭제버튼 클릭이벤트
             $("#reviewList").on("click",".delBtn",function(){ //아래의 클래스 modBtn클릭
                 //1. 삭제,검증에 필요한 re_no
-                let re_no = $(this).parent().attr("data-re_no");
+                let re_no = $(this).parent().parent().attr("data-re_no");
                 //2. 목록 불러오기에 필요한 cno
                 let cno = $("#reviewList").attr("data-cno");
                 deleteReview(re_no,cno);
@@ -317,6 +310,7 @@
         }//writeReivew
 
         let updateReview = function(reviewVO) {
+            alert(reviewVO.re_no)
             $.ajax({
                 url: '/project/review/'+reviewVO.re_no,
                 type: 'PUT',
@@ -380,7 +374,6 @@
             }
             return tmp;
         }
-
     </script>
 </main>
 </body>

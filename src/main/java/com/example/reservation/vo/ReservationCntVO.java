@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 예약행사 신청 인원 정보 클래스
+ */
 @Data
 @Builder
 public class ReservationCntVO {

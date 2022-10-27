@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 조회를 위한 예약정보 클래스
+ */
 @Data
 @Builder
 public class ReservationVO {
