@@ -179,11 +179,12 @@ public class JdbcQnADAO implements QnADAO{
                         .builder()
                         .qano(rs.getLong(1))
                         .qqno(rs.getLong(2))
-                        .title(rs.getString(3))
-                        .content(rs.getString(4))
-                        .regDate(new Date(rs.getDate(5).getTime()))
-                        .updateDate(new Date(rs.getDate(6).getTime()))
+                        .content(rs.getString(3))
+                        .regDate(new Date(rs.getDate(4).getTime()))
                         .build();
+                if(rs.getDate(5)!=null){
+                    qnaa.setUpdateDate(new Date(rs.getDate(5).getTime()));
+                }
                 qnaaList.add(qnaa);
             }
             return PageResponseVO.<QnA_A_VO>withAll()
@@ -334,17 +335,16 @@ public class JdbcQnADAO implements QnADAO{
     }
 
     @Override
-    public Integer insertQnA_A(QnA_A_VO qnaa, String adminId) {
+    public Integer insertQnA_A(QnA_A_VO qnaa) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
-            String sql = "insert into QnA_A (qqno, title, content)\n" +
-                    "values (?,?,?)";
+            String sql = "insert into QnA_A (qqno, content)\n" +
+                    "values (?,?)";
             conn = CONN_UTIL.getConnection();
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,qnaa.getQqno());
-            pstmt.setString(2, qnaa.getTitle());
-            pstmt.setString(3,qnaa.getContent());
+            pstmt.setString(2,qnaa.getContent());
             return pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -355,18 +355,17 @@ public class JdbcQnADAO implements QnADAO{
     }
 
     @Override
-    public QnA_A_VO updateQnAA(QnA_A_VO qnaa, String adminId) {
+    public QnA_A_VO updateQnAA(QnA_A_VO qnaa) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
             String sql = "update QnA_A\n" +
-                    "set title = ? , content = ? , updateDate = now() \n" +
+                    "set content = ? , updateDate = now() \n" +
                     "where qano = ?";
             conn = CONN_UTIL.getConnection();
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
-            pstmt.setString(1,qnaa.getTitle());
-            pstmt.setString(2,qnaa.getContent());
-            pstmt.setLong(3,qnaa.getQano());
+            pstmt.setString(1,qnaa.getContent());
+            pstmt.setLong(2,qnaa.getQano());
             pstmt.executeUpdate();
             //
             qnaa.setUpdateDate(new Date());
@@ -380,7 +379,7 @@ public class JdbcQnADAO implements QnADAO{
     }
 
     @Override
-    public Integer deleteQnA_A(Long qano, String adminId) {
+    public Integer deleteQnA_A(Long qano) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -395,5 +394,38 @@ public class JdbcQnADAO implements QnADAO{
         } finally {
             CONN_UTIL.close(pstmt,conn);
         }
+    }
+
+    @Override
+    public QnA_A_VO selectOneQnAA(Long qano) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from QnA_A where qano = ?";
+            conn = CONN_UTIL.getConnection();
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,qano);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                 QnA_A_VO qnaA = QnA_A_VO
+                        .builder()
+                        .qano(rs.getLong(1))
+                        .qqno(rs.getLong(2))
+                        .content(rs.getString(3))
+                        .regDate(new Date(rs.getDate(4).getTime()))
+                        .build();
+                if(rs.getDate(5)!=null){
+                    qnaA.setUpdateDate(new Date(rs.getDate(5).getTime()));
+                }
+                return qnaA;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("selectOneQnAA 실패");
+        } finally {
+            CONN_UTIL.close(rs,pstmt,conn);
+        }
+        return null;
     }
 }

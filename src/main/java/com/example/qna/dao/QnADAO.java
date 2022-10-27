@@ -40,12 +40,13 @@ public interface QnADAO {
      * 관리자댓글
      */
     //작성
-    Integer insertQnA_A(QnA_A_VO qnaa,String adminId);
+    Integer insertQnA_A(QnA_A_VO qnaa);
     //수정
-    QnA_A_VO updateQnAA(QnA_A_VO qnaa,String adminId);
+    QnA_A_VO updateQnAA(QnA_A_VO qnaa);
     //삭제(관리자권한 글목록 삭제)
     //메서드 재활용
     //삭제(댓글 삭제)
-    Integer deleteQnA_A(Long qano,String adminId);
+    Integer deleteQnA_A(Long qano);
+    QnA_A_VO selectOneQnAA(Long qano);
 
 }

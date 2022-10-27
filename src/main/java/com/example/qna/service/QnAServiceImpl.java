@@ -67,6 +67,14 @@ public class QnAServiceImpl implements QnAService {
     }
 
     /**
+     * qna 조회
+     */
+    @Override
+    public PageResponseVO<QnA_A_VO> getQnAAList(Long qqno, PageRequestVO pageRequestVO) {
+        return qnADAO.selectAllQnAA(qqno,pageRequestVO);
+    }
+
+    /**
      * qna 검색
      */
     @Override
@@ -102,23 +110,28 @@ public class QnAServiceImpl implements QnAService {
      * qna 댓글 작성
      */
     @Override
-    public boolean wirteQnAA(QnA_A_VO qnaa,String adminId) {
-        return qnADAO.insertQnA_A(qnaa,adminId)==1;
+    public boolean wirteQnAA(QnA_A_VO qnaa) {
+        return qnADAO.insertQnA_A(qnaa)==1;
     }
 
     /**
      * qna 댓글 수정
      */
     @Override
-    public QnA_A_VO modify(QnA_A_VO qnaa,String adminId) {
-        return qnADAO.updateQnAA(qnaa,adminId);
+    public QnA_A_VO modify(QnA_A_VO qnaa) {
+        return qnADAO.updateQnAA(qnaa);
     }
 
     /**
      * qna 댓글 삭제
      */
     @Override
-    public boolean removeQnAA(Long qano,String adminId) {
-        return qnADAO.deleteQnA_A(qano,adminId)==1;
+    public boolean removeQnAA(Long qano) {
+        return qnADAO.deleteQnA_A(qano)==1;
+    }
+
+    @Override
+    public QnA_A_VO getQnAA(Long qano) {
+        return qnADAO.selectOneQnAA(qano);
     }
 }

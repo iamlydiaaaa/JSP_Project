@@ -15,6 +15,9 @@ public interface QnAService {
     //개별 qna_q 조회 // 해당 qna_a 가져오기는 ajax호출
     QnA_Q_VO getQnaQ(Long qqno);
 
+    //개별 qna_q 댓글 가져오기
+    PageResponseVO<QnA_A_VO> getQnAAList(Long qqno,PageRequestVO pageRequestVO);
+
     //qna_q 검색
     PageResponseVO<QnA_Q_VO> searchedGetQnAQList(String type,String keyword,PageRequestVO pageRequestVO);
 
@@ -32,9 +35,11 @@ public interface QnAService {
      * 관리자
      */
     //답변작성
-    boolean wirteQnAA(QnA_A_VO qnaa,String adminId);
+    boolean wirteQnAA(QnA_A_VO qnaa);
+    //단일조회
+    QnA_A_VO getQnAA(Long qano);
     //수정
-    QnA_A_VO modify(QnA_A_VO qnaa,String adminId);
+    QnA_A_VO modify(QnA_A_VO qnaa);
     //삭제
-    boolean removeQnAA(Long qano,String adminId);
+    boolean removeQnAA(Long qano);
 }
