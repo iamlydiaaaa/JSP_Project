@@ -56,10 +56,4 @@ public class CultureListController extends CultureController {
 
         }
     }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("CultureListController.doPost");
-        //리스트 조회하는 서비스 호출
-    }
 }

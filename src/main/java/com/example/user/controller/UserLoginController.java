@@ -24,7 +24,7 @@ public class UserLoginController extends UserController {
         log.info("login get ...");
         HttpSession session = req.getSession();
         Cookie[] cookies = req.getCookies();
-        req.getRequestDispatcher("login.jsp")
+        req.getRequestDispatcher("WEB-INF/view/user/login.jsp")
                 .forward(req, resp);
     }
 

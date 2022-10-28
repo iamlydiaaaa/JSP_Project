@@ -8,8 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link rel="stylesheet" href="css/join.css">
-    <script src="javascript/agreetxt.js"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/join.css"/>">
+<%--    <script src="<c:url value="/resources/javascript/agreetxt.js"/>"></script>--%>
     <script>
         $(document).ready(function() {
             //아이디/비밀번호에 포커스하면 텍스트 효과
@@ -60,7 +60,7 @@
     </script>
 </head>
 <body>
-    <jsp:include page="common/header.jsp" flush="true"/>
+    <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
    <script>
        let query = window.location.search;
        let param = new URLSearchParams(query);
@@ -70,7 +70,7 @@
        }
    </script>
     <div id="wrap">
-        <script src="common/header_sub.js"></script>
+        <script src="<c:url value="/resources/javascript/header_sub.js"/>"></script>
 
         <main id="main">
             <div id="join_wrap">
@@ -151,7 +151,7 @@
             </div>
         </main>
         <!--        FOOTER 불러오기 -->
-        <script src="common/footer.js"></script>
+<%--        <script src="<c:url value="/resources/javascript/footer.js"/>"></script>--%>
         <!--        FOOTER 불러오기 끝-->
     </div>
 

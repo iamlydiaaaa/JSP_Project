@@ -6,12 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 목록</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/list.css">
+    <link rel="stylesheet" href="<c:url value="/resources/css/sub.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/list.css"/>">
 </head>
 
 <body>
-    <jsp:include page="/common/header.jsp" flush="true"/>
+    <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
     <script>
         let query = window.location.search;
         let param = new URLSearchParams(query);
@@ -54,20 +54,20 @@
                     <ul>
                         <c:if test="${requestScope.pageResponse.isShowPrev()}">
                             <li class="nav_prev">
-                                <a href="/project/list?page=${requestScope.pageResponse.page-1}&size=${requestScope.pageResponse.size}">
+                                <a href="<c:url value="/list?page=${requestScope.pageResponse.page-1}&size=${requestScope.pageResponse.size}"/>">
                                     [PREV]
                                 </a>
                             </li>
                         </c:if>
                         <c:forEach begin="${requestScope.pageResponse.start}" end="${requestScope.pageResponse.end}" var="num">
                             <li>
-                                <a href="/project/list?page=${num}&size=${requestScope.pageResponse.size}"
+                                <a href="<c:url value="list?page=${num}&size=${requestScope.pageResponse.size}"/>"
                                    class="${num==requestScope.pageResponse.page?'sel':''}">${num} </a>
                             </li>
                         </c:forEach>
                         <c:if test="${requestScope.pageResponse.isShowNext()}">
                             <li class="nav_next">
-                                <a href="/project/list?page=${requestScope.pageResponse.page+1}&size=${requestScope.pageResponse.size}">
+                                <a href="<c:url value="list?page=${requestScope.pageResponse.page+1}&size=${requestScope.pageResponse.size}"/>">
                                     [NEXT]
                                 </a>
                             </li>

@@ -10,10 +10,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
 <head>
+
     <title>Q&A 게시판</title>
-    <jsp:include page="/common/commonFiles.jsp" flush="true"/>
-    <script src="${pageContext.request.contextPath}/javascript/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub.css">
+    <jsp:include page="/WEB-INF/view/common/commonFiles.jsp" flush="true"/>
+    <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/sub.css"/>">
 </head>
 <script>
     let query = window.location.search;
@@ -32,7 +33,7 @@
     }
 </script>
 <body>
-<jsp:include page="/common/header.jsp" flush="true"/>
+<jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
 <main id="notice">
     <!--    서브메뉴 타이틀 영역    -->
     <div class="sub_tit_line">

@@ -7,13 +7,13 @@
 <head>
     <meta charset="UTF-8">
     <title>공지사항</title>
-    <jsp:include page="common/commonFiles.jsp" flush="true"/>
-    <script src="javascript/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="css/sub.css">
+    <jsp:include page="/WEB-INF/view/common/commonFiles.jsp" flush="true"/>
+    <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/sub.css"/>">
 </head>
 
 <body>
-    <jsp:include page="common/header.jsp" flush="true"/>
+    <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
     <main id="notice">
         <!--    서브메뉴 타이틀 영역    -->
         <div class="sub_tit_line">
