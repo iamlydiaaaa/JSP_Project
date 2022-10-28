@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 상세</title>
-    <link rel="stylesheet" href="css/reserveResult.css">
+    <link rel="stylesheet" href="../../../css/reserveResult.css">
     <script src="javascript/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-<jsp:include page="common/header.jsp" flush="true"/>
+<jsp:include page="../../../common/header.jsp" flush="true"/>
     <main id="reservation">
         <div class="sub_tit_line">
             <ul>
