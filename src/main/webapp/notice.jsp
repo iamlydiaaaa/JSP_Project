@@ -16,18 +16,21 @@
     <jsp:include page="common/header.jsp" flush="true"/>
     <main id="notice">
         <!--    서브메뉴 타이틀 영역    -->
-        <div class="sub_tit_wrap">
-            <div class="sub_tit_inner">
-                <h2>공지사항</h2>
-            </div>
+        <div class="sub_tit_line">
+            <ul>
+                <li class="sub_tit_home"><a href="/project">H</a></li>
+                <li><a href="/project/notice">공지 목록</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
         </div>
+        <h2 class="sub_h2_tit">고객센터</h2>
         <!--        게시판 시작   -->
         <div class="container_wrap">
             <!--     공지 카테고리 영역       -->
             <div class="container_inner">
                 <ul class="notice_category">
-                    <li><a href="#">공지사항1</a></li>
-                    <li><a href="#">공지사항2</a></li>
+                    <li class="on"><a href="${pageContext.request.contextPath}/notice.jsp">공지사항</a></li>
+                    <li><a href="${pageContext.request.contextPath}/qnaList">1:1 상담</a></li>
                 </ul>
             </div>
              <!--     게시판 검색 영역       -->
@@ -48,6 +51,7 @@
                         <td class="bo_date">2022-10-12</td>
                     </tr>
                 </table>
+
             </div>
         </div>
     </main>
