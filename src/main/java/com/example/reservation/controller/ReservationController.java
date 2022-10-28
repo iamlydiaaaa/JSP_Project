@@ -16,7 +16,6 @@ import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 @Slf4j
 public class ReservationController extends HttpServlet {
 
-    // **************************예약가능인원수,예약가능날짜,중복시간체크는 컨트롤러에서 검증해야함**********************************
 
     ReservationService reservationService = SINGLETON_UTIL.reservationService();
 
