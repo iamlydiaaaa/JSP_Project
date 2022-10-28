@@ -11,9 +11,10 @@ public class QnA_Q_VO {
 
     private Long qqno;//QnA_Q pk
     private String id;//유저아이디
-    private Date regDate;
     private String title;
     private String content;
-    //조회수
-    //댓글카운트
+    private Integer cnt; //조회수
+    private Integer commentCnt; //댓글카운트
+    private Date regDate;
+    private Date updateDate;
 }

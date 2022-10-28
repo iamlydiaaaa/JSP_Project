@@ -46,6 +46,9 @@ public class UserLoginController extends UserController {
                 //로그인 성공후 로그인 유지 기능이 체크되어 있으면
                 if("2".equals(chk2)){
                     msg = URLEncoder.encode(id+" 로그인 기억", StandardCharsets.UTF_8);
+                    Cookie cookie = new Cookie("logined_cookie",id);
+                    cookie.setMaxAge(60*60*24*7);
+                    resp.addCookie(cookie);
                 }
                 //관리자모드
                 if ("admin".equals(id)) {
@@ -56,7 +59,12 @@ public class UserLoginController extends UserController {
                     session.setAttribute("user", id);
                 }
                 //로그인 성공시 홈으로 리다이렉트
-                resp.sendRedirect("/project?msg="+msg);
+                if(msg.length()>0){
+                    resp.sendRedirect("/project?msg="+msg);
+                }
+                else{
+                    resp.sendRedirect("/project");
+                }
             }//if
             else{
                 throw new SQLDataException("로그인 실패");

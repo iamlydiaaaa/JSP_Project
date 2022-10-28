@@ -3,6 +3,7 @@ package com.example.common.util;
 
 import com.example.AppConfig;
 import com.example.culture.service.CultureService;
+import com.example.qna.service.QnAService;
 import com.example.reservation.service.ReservationService;
 import com.example.review.service.ReviewService;
 import com.example.user.service.UserService;
@@ -51,6 +52,13 @@ public final class SingletonProvideUtil {
     //reviewService
     public ReviewService reviewService(){
         return appConfig.reviewService();
+    }
+
+    ////////////////////QnA
+
+    //qnaService
+    public QnAService qnAService() {
+        return appConfig.qnAService();
     }
 
 }
