@@ -109,11 +109,13 @@
 .select_date>input{width: 50px;}
 .select_number{}
 .select_number>strong{}
-.select_number>span{height: 38px; border-radius: 5px; overflow: hidden; }
-.select_number>span>*{ width: 40px; height: 38px;
+.select_number>.select_number_val{
+    /*height: 38px; */
+    border-radius: 5px; overflow: hidden; }
+.select_number>.select_number_val>*{ width: 40px; height: 38px;
     line-height: 38px; text-align: center;
 }
-.select_number input:nth-child(odd){color: #fff; background-color: #6c6c6c; font-weight: bold; font-size: 18px; cursor: pointer;}
+.select_number .select_number_val input:nth-of-type(odd){color: #fff; background-color: #6c6c6c; font-weight: bold; font-size: 18px; cursor: pointer;}
 
 /*예약하기 버튼*/
 .btn_reservation{}
@@ -238,6 +240,26 @@
 #reviewList .modBtn{margin-right: 10px;}
 #reviewList .delBtn{}
 
+#description{
+    max-width: 1200px;
+    text-align: center;
+    line-height: 1.8em;
+}
+#description strong{
+    color: #7c29de;
+}
+#description table{
+    margin: 20px auto;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+#description table tr{
+    height: 40px;
+}
+#description table td{
+    border: 1px solid #ccc;
+    vertical-align: middle;
+}
 
 /*-------리뷰 글이 없을 경우 대체값---------*/
 .review_default{display: none; height: 200px; text-align: center; background-color: #f1f1f1; font-weight: bold; color: #999; line-height: 200px;}

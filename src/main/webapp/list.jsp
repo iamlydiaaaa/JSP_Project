@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <jsp:include page="${pageContext.request.contextPath}/common/header.jsp" flush="true"/>
+    <jsp:include page="common/header.jsp" flush="true"/>
     <script>
         let query = window.location.search;
         let param = new URLSearchParams(query);
@@ -21,17 +21,27 @@
         }
     </script>
     <main id="festival_list">
-        <div class="sub_tit_wrap">
-            <div class="sub_tit_inner">
-                <h2>2022 행사 예약</h2>
-            </div>
+        <div class="sub_tit_line">
+            <ul>
+                <li class="sub_tit_home"><a href="${pageContext.request.contextPath}/">H</a></li>
+                <li><a href="${pageContext.request.contextPath}/list">행사 예약</a></li>
+                <li><a href="#">행사 목록</a></li>
+            </ul>
         </div>
+    <div class="sub_tit_wrap">
+          <div class="sub_tit_inner">
+              <h2>2022 행사 예약</h2>
+          </div>
+      </div>
+
         <!--     게시판 검색 영역       -->
         <div class="container_wrap">
             <div id="search_wrap">
-                <input type="text" name="list_search" value="검색어 입력" class="list_search">
+
+                <input type="text" name="list_search" placeholder="검색어 입력" class="list_search">
                 <button type="submit" id="list_search_btn">검색</button>
             </div>
+            <!--     목록 영역       -->
             <ul id="list_wrap">
                 <c:forEach items="${requestScope.pageResponse.getPageList()}" var="culture">
                     <li>

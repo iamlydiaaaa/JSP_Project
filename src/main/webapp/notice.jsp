@@ -19,39 +19,66 @@
         <div class="sub_tit_line">
             <ul>
                 <li class="sub_tit_home"><a href="/project">H</a></li>
-                <li><a href="/project/notice">공지 목록</a></li>
-                <li><a href="#">고객센터</a></li>
+                <li><a href="/project/notice">고객센터</a></li>
+                <li><a href="#">공지사항</a></li>
             </ul>
         </div>
-        <h2 class="sub_h2_tit">고객센터</h2>
+        <h2 class="sub_h2_tit">공지사항</h2>
         <!--        게시판 시작   -->
         <div class="container_wrap">
             <!--     공지 카테고리 영역       -->
             <div class="container_inner">
                 <ul class="notice_category">
                     <li class="on"><a href="${pageContext.request.contextPath}/notice.jsp">공지사항</a></li>
-                    <li><a href="${pageContext.request.contextPath}/qnaList">1:1 상담</a></li>
+                    <li><a href="${pageContext.request.contextPath}/qnaList">Q&A 게시판</a></li>
                 </ul>
-            </div>
-             <!--     게시판 검색 영역       -->
-            <div id="search_wrap">
-                검색 영역
             </div>
              <!--     게시판 목록 영역       -->
             <div id="board_wrap">
-                <table>
+                <table id="list_wrap">
                     <tr>
-                        <td class="bo_num">1</td>
-                        <td class="bo_tit"><a href="#">서울 대표식당 100곳 뽑았다…'테이스트오브서울' 공개</a></td>
-                        <td class="bo_date">2022-10-12</td>
+                        <th class="bo_num">번호</th>
+                        <th class="bo_tit" width="650">제목</th>
+                        <th class="bo_writer">글쓴이</th>
+                        <th class="bo_comments">댓글</th>
+                        <th class="bo_cnt">조회수</th>
+                        <th class="bo_regDate">등록일</th>
                     </tr>
-                    <tr>
-                        <td class="bo_num">2</td>
-                        <td class="bo_tit"><a href="#">서울 대표식당 100곳 뽑았다…'테이스트오브서울' 공개</a></td>
-                        <td class="bo_date">2022-10-12</td>
-                    </tr>
+                    <c:forEach items="${requestScope.pageResponse.getPageList()}" var="qna">
+                        <tr>
+                            <td class="bo_num"><c:out value="${qna.getQqno()}"/></td>
+                            <td class="bo_tit"><a href="<c:url value='/qnaDetail?qqno=${qna.getQqno()}&page=${requestScope.pageResponse.getPage()}'/>"><c:out value="${qna.getTitle()}"/></a></td>
+                            <td class="bo_writer"><c:out value="${qna.getId()}"/></td>
+                            <td class="bo_comments"><c:out value="${qna.getCommentCnt()}"/></td>
+                            <td class="bo_cnt"><c:out value="${qna.getCnt()}"/></td>
+                            <td class="bo_regDate"><fmt:formatDate value="${qna.getRegDate()}" pattern="yyyy/MM/dd" var="regDate"/>${regDate}</td>
+                        </tr>
+                    </c:forEach>
                 </table>
-
+                <div class="nav">
+                    <ul>
+                        <c:if test="${requestScope.pageResponse.isShowPrev()}">
+                            <li class="nav_prev">
+                                <a href="<c:url value="/qnaList?page=${requestScope.pageResponse.page-1}&size=${requestScope.pageResponse.size}"/>">
+                                    [PREV]
+                                </a>
+                            </li>
+                        </c:if>
+                        <c:forEach begin="${requestScope.pageResponse.start}" end="${requestScope.pageResponse.end}" var="num">
+                            <li>
+                                <a href="<c:url value="/qnaList?page=${num}&size=${requestScope.pageResponse.size}"/>"
+                                   class="${num==requestScope.pageResponse.page?'sel':''}">${num} </a>
+                            </li>
+                        </c:forEach>
+                        <c:if test="${requestScope.pageResponse.isShowNext()}">
+                            <li class="nav_next">
+                                <a href="<c:url value="/qnaList?page=${requestScope.pageResponse.page+1}&size=${requestScope.pageResponse.size}"/>">
+                                    [NEXT]
+                                </a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
