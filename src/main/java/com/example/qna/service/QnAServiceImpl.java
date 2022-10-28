@@ -86,7 +86,7 @@ public class QnAServiceImpl implements QnAService {
      * qna 작성
      */
     @Override
-    public boolean wirteQnAQ(QnA_Q_VO qnaq) {
+    public boolean writeQnAQ(QnA_Q_VO qnaq) {
         return qnADAO.insertQnA_Q(qnaq)==1;
     }
 
@@ -110,7 +110,7 @@ public class QnAServiceImpl implements QnAService {
      * qna 댓글 작성
      */
     @Override
-    public boolean wirteQnAA(QnA_A_VO qnaa) {
+    public boolean writeQnAA(QnA_A_VO qnaa) {
         return qnADAO.insertQnA_A(qnaa)==1;
     }
 

@@ -32,6 +32,14 @@ public class QnAController extends HttpServlet {
             throw new IllegalStateException("작성자만 수정할 수 있습니다");
         }
     }
+    protected void validateUser(HttpServletRequest req, HttpSession session) {
+        String loginedCookie = getLoginedCookie(req).getValue();
+        String sessionUser = (String) session.getAttribute("user");
+        if(loginedCookie.equals("null")&&sessionUser==null){
+            log.error("비로그인 에러");
+            throw new IllegalStateException("먼저 로그인을 해주세요");
+        }
+    }
     protected Cookie getLoginedCookie(HttpServletRequest req) {
         Cookie logined_cookie = null;
         Cookie[] cookies = req.getCookies();
