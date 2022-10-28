@@ -20,12 +20,21 @@
         alert(msg);
     }
 </script>
+<script>
+    window.onpageshow = function(event) {
+        //back 이벤트 일 경우
+        if (event.persisted) {
+            location.reload(true);
+        }
+    }
+</script>
 <body>
+    <a href="<c:url value="/qnaRegist?page="/>${requestScope.pageResponse.page}">qna작성</a>
     <ul id="list_wrap">
         <c:forEach items="${requestScope.pageResponse.getPageList()}" var="qna">
-            <li>
-                no : <c:out value="${qna.getQqno()}"/>
-            </li>
+<%--            <li>--%>
+<%--                no : <c:out value="${qna.getQqno()}"/>--%>
+<%--            </li>--%>
             <li>
                 <a href="<c:url value='/qnaDetail?qqno=${qna.getQqno()}&page=${requestScope.pageResponse.getPage()}'/>">
                     title : <c:out value="${qna.getTitle()}"/>

@@ -118,7 +118,7 @@ public class QnAReviewController extends HttpServlet {
 //            return;
 //        }
             //qnaA!=null && 중복id x
-            qnAService.wirteQnAA(qnaA);
+            qnAService.writeQnAA(qnaA);
             resp.setStatus(200); //200 OK
         } catch(IllegalStateException e){
             e.printStackTrace();

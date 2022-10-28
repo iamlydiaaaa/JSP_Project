@@ -26,7 +26,7 @@ public class QnAServiceTest {
                     .title("title"+i)
                     .content("content"+i)
                     .build();
-            assertTrue(qnAService.wirteQnAQ(qnaq));
+            assertTrue(qnAService.writeQnAQ(qnaq));
         });
     }
 
