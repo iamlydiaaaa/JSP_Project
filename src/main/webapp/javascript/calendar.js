@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     buildCalendar();
 });
@@ -146,6 +147,7 @@ function calendarChoiceDay(column) {
     let selMonth = document.getElementById("calMonth").innerText;
     let selDay = column.innerText;
 
+
     // @param 기존 선택일이 존재하는 경우 기존 선택일의 표시형식을 초기화 한다.
     if (document.getElementsByClassName("choiceDay")[0]) {
         document.getElementsByClassName("choiceDay")[0].style.backgroundColor = "#FFFFFF";
@@ -167,7 +169,33 @@ function calendarChoiceDay(column) {
         selMonth;
     document.getElementById("cal_getDay").value =
         selDay;
+
+
+    let query = window.location.search;
+    let param = new URLSearchParams(query);
+    let cno = param.get('cno');
+
+    getCultureCnt(cno,selYear,selMonth,selDay);
 }
+
+let getCultureCnt = function(cno,selYear,selMonth,selDay) {
+    $.ajax({
+        url: '/project/resCnt?selYear='+selYear+'&selMonth='+selMonth+'&selDay='+selDay+'&cno='+cno,
+        type: 'GET',
+        headers: {"content-type":"application/json"},
+
+        success : function(result){
+            //possibleCnt
+            alert(result.currentResCnt);
+            alert(result.capacity);
+            document.getElementById("possibleCnt").innerText =
+                '( '+result.currentResCnt+' / '+result.capacity+' 명)';
+        },
+        error: function() {
+            alert("error");
+        }
+    });//ajax
+}//getReviews
 
 /**
  * @brief   숫자 두자릿수( 00 ) 변경

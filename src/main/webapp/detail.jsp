@@ -78,7 +78,8 @@
                         </p>
                         <p class="select_number">
                             <strong><i class="material-icons">people</i> 이용 인원:</strong>
-                            <span>
+                            <span class="select_number_val">
+                                <span id="possibleCnt"></span>
                                 <input type='button' onclick='count("minus")' value='-' /><input type="text" id="useNum" value="0" /><input type='button' onclick='count("plus")' value='+' />
                             </span>
                         </p>
@@ -93,7 +94,7 @@
             <div>
                 <h2>이용 안내</h2>
                 <div id="description">
-<%--                    ${fn:replace(fn:replace(requestScope.culture.getDtlcont(), "\\r\\n", " "), "\\t", " ")}--%>
+                    ${fn:replace(fn:replace(requestScope.culture.getDtlcont(), "\\r\\n", " "), "\\t", " ")}
                 </div>
             </div>
         </section>
@@ -136,7 +137,7 @@
                                 <span>별</span>
                             </strong>
                             <input type="text" name="grade" id="grade" placeholder="">
-<%--                            <span name="grade" id="grade">ff</span>--%>
+                            <%--                            <span name="grade" id="grade">ff</span>--%>
                         </p>
                     </div>
                     <p class="review_txt">
