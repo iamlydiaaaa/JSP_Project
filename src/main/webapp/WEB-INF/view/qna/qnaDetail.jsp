@@ -12,44 +12,83 @@
 <head>
     <title>Title</title>
     <script src="javascript/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board.css">
 </head>
 <body>
-    <ul>
-        <li>
-            no : <c:out value="${qna.getQqno()}"/>
-        </li>
-        <li>
-            <a href="<c:url value='/qnaDetail?qqno=${qna.getQqno()}'/>">
-                title : <c:out value="${qna.getTitle()}"/>
-            </a>
-        </li>
-        <li>
-            writer : <c:out value="${qna.getId()}"/>
-        </li>
-        <li>
-            content :
-            <textarea name="content" id="content" cols="30" rows="10"><c:out value="${qna.getContent()}"/></textarea>
-        </li>
-    </ul>
-    <div>
-        <a href="<c:url value="/qnaModify?qqno="/>${qna.getQqno()}&page=${page}">수정</a>
-        <a href="<c:url value="/qnaDelete?qqno="/>${qna.getQqno()}&page=${page}" onclick="return confirm('정말 삭제 하시겠습니까?')">삭제</a>
-        <a href="<c:url value="/qnaList?page="/>${page}">목록</a>
-    </div>
+   <jsp:include page="common/header.jsp" flush="true" />
+    <main id="board_register">
 
-    <!--리뷰-->
-    <p class="review_txt">
-        <textarea cols="50" rows="5" name="reviewContent" id="reviewContent" placeholder="리뷰내용"></textarea>
-        <button id="writeBtn" type="button">리뷰 등록</button>
-        <button id="modBtn" type="button" style="display: none;">리뷰 수정</button>
-    </p>
-    <div id="reviewList" data-qqno="${requestScope.qna.getQqno()}" data-id="${sessionScope.user}">
-        <p class="btn_wrap">
-            <button class="modBtn">수정</button>
-            <button class="delBtn">삭제</button>
-        </p>
-    </div>
-    <script>
+        <div class="sub_tit_line">
+            <ul>
+                <li class="sub_tit_home"><a href="#">H</a></li>
+                <li><a href="#">고객센터</a></li>
+                <li><a href="#">QnA 작성</a></li>
+            </ul>
+        </div>
+
+        <div class="board_wrap">
+            <div id="sub_banner">
+                <p><strong>문의 목록</strong></p>
+            </div>
+
+            <table class="board_write_table">
+                <tr>
+                    <td>번호</td>
+                    <td align="left">
+                        <c:out value="${qna.getQqno()}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td align="left">
+                        <a href="<c:url value='/qnaDetail?qqno=${qna.getQqno()}'/>">
+                            <c:out value="${qna.getTitle()}" /></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>작성자</td>
+                    <td align="left">
+                        <c:out value="${qna.getId()}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td align="left">
+                        <textarea name="content" id="content" class="txt_area"><c:out value="${qna.getContent()}"/></textarea>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="qna_btn_wrap">
+                <a href="<c:url value=" /qnaModify?qqno="/>${qna.getQqno()}&page=${page}" class="btn_modify btn_active">수정</a>
+                <a href="<c:url value=" /qnaDelete?qqno="/>${qna.getQqno()}&page=${page}" onclick="return confirm('정말 삭제 하시겠습니까?')" class="btn_modify btn_delete">삭제</a>
+                <a href="<c:url value=" /qnaList?page="/>${page}" class="btn_modify btn_default">목록</a>
+            </div>
+
+            <!--리뷰-->
+            <div class="detail_review">
+               <div class="review_write">
+                <p class="review_txt">
+                    <textarea cols="50" rows="5" name="reviewContent" id="reviewContent" placeholder="답글내용"></textarea>
+                    <button id="writeBtn" type="button">답글 등록</button>
+                    <button id="modBtn" type="button" style="display: none;">답글 수정</button>
+                </p>
+                <div id="reviewList" data-qqno="${requestScope.qna.getQqno()}" data-id="${sessionScope.user}">
+                    <p class="btn_wrap">
+                        <button class="modBtn">수정</button>
+                        <button class="delBtn">삭제</button>
+                    </p>
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+    
+</body>
+
+<script>
         $(document).ready(function(){
             let data_qqno = $("#reviewList").attr("data-qqno");
             let data_id = $("#reviewList").attr("data-id");
@@ -231,5 +270,4 @@
             return tmp;
         }
     </script>
-</body>
 </html>

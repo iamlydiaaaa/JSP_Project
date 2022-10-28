@@ -2,7 +2,7 @@
 
 /*    body{background: url(../images/main01.jpg) no-repeat center; }*/
 
-#main {width: 100%;
+#main {width: 100%; 
     display: table;
     vertical-align: middle;
     margin: 0 auto;
@@ -18,10 +18,11 @@
     z-index: -1;
 }
 
-#sub_banner{width: 100%; min-width: 1000px; height: 250px; background: #ccc url(../images/bg_list.jpg) no-repeat center -800px; display: table;
+#sub_banner{width: 100%; max-width: 1200px; height: 200px; background: url(../images/bg_list.jpg) no-repeat center -800px; display: table;
+    border-bottom: 2px dashed #eaeaea;
+    margin: 0 auto;
 }
-#sub_banner p{display: table-cell; vertical-align: middle; text-align: center; color: #fff;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+#sub_banner p{display: table-cell; vertical-align: middle; text-align: center; color: #333;
 }
 #sub_banner strong{display: block;line-height: 60px; font-size: 48px; font-weight: bold; margin-bottom: 20px;}
 #sub_banner span{display: block; opacity: 0.9;}
@@ -56,6 +57,23 @@
     box-sizing: border-box;
     border-radius: 3px;
 }
+/*아이디 폼*/
+.personal_info  #u_id{
+    width: 65%;
+    display: inline-block;
+}
+/*중복 체크 버튼*/
+#u_id_check{
+    width: 30%;
+    margin-left: 4%;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding-left: 0;
+}
+#u_id_check:hover{
+    background-color: #ddd;
+}
+
 /*전화번호 폼*/
 .personal_info .tel_wrap input{width: 154px; text-align: center; text-indent: 0;}
 
