@@ -110,6 +110,11 @@ border-left: 1px solid rgba(255, 255, 255, 0.3);
 .mypage_reserve_info table td:nth-child(1){padding-right: 60px;}
 .mypage_reserve_info table input{outline: none; border: none; background-color: transparent;}
 
+#my_reserve_wrap{
+    border-bottom: 3px dashed #eaeaea;
+    margin-bottom: 30px;
+}
+
 /*---예약 취소---*/
 .btn_cancel{}
 .btn_cancel button{
@@ -121,7 +126,7 @@ display: block; width: 150px;height: 50px; margin: 50px 5px;
     border: none;
 }
 
-.btn_cancel:hover button{background-color: #999;}
+.btn_cancel button:hover {background-color: #999;}
 
 /*--------------------------------------------------------------------------*/
 /*------------------------------------------*/
