@@ -79,7 +79,7 @@
                         <p class="select_number">
                             <strong><i class="material-icons">people</i> 이용 인원:</strong>
                             <span class="select_number_val">
-                                <b>( <a>1</a> / <a>10</a> 명)</b>
+                                <span id="possibleCnt"></span>
                                 <input type='button' onclick='count("minus")' value='-' /><input type="text" id="useNum" value="0" /><input type='button' onclick='count("plus")' value='+' />
                             </span>
                         </p>
@@ -137,7 +137,7 @@
                                 <span>별</span>
                             </strong>
                             <input type="text" name="grade" id="grade" placeholder="">
-<%--                            <span name="grade" id="grade">ff</span>--%>
+                            <%--                            <span name="grade" id="grade">ff</span>--%>
                         </p>
                     </div>
                     <p class="review_txt">
