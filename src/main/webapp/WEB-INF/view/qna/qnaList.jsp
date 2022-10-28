@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
 <head>
-    <title>1:1 문의</title>
+    <title>Q&A 게시판</title>
     <jsp:include page="/common/commonFiles.jsp" flush="true"/>
     <script src="${pageContext.request.contextPath}/javascript/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub.css">
@@ -38,23 +38,24 @@
     <div class="sub_tit_line">
         <ul>
             <li class="sub_tit_home"><a href="/project">H</a></li>
-            <li><a href="/project/notice">공지 목록</a></li>
-            <li><a href="#">1:1 문의</a></li>
+            <li><a href="/project/notice">고객센터</a></li>
+            <li><a href="#">Q&A 게시판</a></li>
         </ul>
     </div>
-    <h2 class="sub_h2_tit">1:1 문의</h2>
+    <h2 class="sub_h2_tit">Q&A 게시판</h2>
     <!--        게시판 시작   -->
     <div class="container_wrap">
         <!--     공지 카테고리 영역       -->
         <div class="container_inner">
             <ul class="notice_category">
                 <li><a href="${pageContext.request.contextPath}/notice.jsp">공지사항</a></li>
-                <li class="on"><a href="${pageContext.request.contextPath}/qnaList">1:1 상담</a></li>
+                <li class="on"><a href="${pageContext.request.contextPath}/qnaList">Q&A 게시판</a></li>
             </ul>
         </div>
         <!--     게시판 검색 영역       -->
         <div id="search_wrap">
-            검색 영역
+            <input type="text" name="list_search" placeholder="검색어 입력" class="list_search">
+            <button type="submit" id="list_search_btn">검색</button>
         </div>
         <!--     게시판 목록 영역       -->
         <div id="board_wrap">
@@ -62,7 +63,7 @@
             <table id="list_wrap">
                 <tr>
                     <th class="bo_num">번호</th>
-                    <th class="bo_tit">제목</th>
+                    <th class="bo_tit" width="650">제목</th>
                     <th class="bo_writer">글쓴이</th>
                     <th class="bo_comments">댓글</th>
                     <th class="bo_cnt">조회수</th>
