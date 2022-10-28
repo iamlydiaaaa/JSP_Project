@@ -94,7 +94,7 @@
             <div>
                 <h2>이용 안내</h2>
                 <div id="description">
-                    ${fn:replace(fn:replace(requestScope.culture.getDtlcont(), "\\r\\n", " "), "\\t", " ")}
+                  ${fn:replace(fn:replace(requestScope.culture.getDtlcont(), "\\r\\n", " "), "\\t", " ")}
                 </div>
             </div>
         </section>
