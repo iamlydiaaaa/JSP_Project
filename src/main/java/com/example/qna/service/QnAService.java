@@ -25,7 +25,7 @@ public interface QnAService {
      * 고객
      */
     //문의작성
-    boolean wirteQnAQ(QnA_Q_VO qnaq);
+    boolean writeQnAQ(QnA_Q_VO qnaq);
     //수정
     QnA_Q_VO modify(QnA_Q_VO qnaq);
     //삭제
@@ -35,7 +35,7 @@ public interface QnAService {
      * 관리자
      */
     //답변작성
-    boolean wirteQnAA(QnA_A_VO qnaa);
+    boolean writeQnAA(QnA_A_VO qnaa);
     //단일조회
     QnA_A_VO getQnAA(Long qano);
     //수정

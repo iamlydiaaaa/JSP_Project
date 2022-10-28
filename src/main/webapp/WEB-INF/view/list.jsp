@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <jsp:include page="../../common/header.jsp" flush="true"/>
+    <jsp:include page="${pageContext.request.contextPath}/common/header.jsp" flush="true"/>
     <script>
         let query = window.location.search;
         let param = new URLSearchParams(query);

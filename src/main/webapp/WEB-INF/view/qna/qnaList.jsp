@@ -23,6 +23,14 @@
         alert(msg);
     }
 </script>
+<script>
+    window.onpageshow = function(event) {
+        //back 이벤트 일 경우
+        if (event.persisted) {
+            location.reload(true);
+        }
+    }
+</script>
 <body>
 <jsp:include page="/common/header.jsp" flush="true"/>
 <main id="notice">
@@ -50,6 +58,7 @@
         </div>
         <!--     게시판 목록 영역       -->
         <div id="board_wrap">
+            <a href="<c:url value="/qnaRegist?page="/>${requestScope.pageResponse.page}">qna작성</a>
             <table id="list_wrap">
                 <tr>
                     <th class="bo_num">번호</th>
@@ -58,17 +67,15 @@
                     <th class="bo_comments">댓글</th>
                     <th class="bo_cnt">조회수</th>
                     <th class="bo_regDate">등록일</th>
-                    <th class="bo_updateDate">수정일</th>
                 </tr>
                 <c:forEach items="${requestScope.pageResponse.getPageList()}" var="qna">
                     <tr>
                         <td class="bo_num"><c:out value="${qna.getQqno()}"/></td>
-                        <td class="bo_tit"><a href="<c:url value='/qnaDetail?qqno=${qna.getQqno()}&page=${requestScope.pageResponse.getPage()}'/>"><c:out value="${qna.getTitle()}"/></td>
+                        <td class="bo_tit"><a href="<c:url value='/qnaDetail?qqno=${qna.getQqno()}&page=${requestScope.pageResponse.getPage()}'/>"><c:out value="${qna.getTitle()}"/></a></td>
                         <td class="bo_writer"><c:out value="${qna.getId()}"/></td>
                         <td class="bo_comments"><c:out value="${qna.getCommentCnt()}"/></td>
                         <td class="bo_cnt"><c:out value="${qna.getCnt()}"/></td>
                         <td class="bo_regDate"><fmt:formatDate value="${qna.getRegDate()}" pattern="yyyy/MM/dd" var="regDate"/>${regDate}</td>
-                        <td class="bo_updateDate"><fmt:formatDate value="${qna.getUpdateDate()}" pattern="yyyy/MM/dd" var="updateDate"/>${updateDate}</td>
                     </tr>
                 </c:forEach>
             </table>

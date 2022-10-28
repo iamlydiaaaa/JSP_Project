@@ -8,24 +8,24 @@
     <link rel="stylesheet" href="css/main.css">
     <script src="javascript/jquery-3.6.0.min.js"></script>
 </head>
-<%--<script>--%>
-<%--    //로그인유지체크 + 로그인성공시 msg=remember_login 이 전달됨--%>
-<%--    let query = window.location.search;--%>
-<%--    let param = new URLSearchParams(query);--%>
-<%--    let msg = param.get('msg');--%>
-<%--    //체크된 경우--%>
-<%--    if(msg!=null&&msg.length>0){--%>
-<%--        alert(msg);--%>
-<%--        //logined_cookie를 생성--%>
-<%--        setCookie("logined_cookie","${sessionScope.user}",7);--%>
-<%--    }--%>
-<%--    function setCookie(cookieName, value, exdays) {--%>
-<%--        var exdate = new Date();--%>
-<%--        exdate.setDate(exdate.getDate() + exdays);--%>
-<%--        var cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());--%>
-<%--        document.cookie = cookieName + "=" + cookieValue;--%>
-<%--    }--%>
-<%--</script>--%>
+<script>
+    //로그인유지체크 + 로그인성공시 msg=remember_login 이 전달됨
+    let query = window.location.search;
+    let param = new URLSearchParams(query);
+    let msg = param.get('msg');
+    //체크된 경우
+    if(msg!=null&&msg.length>0){
+        alert(msg);
+        //logined_cookie를 생성
+        setCookie("logined_cookie","${sessionScope.user}",7);
+    }
+    function setCookie(cookieName, value, exdays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+        document.cookie = cookieName + "=" + cookieValue;
+    }
+</script>
 <body>
     <jsp:include page="common/header.jsp" flush="true"/>
     <main>

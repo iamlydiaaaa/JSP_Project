@@ -42,8 +42,5 @@
         })
     });
 </script>
-<a href="<c:url value="/qnaModify?qqno="/>${qna.getQqno()}">수정</a>
-<a href="">삭제</a>
-<a href="">목록</a>
 </body>
 </html>
