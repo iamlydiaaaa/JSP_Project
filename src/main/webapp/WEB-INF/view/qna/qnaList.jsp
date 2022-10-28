@@ -58,7 +58,7 @@
         </div>
         <!--     게시판 목록 영역       -->
         <div id="board_wrap">
-            <a href="<c:url value="/qnaRegist?page="/>${requestScope.pageResponse.page}">qna작성</a>
+            <p class="qna_write"><a href="<c:url value="/qnaRegist?page="/>${requestScope.pageResponse.page}">1:1 문의하기</a></p>
             <table id="list_wrap">
                 <tr>
                     <th class="bo_num">번호</th>
