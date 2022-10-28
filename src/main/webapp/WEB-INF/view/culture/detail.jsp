@@ -5,13 +5,13 @@
 <head>
     <title>${culture.getSvc_nm()}</title>
 
-    <link rel="stylesheet" href="css/sub.css">
-    <link rel="stylesheet" href="css/detail.css">
-    <script src="javascript/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/sub.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/detail.css"/>">
+    <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
 </head>
 <body>
-<jsp:include page="common/header.jsp" flush="true"/>
-<jsp:include page="common/navigation.jsp" flush="true"/>
+<jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
+<jsp:include page="/WEB-INF/view/common/navigation.jsp" flush="true"/>
 <main id="festival_detail">
     <div class="sub_tit_line">
         <ul>
@@ -67,9 +67,9 @@
         <section class="detail_select_date">
             <div>
                 <h2>날짜 확인</h2>
-                <jsp:include page="common/calendar.jsp" flush="true"/>
+                <jsp:include page="/WEB-INF/view/common/calendar.jsp" flush="true"/>
                 <div class="calendar_desc">
-                    <form action="/project/insertReservation.html" method="post">
+                    <form action="<c:url value="/project/reservation"/>" method="post">
                         <p class="select_date">
                             <strong><i class="material-icons">date_range</i> 선택한 날짜:</strong>
                             <input type="text" name="sel_y" id="cal_getYear" value=""/> /
@@ -107,11 +107,11 @@
                     <li class="review_overview_left">
                         <p><strong>4.6</strong><span>/ 5.0</span></p>
                         <p class="review_stars">
-                            <img src="images/star1.png" alt="star" width="50">
-                            <img src="images/star1.png" alt="star" width="50">
-                            <img src="images/star1.png" alt="star" width="50">
-                            <img src="images/star1.png" alt="star" width="50">
-                            <img src="images/star1.png" alt="star" width="50">
+                            <img src="<c:url value="/resources/images/star1.png"/>" alt="star" width="50">
+                            <img src="<c:url value="/resources/images/star1.png"/>" alt="star" width="50">
+                            <img src="<c:url value="/resources/images/star1.png"/>" alt="star" width="50">
+                            <img src="<c:url value="/resources/images/star1.png"/>" alt="star" width="50">
+                            <img src="<c:url value="/resources/images/star1.png"/>" alt="star" width="50">
                         </p>
                     </li>
                     <li class="review_overview_right">
@@ -155,10 +155,10 @@
                 <div id="reviewList" data-cno="${requestScope.culture.getCno()}" data-id="${sessionScope.user}">
                     <ul>
                         <li>
-                            <p class="review_list_id"><img src="images/user_default.png" alt="사용자프로필" width="35" /><span class="id">jinkyeong1004</span></p>
+                            <p class="review_list_id"><img src="<c:url value="/resources/images/user_default.png"/>" alt="사용자프로필" width="35" /><span class="id">jinkyeong1004</span></p>
 
                             <div>
-                                <p class="review_list_grade"><span class="grade"><img src="images/star1.png" alt="star"></span></p>
+                                <p class="review_list_grade"><span class="grade"><img src="<c:url value="/resources/images/star1.png"/>" alt="star"></span></p>
                                 <p class="review_list_date"><span class="date">2022-10-21</span></p>
                             </div>
                             <p class="review_list_content"><span class="content">아주 좋아요. 재미있어요.</span></p>
@@ -360,8 +360,8 @@
             let tmp = "<ul>";
             reviews.forEach(function(review) {
                 tmp += '<li data-cno='+review.cno +' data-grade='+review.grade+' data-re_no='+review.re_no+'>'
-                tmp += '<p class="review_list_id"><img src="images/user_default.png" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
-                tmp += '<div><p class="review_list_grade"><span class="grade"><img src="images/star1.png" alt="star">' + review.grade +' / </span></p>'
+                tmp += '<p class="review_list_id"><img src="/resources/images/user_default.png" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
+                tmp += '<div><p class="review_list_grade"><span class="grade"><img src="/resources/images/star1.png" alt="star">' + review.grade +' / </span></p>'
                 tmp += '<p class="review_list_date"><span class="date">'+review.regDate+'</span></p></div>'
                 tmp += '<p class="review_list_content"><span class="content">'+review.content+'</span></p>'
                 tmp += '<p class="btn_wrap"><button class = "delBtn">삭제</button>'

@@ -33,106 +33,67 @@ import javax.sql.DataSource;
 
 public final class AppConfig {
 
-    ///////////////////////ds
-
     //dataSource
     public DataSource dataSource() {
         return new HikariDsConfig().config();
     }
-
-    ///////////////////////ds
-
-    ///////////////////////gson
-
     //gson
     public Gson gson(){
         return new Gson();
     }
 
-    ///////////////////////gson
-
-    ///////////////////////user
-
     //userService
     public UserService userService() {
         return new UserServiceImpl(userDAO());
     }
-
     //userDAO
     public UserDAO userDAO() {
         return new JdbcUserDAO();
     }
-
-    ///////////////////////user
-
-    ///////////////////////api
 
     //apiProvider
     public ApiProvider apiProvider(){
         return new CultureJsonApiProvider
                 ("6653645678736b6139317441527257","문화행사");
     }
-
     //apiRatePolicy
     public ApiRatePolicy apiRatePolicy(){
         return new ProjectApiRatePolicy();
     }
 
-    ///////////////////////api
-
-    ///////////////////////culture
-
     //cultureService
     public CultureService cultureService(){
             return new CultureServiceImpl(apiProvider(),apiRatePolicy(), cultureDAO());
     }
-
     //cultureDAO
     public CultureDAO<CultureVO> cultureDAO() {
         return new JdbcCultureDAO();
     }
 
-    ///////////////////////culture
-
-    ////////////////////////reservation
-
     //reservationService
     public ReservationService reservationService() {
         return new ReservationServiceImpl(reservationDAO(), cultureDAO(),userDAO());
     }
-
     //reservationDAO
     public ReservationDAO reservationDAO() {
         return new JdbcReservationDAO();
     }
 
-    ///////////////////////reservation
-
-    ////////////////////////review
-
     //reviewService
     public ReviewService reviewService(){
         return new ReviewServiceImpl(reviewDAO());
     }
-
     //reviewDAO
     public ReviewDAO reviewDAO() {
         return new JdbcReviewDAO();
     }
 
-    ///////////////////////review
-
-    ////////////////////////QnA
-
     //qnaService
     public QnAService qnAService(){
         return new QnAServiceImpl(qnADAO());
     }
-
     //qnaDao
     public QnADAO qnADAO() {
         return new JdbcQnADAO();
     }
-
-    ////////////////////////QnA
 }

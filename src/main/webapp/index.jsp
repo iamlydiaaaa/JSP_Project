@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>축제</title>
-    <link rel="stylesheet" href="css/main.css">
-    <script src="javascript/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
+    <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
 </head>
 <script>
     //로그인유지체크 + 로그인성공시 msg=remember_login 이 전달됨
@@ -27,7 +27,7 @@
     }
 </script>
 <body>
-    <jsp:include page="common/header.jsp" flush="true"/>
+    <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
     <main>
         <div id="main">
             <section id="visual">
