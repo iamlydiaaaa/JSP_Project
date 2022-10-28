@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 상세</title>
-    <link rel="stylesheet" href="css/reservation.css">
+    <link rel="stylesheet" href="../../../css/reservation.css">
 
 </head>
 
 <body>
-<jsp:include page="common/header.jsp" flush="true"/>
+<jsp:include page="../../../common/header.jsp" flush="true"/>
     <main id="reservation">
         <div class="sub_tit_line">
             <ul>
@@ -44,7 +44,7 @@
                                 <li>- 10명 이상은 상담센터를 통해 따로 예약 신청 부탁드립니다.</li>
                             </ul>
                             <%--     캘린더      --%>
-                            <jsp:include page="common/calendar.jsp" flush="true"/>
+                            <jsp:include page="../../../common/calendar.jsp" flush="true"/>
                             <p>
                                 <strong>선택한 날짜:</strong>
                                 <span id="cal_getDate">2022/01/01</span>
