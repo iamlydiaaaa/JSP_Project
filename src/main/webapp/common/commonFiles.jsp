@@ -8,7 +8,5 @@
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/common.css">
 <link rel="icon" href="images/favicon.ico">
-<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--%>
-<%--<script src="https://code.jquery.com/jquery-1.11.3.js"></script>--%>
 <script src="javascript/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

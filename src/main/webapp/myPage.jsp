@@ -1,13 +1,21 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <title>마이페이지</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/sub.css">
     <link rel="stylesheet" href="css/myPage.css">
+    <script src="javascript/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+        });
+    </script>
 </head>
 
 <body>

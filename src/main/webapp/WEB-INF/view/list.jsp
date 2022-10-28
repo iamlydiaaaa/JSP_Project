@@ -6,12 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>행사 목록</title>
-    <link rel="stylesheet" href="css/sub.css">
-    <link rel="stylesheet" href="css/list.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/list.css">
 </head>
 
 <body>
-    <jsp:include page="common/header.jsp" flush="true"/>
+    <jsp:include page="${pageContext.request.contextPath}/common/header.jsp" flush="true"/>
     <script>
         let query = window.location.search;
         let param = new URLSearchParams(query);

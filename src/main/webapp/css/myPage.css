@@ -76,8 +76,52 @@ border-left: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /*--------세번째 (내용)----------*/
-.mypage_container{grid-area: right;padding: 10px; background-color: #ffc;  }
+.mypage_con{
+    grid-area: right;
+    padding: 20px 50px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+}
+.mypage_con>div{}
+.mypage_con>div>h3{}
 
+/*--------회원정보관리----------*/
+.mypage_user_info{display: none;}
+.mypage_user_info table{
+}
+.mypage_user_info table tr{height: 50px;
+}
+.mypage_user_info table td{
+    vertical-align: middle;
+}
+.mypage_user_info table td:nth-child(1){padding-right: 60px;}
+.mypage_user_info table input{outline: none; border: none; background-color: transparent;}
+
+
+/*--------예약 관리----------*/
+.mypage_reserve_info{}
+.mypage_reserve_info table{
+}
+.mypage_reserve_info table tr{height: 50px;
+}
+.mypage_reserve_info table td{
+    vertical-align: middle;
+}
+.mypage_reserve_info table td:nth-child(1){padding-right: 60px;}
+.mypage_reserve_info table input{outline: none; border: none; background-color: transparent;}
+
+/*---예약 취소---*/
+.btn_cancel{}
+.btn_cancel button{
+display: block; width: 150px;height: 50px; margin: 50px 5px;
+    border-radius: 10px; background-color: #ccc;
+    color: #fff; font-size: 1em; cursor: pointer;
+    transition: all 0.2s;
+    outline: none;
+    border: none;
+}
+
+.btn_cancel:hover button{background-color: #999;}
 
 /*--------------------------------------------------------------------------*/
 /*------------------------------------------*/
