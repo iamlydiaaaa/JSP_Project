@@ -10,12 +10,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
-  <link rel="stylesheet" href="css/login.css">
-  <script src="javascript/jquery-3.6.0.min.js"></script>
-  <script src="javascript/login_cookie.js"></script>
+  <link rel="stylesheet" href="<c:url value="/resources/css/login.css"/>">
+  <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
+  <script src="<c:url value="/resources/javascript/login_cookie.js"/>"></script>
 </head>
 <body>
-<jsp:include page="common/header.jsp" flush="true"/>
+<jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
 <script>
   let query = window.location.search;
   let param = new URLSearchParams(query);

@@ -11,8 +11,8 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="javascript/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board.css">
+    <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
 </head>
 <body>
    <jsp:include page="common/header.jsp" flush="true" />

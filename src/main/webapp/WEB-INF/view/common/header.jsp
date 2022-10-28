@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<jsp:include page="/common/commonFiles.jsp" flush="true"/>
+<jsp:include page="/WEB-INF/view/common/commonFiles.jsp" flush="true"/>
 
 <header>
     <div id="header">

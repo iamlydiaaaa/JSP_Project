@@ -186,13 +186,12 @@ let getCultureCnt = function(cno,selYear,selMonth,selDay) {
 
         success : function(result){
             //possibleCnt
-            alert(result.currentResCnt);
-            alert(result.capacity);
+            alert('선택하신 날짜엔 현재 '+result.currentResCnt+'명이 예약중입니다.');
             document.getElementById("possibleCnt").innerText =
                 '( '+result.currentResCnt+' / '+result.capacity+' 명)';
         },
         error: function() {
-            alert("error");
+            alert("예약인원 조회 실패");
         }
     });//ajax
 }//getReviews

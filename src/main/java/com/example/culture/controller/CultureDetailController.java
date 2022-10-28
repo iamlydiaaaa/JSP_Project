@@ -41,7 +41,7 @@ public class CultureDetailController extends CultureController{
             Long cno = Long.valueOf(req.getParameter("cno"));
             log.info("cno = " + cno);
             req.setAttribute("culture",cultureService.getCulture(cno));
-            req.getRequestDispatcher("detail.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/view/culture/detail.jsp").forward(req,resp);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("culture 조회에 실패했습니다");

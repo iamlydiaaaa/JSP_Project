@@ -21,7 +21,7 @@ public class UserJoinController extends UserController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("register ... get");
-        req.getRequestDispatcher("join.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/view/user/join.jsp").forward(req, resp);
 
     }
 

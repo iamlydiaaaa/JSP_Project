@@ -8,13 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link rel="stylesheet" href="css/join.css">
-    <script src="javascript/agreetxt.js"></script>
+
+    <link rel="stylesheet" href="<c:url value=" /resources/css/join.css" />">
+    <%--    <script src="<c:url value="/resources/javascript/agreetxt.js"/>"></script>--%>
+
 
 </head>
 
 <body>
-    <jsp:include page="common/header.jsp" flush="true" />
+
+    <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true" />
     <script>
         let query = window.location.search;
         let param = new URLSearchParams(query);
@@ -24,8 +27,9 @@
         }
 
     </script>
+
     <div id="wrap">
-        <script src="common/header_sub.js"></script>
+        <script src="<c:url value=" /resources/javascript/header_sub.js" />"></script>
 
         <main id="main">
             <!--    서브메뉴 타이틀 영역    -->
