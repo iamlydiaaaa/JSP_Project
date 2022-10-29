@@ -338,11 +338,12 @@ public class JdbcQnADAO implements QnADAO{
     public void insertQnA_A(QnA_A_VO qnaa, Connection conn) {
         PreparedStatement pstmt = null;
         try {
-            String sql = "insert into QnA_A (qqno, content)\n" +
-                    "values (?,?)";
+            String sql = "insert into QnA_A (qqno, content ,id)\n" +
+                    "values (?,?,?)";
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,qnaa.getQqno());
             pstmt.setString(2,qnaa.getContent());
+            pstmt.setString(3,qnaa.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

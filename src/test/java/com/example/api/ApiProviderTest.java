@@ -1,6 +1,7 @@
 package com.example.api;
 
 
+import com.example.AppConfig;
 import com.example.culture.service.CultureService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +16,7 @@ import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 @Slf4j
 public class ApiProviderTest {
     ApiProvider apiProvider = new CultureJsonApiProvider
-            ("6653645678736b6139317441527257","문화행사");
+            ("6653645678736b6139317441527257","문화행사",new AppConfig().cultureDAO());
 
     CultureService cultureService = SINGLETON_UTIL.cultureService();
 
@@ -32,7 +33,7 @@ public class ApiProviderTest {
     void registerServiceTest(){
         //삭제하고 최신화 할때 // review cno과 reservation cno가 달라지니 // 같이 삭제해야함
         //아니면 기존 cno 뒤에 붙이고 기간으로 컷해야함
-        cultureService.removeAll();
+//        cultureService.removeAll();
         cultureService.register();
     }
 }

@@ -57,6 +57,11 @@ public class CultureServiceImpl implements CultureService {
     }
 
     @Override
+    public List<CultureVO> getCultures() {
+        return cultureDAO.selectAll();
+    }
+
+    @Override
     public CultureVO getCulture(Long cno) {
         return cultureDAO.selectOne(cno);
     }

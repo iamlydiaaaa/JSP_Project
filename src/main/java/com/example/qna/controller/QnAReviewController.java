@@ -39,9 +39,15 @@ public class QnAReviewController extends HttpServlet {
     }
 
     private void validateAdmin(HttpSession session){
-//        if(!session.getAttribute("user").equals("admin")){
-//            throw new IllegalStateException("관리자만 가능합니다");
-//        }
+        if(!session.getAttribute("user").equals("admin")){
+            throw new IllegalStateException("관리자만 가능합니다");
+        }
+    }
+
+    private void validateUser(HttpSession session , String id) {
+        if(session.getAttribute("user")==null){
+            throw new IllegalStateException("비로그인 오류");
+        }
     }
 
     @Override //get // /qnaReview?qqno=1&page=1&size=12
@@ -76,10 +82,10 @@ public class QnAReviewController extends HttpServlet {
             //고의 예외발생 테스트
 //            throw new Exception("고의 발생 예외");
             sendAsJson(resp, pageResponseVO);
-        } catch (NumberFormatException e) {
+        } catch (IllegalStateException e) {
             e.printStackTrace();
             log.error("리뷰조회 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
         } catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException("리뷰조회 예외");
@@ -110,19 +116,13 @@ public class QnAReviewController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
                 return;
             }
-            //같은 cno에 리뷰를 이미 썼으면 400에러 리턴
-//        if(reviewService.getReview(reviewVO.getId(),reviewVO.getCno())!=null) {
-//            log.error("중복 cno,id 리뷰 등록");
-//            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
-//            return;
-//        }
             //qnaA!=null && 중복id x
             qnAService.writeQnAA(qnaA);
             resp.setStatus(200); //200 OK
         } catch(IllegalStateException e){
             e.printStackTrace();
             log.error("리뷰작성 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("리뷰 작성 예외");
@@ -134,7 +134,7 @@ public class QnAReviewController extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             log.info("QnAReviewController.doPut");
-//            validateAdmin(req.getSession());
+            validateAdmin(req.getSession());
             String pathInfo = req.getPathInfo();
             System.out.println("pathInfo = " + pathInfo);
 
@@ -156,10 +156,7 @@ public class QnAReviewController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
-            System.out.println("qano!!!!!!!!!! = " + qano);
-            System.out.println("pathInfo!!!!!!!!! = " + pathInfo);
             QnA_A_VO qnAA = qnAService.getQnAA(qano);
-            System.out.println("qnAA!!!!!!!!!! = " + qnAA);
 
             if(qnAA==null){
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -187,7 +184,7 @@ public class QnAReviewController extends HttpServlet {
         } catch(IllegalStateException e){
             e.printStackTrace();
             log.error("리뷰수정 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("리뷰 수정 예외");
@@ -226,7 +223,7 @@ public class QnAReviewController extends HttpServlet {
         } catch(IllegalStateException e){
             e.printStackTrace();
             log.error("리뷰삭제 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("리뷰 삭제 예외");

@@ -1,5 +1,6 @@
 package com.example.api;
 
+import com.example.culture.dao.CultureDAO;
 import com.example.culture.vo.CultureVO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,6 +23,7 @@ public class CultureJsonApiProvider implements ApiProvider{
     private final String KEY; //인증키 6653645678736b6139317441527257
     private final String SUB_CATEGORY; //문화행사
     private Long cno = 1L;
+    private final CultureDAO<CultureVO> cultureDAO;
 
 
 //    public CultureJsonApiProvider(String KEY, String SUB_CATEGORY) {
@@ -55,14 +57,20 @@ public class CultureJsonApiProvider implements ApiProvider{
             //ListPublicReservationCulture의 row만 추출
             JsonArray row = (JsonArray) ListPublicReservationCulture.get("row");
 
-            //임시코드
-
-
             //추출한 row에서 필요한 정보만 culture 객체로 저장
+            List<CultureVO> cultureVOList = cultureDAO.selectAll();
+            outer:
             for(int i = 0 ; i<row.size();i++){
                 JsonObject element = (JsonObject) row.get(i);
+                for(CultureVO culture : cultureVOList) {
+                    if(parseNonDQM(element.get("SVCID")).equals(culture.getSvc_id())){
+                        log.info("SVCID : "+culture.getSvc_id()+"중복");
+                        continue outer;
+                    }
+                }
                 CultureVO cultureVO = CultureVO.builder()
                         .cno(cno)
+                        .svc_id(parseNonDQM(element.get("SVCID")))
                         .svc_nm(parseNonDQM(element.get("SVCNM")))
                         .area_nm(parseNonDQM(element.get("AREANM")))
                         .place_nm(parseNonDQM(element.get("PLACENM")))
@@ -109,6 +117,7 @@ public class CultureJsonApiProvider implements ApiProvider{
         }
     }
 
+    //""<-제거해주는 메서드
     public static String parseNonDQM(JsonElement element){
         if(element.isJsonNull()){
             return "";

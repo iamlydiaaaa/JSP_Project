@@ -54,7 +54,7 @@ public final class AppConfig {
     //apiProvider
     public ApiProvider apiProvider(){
         return new CultureJsonApiProvider
-                ("6653645678736b6139317441527257","문화행사");
+                ("6653645678736b6139317441527257","문화행사",cultureDAO());
     }
     //apiRatePolicy
     public ApiRatePolicy apiRatePolicy(){

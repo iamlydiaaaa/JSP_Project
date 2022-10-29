@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name="cultureRegisterController",value="/register")
+@WebServlet(name="cultureRegisterController",value="/culture/register")
 @RequiredArgsConstructor
 @Slf4j
 public class CultureRegisterController extends HttpServlet {
@@ -27,8 +27,6 @@ public class CultureRegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("register ... post");
-        //현재 culture의 모든 데이터를 지우고 다시 등록 -> 서비스에서 tx로
-        cultureService.removeAll();
         cultureService.register();
         //
         log.info("db 최신화 성공");

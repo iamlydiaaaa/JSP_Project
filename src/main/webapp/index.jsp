@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,21 +10,36 @@
     <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
 </head>
 <script>
-    //로그인유지체크 + 로그인성공시 msg=remember_login 이 전달됨
+    $(document).ready(function (){
+        //common.jsp 에서 실행될땐 바디태그 아래부분이라 로그인시 바로 적용인 안되서 옮김
+        let user = '<c:out value="${sessionScope.get('user')}"/>';
+        console.log("logined_cookie: : " + getCookie("logined_cookie").valueOf());
+        console.log("user: " + user);
+        if(user === ""){
+            //alert('로그아웃 상태');
+            $(".u_out").css("display","none");
+            $(".u_admin").css("display","none");
+            $(".u_on").css("display","inline-block");
+        } else{
+            if(user.valueOf()==='admin'){
+                alert('관리자님 환영합니다')
+                $(".u_admin").css("display","inline-block");
+                $(".u_out").css("display","none");
+                $(".u_on").css("display","none");
+            }
+            else{
+                //alert('로그인 상태');
+                $(".u_out").css("display","inline-block");
+                $(".u_admin").css("display","none");
+                $(".u_on").css("display","none");
+            }
+        }
+    })
     let query = window.location.search;
     let param = new URLSearchParams(query);
     let msg = param.get('msg');
-    //체크된 경우
     if(msg!=null&&msg.length>0){
         alert(msg);
-        //logined_cookie를 생성
-        setCookie("logined_cookie","${sessionScope.user}",7);
-    }
-    function setCookie(cookieName, value, exdays) {
-        var exdate = new Date();
-        exdate.setDate(exdate.getDate() + exdays);
-        var cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
-        document.cookie = cookieName + "=" + cookieValue;
     }
 </script>
 <body>
