@@ -15,6 +15,6 @@ public class NoticeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("AdminNoticeController.doGet");
-        req.getRequestDispatcher("notice.jsp").forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/view/admin/notice.jsp").forward(req,resp);
     }
 }

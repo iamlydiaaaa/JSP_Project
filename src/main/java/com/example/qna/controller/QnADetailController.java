@@ -23,7 +23,7 @@ public class QnADetailController extends QnAController {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             log.error(e.getMessage());
-            resp.setStatus(404);
+            resp.setStatus(400);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
