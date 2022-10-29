@@ -11,5 +11,5 @@ public interface UserService {
     //로그인
     boolean login(String id, String pwd);
     //유저정보 조회
-    Optional<UserVO> getUSer(String id);
+    Optional<UserVO> getUser(String id);
 }

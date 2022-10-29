@@ -186,7 +186,7 @@ let getCultureCnt = function(cno,selYear,selMonth,selDay) {
 
         success : function(result){
             //possibleCnt
-            alert('선택하신 날짜엔 현재 '+result.currentResCnt+'명이 예약중입니다.');
+            alert('선택하신 날짜에 '+result.currentResCnt+'명이 예약중입니다.');
             document.getElementById("possibleCnt").innerText =
                 '( '+result.currentResCnt+' / '+result.capacity+' 명)';
         },

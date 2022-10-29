@@ -10,6 +10,7 @@
     <title>회원가입</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/join.css"/>">
 <%--    <script src="<c:url value="/resources/javascript/agreetxt.js"/>"></script>--%>
+    <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
     <script>
         $(document).ready(function() {
             //아이디/비밀번호에 포커스하면 텍스트 효과
@@ -70,7 +71,7 @@
        }
    </script>
     <div id="wrap">
-        <script src="<c:url value="/resources/javascript/header_sub.js"/>"></script>
+<%--        <script src="<c:url value="/resources/javascript/header_sub.js"/>"></script>--%>
 
         <main id="main">
             <div id="join_wrap">
@@ -107,16 +108,6 @@
                             <label for="email_l">이메일</label>
                             <input type="email" id="email_l" name="email">
                         </p>
-                        <p>
-                            <label for="u_gender">성별</label>
-                            <input type="checkbox" id="u_gender1" name="gender" value="1">남
-                            <input type="checkbox" id="u_gender2" name="gender" value="2">여
-                        </p>
-                        <p>
-                            <label for="u_birth">나이</label>
-                            <input type="number" id="u_birth" name="age">
-                        </p>
-
                     </div>
                     <div id="agree">
                         <strong class="join_tit">2) <br>이용약관 <br>동의</strong>

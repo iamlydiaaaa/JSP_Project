@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
@@ -24,20 +25,11 @@ public class JdbcUserDAO implements UserDAO {
                     + "(id,pwd,name)"
                     + " values(?,?,?) ";
             conn = CONN_UTIL.getConnection();
-            conn.setAutoCommit(false);
+            Objects.requireNonNull(conn).setAutoCommit(false);
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, userVO.getId());
             pstmt.setString(2, userVO.getPwd());
             pstmt.setString(3, userVO.getName());
-            pstmt.executeUpdate();
-
-            sql = "insert into user_info "
-                    + "(id,age,gender)"
-                    + " values(?,?,?) ";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, userVO.getId());
-            pstmt.setInt(2, userVO.getAge());
-            pstmt.setInt(3, userVO.getGender());
             pstmt.executeUpdate();
 
             sql = "insert into user_res "
@@ -68,11 +60,10 @@ public class JdbcUserDAO implements UserDAO {
     @Override
     public Optional<UserVO> getById(String id) {
         String sql = "select basic.id,basic.pwd,basic.name,basic.regDate," +
-                "res.email,res.phone,res.payment_amount,info.age,info.gender from " +
-                "(user_basic as basic inner join user_info as info " +
-                "on basic.id=info.id " +
+                "res.email,res.phone,res.payment_amount from " +
+                "(user_basic as basic " +
                 "inner join user_res as res " +
-                "on info.id=res.id)" +
+                "on basic.id=res.id)" +
                 "where basic.id = ? " +
                 "order by basic.id";
         Connection conn = null;
@@ -93,8 +84,6 @@ public class JdbcUserDAO implements UserDAO {
                     .email(rs.getString("email"))
                     .phone(rs.getString("phone"))
                     .payment_amount(rs.getInt("payment_amount"))
-                    .age(rs.getInt("age"))
-                    .gender(rs.getInt("gender"))
                     .build();
             return Optional.ofNullable(userVO);
         } catch (SQLException | NullPointerException e) {
