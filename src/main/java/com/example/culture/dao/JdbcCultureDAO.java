@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
@@ -22,16 +23,17 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
         PreparedStatement pstmt = null;
         try {
             String sql = "insert into culture_basic " +
-                    "(svc_nm,area_nm,place_nm,tel_no,cno) " +
-                    "values(?,?,?,?,?)";
+                    "(svc_nm,area_nm,place_nm,tel_no,cno,svc_id) " +
+                    "values(?,?,?,?,?,?)";
             conn = CONN_UTIL.getConnection();
-            conn.setAutoCommit(false);
+            Objects.requireNonNull(conn).setAutoCommit(false);
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, cultureVO.getSvc_nm());
             pstmt.setString(2, cultureVO.getArea_nm());
             pstmt.setString(3, cultureVO.getPlace_nm());
             pstmt.setString(4, cultureVO.getTel_no());
             pstmt.setLong(5, cultureVO.getCno());
+            pstmt.setString(6,cultureVO.getSvc_id());
             pstmt.executeUpdate();
 
             sql = "insert into culture_info " +
@@ -74,7 +76,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             conn.setAutoCommit(true);
         } catch (SQLException e) {
             try {
-                conn.rollback();
+                Objects.requireNonNull(conn).rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 throw new RuntimeException("culture insert를 롤백에 실패했습니다");
@@ -94,7 +96,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
         ResultSet rs = null;
         PageResponseVO<CultureVO> pageResponseVO = null;
         try {
-            String sql = "select basic.cno,basic.svc_nm,basic.area_nm,basic.place_nm,basic.tel_no," +
+            String sql = "select basic.cno,basic.svc_id,basic.svc_nm,basic.area_nm,basic.place_nm,basic.tel_no," +
                     "info.pay_ay_nm,info.use_tgt_info,info.svc_url,info.img_url,info.dtlcont," +
                     "res.capacity,res.price,res.revstd_day,res.revstd_day_nm," +
                     "sch.svc_opn_bgn_dt,sch.svc_opn_end_dt,sch.v_min,sch.v_max,sch.rcpt_bgn_dt,sch.rcpt_end_dt\n" +
@@ -106,7 +108,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                     "order by basic.cno desc " +
                     "limit ? , ?;";
             conn = CONN_UTIL.getConnection();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setInt(1, pageRequestVO.getSkip());
             pstmt.setInt(2, pageRequestVO.getSize());
             rs = pstmt.executeQuery();
@@ -115,6 +117,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             while(rs.next()){
                 CultureVO cultureVO = CultureVO.builder()
                         .cno(rs.getLong("cno"))
+                        .svc_id(rs.getString("svc_id"))
                         .svc_nm(rs.getString("svc_nm"))
                         .area_nm(rs.getString("area_nm"))
                         .place_nm(rs.getString("place_nm"))
@@ -146,6 +149,59 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("cultrue 조회(리스트)에 실패했습니다");
+        } finally {
+            CONN_UTIL.close(rs,pstmt,conn);
+        }
+    }
+
+    @Override
+    public List<CultureVO> selectAll() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<CultureVO> cultureVOList = new ArrayList<>();
+        try {
+            String sql = "select basic.cno,basic.svc_id,basic.svc_nm,basic.area_nm,basic.place_nm,basic.tel_no," +
+                    "info.pay_ay_nm,info.use_tgt_info,info.svc_url,info.img_url,info.dtlcont," +
+                    "res.capacity,res.price,res.revstd_day,res.revstd_day_nm," +
+                    "sch.svc_opn_bgn_dt,sch.svc_opn_end_dt,sch.v_min,sch.v_max,sch.rcpt_bgn_dt,sch.rcpt_end_dt\n" +
+                    "from " +
+                    "(culture_basic as basic inner join culture_info as info on basic.cno=info.cno " +
+                    "inner join culture_res as res on info.cno=res.cno " +
+                    "inner join culture_schedule as sch on res.cno=sch.cno)";
+            conn = CONN_UTIL.getConnection();
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                CultureVO cultureVO = CultureVO.builder()
+                        .cno(rs.getLong("cno"))
+                        .svc_id(rs.getString("svc_id"))
+                        .svc_nm(rs.getString("svc_nm"))
+                        .area_nm(rs.getString("area_nm"))
+                        .place_nm(rs.getString("place_nm"))
+                        .tel_no(rs.getString("tel_no"))
+                        .pay_ay_nm(rs.getString("pay_ay_nm"))
+                        .use_tgt_info(rs.getString("use_tgt_info"))
+                        .svc_url(rs.getString("svc_url"))
+                        .img_url(rs.getString("img_url"))
+                        .dtlcont(rs.getString("dtlcont"))
+                        .svc_opn_bgn_dt(rs.getString("svc_opn_bgn_dt"))
+                        .svc_opn_end_dt(rs.getString("svc_opn_end_dt"))
+                        .v_min(rs.getString("v_min"))
+                        .v_max(rs.getString("v_max"))
+                        .rcpt_bgn_dt(rs.getString("rcpt_bgn_dt"))
+                        .rcpt_end_dt(rs.getString("rcpt_end_dt"))
+                        .capacity(rs.getInt("capacity"))
+                        .price(rs.getInt("price"))
+                        .revstd_day_nm(rs.getString("revstd_day_nm"))
+                        .revstd_day(rs.getString("revstd_day"))
+                        .build();
+                cultureVOList.add(cultureVO);
+            }
+            return cultureVOList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("cultrue 조회(list)에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
@@ -207,7 +263,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            String sql = "select basic.cno,basic.svc_nm,basic.area_nm,basic.place_nm,basic.tel_no," +
+            String sql = "select basic.cno,basic.svc_id,basic.svc_nm,basic.area_nm,basic.place_nm,basic.tel_no," +
                     "info.pay_ay_nm,info.use_tgt_info,info.svc_url,info.img_url,info.dtlcont," +
                     "res.capacity,res.price,res.revstd_day,res.revstd_day_nm," +
                     "sch.svc_opn_bgn_dt,sch.svc_opn_end_dt,sch.v_min,sch.v_max,sch.rcpt_bgn_dt,sch.rcpt_end_dt\n" +
@@ -217,12 +273,13 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                     "inner join culture_schedule as sch on res.cno=sch.cno) " +
                     "where basic.cno = ?";
             conn = CONN_UTIL.getConnection();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,cno);
             rs = pstmt.executeQuery();
             rs.next();
-            CultureVO cultureVO = CultureVO.builder()
+            return CultureVO.builder()
                     .cno(rs.getLong("cno"))
+                    .svc_id(rs.getString("svc_id"))
                     .svc_nm(rs.getString("svc_nm"))
                     .area_nm(rs.getString("area_nm"))
                     .place_nm(rs.getString("place_nm"))
@@ -243,7 +300,6 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                     .revstd_day_nm(rs.getString("revstd_day_nm"))
                     .revstd_day(rs.getString("revstd_day"))
                     .build();
-            return cultureVO;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("cultrue 조회(단일)에 실패했습니다");

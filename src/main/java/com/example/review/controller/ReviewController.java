@@ -5,6 +5,7 @@ import com.example.common.vo.PageResponseVO;
 import com.example.review.service.ReviewService;
 import com.example.review.vo.ReviewVO;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
@@ -70,137 +71,164 @@ public class ReviewController extends HttpServlet {
             //고의 예외발생 테스트
 //            throw new Exception("고의 발생 예외");
             sendAsJson(resp, pageResponseVO);
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             e.printStackTrace();
-            log.error("리뷰작성 실패");
+            log.error("리뷰조회 실패");
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
-//            resp.setStatus(404);
-//            sendAsJson(resp,"WRITE_ERR");
-//            throw new RuntimeException("잘못된 요청이 들어왔습니다");
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException("리뷰조회 예외");
         }
     }//review get
 
     @Override // /review
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("ReviewController.doPost");
-        //req 로부터 io스트림을 가져온다
-        BufferedReader reader = req.getReader();
-        //io로부터 읽어올 변수
-        String line;
-        //읽어온 변수를 저장할 변수 (json이라 문자열)
-        StringBuilder stringBuilder = new StringBuilder();
-        //더이상 읽어올 문자가 없을때까지 읽어온다
-        while((line=reader.readLine())!=null){
-            stringBuilder.append(line);
-        }
-        //읽어온 데이터를 playload에 저장
-        String payload = stringBuilder.toString();
-        //읽어온 문자열(json)을 자바 객체로 파싱
-        ReviewVO reviewVO = gson.fromJson(payload, ReviewVO.class);
-        //읽어오지 못했다면 400에러 리턴
-        if(reviewVO==null){
-            log.error("reviewVO 를 가져오지 못함");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
-            return;
-        }
-        //같은 cno에 리뷰를 이미 썼으면 400에러 리턴
+        try {
+            log.info("ReviewController.doPost");
+            //req 로부터 io스트림을 가져온다
+            BufferedReader reader = req.getReader();
+            //io로부터 읽어올 변수
+            String line;
+            //읽어온 변수를 저장할 변수 (json이라 문자열)
+            StringBuilder stringBuilder = new StringBuilder();
+            //더이상 읽어올 문자가 없을때까지 읽어온다
+            while((line=reader.readLine())!=null){
+                stringBuilder.append(line);
+            }
+            //읽어온 데이터를 playload에 저장
+            String payload = stringBuilder.toString();
+            //읽어온 문자열(json)을 자바 객체로 파싱
+            ReviewVO reviewVO = gson.fromJson(payload, ReviewVO.class);
+            //읽어오지 못했다면 400에러 리턴
+            if(reviewVO==null){
+                log.error("reviewVO 를 가져오지 못함");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+                return;
+            }
+            //같은 cno에 리뷰를 이미 썼으면 400에러 리턴
 //        if(reviewService.getReview(reviewVO.getId(),reviewVO.getCno())!=null) {
 //            log.error("중복 cno,id 리뷰 등록");
 //            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
 //            return;
 //        }
-        //reviewVO!=null && 중복id x
-        reviewService.writeReview(reviewVO);
-        resp.setStatus(200); //200 OK
+            //reviewVO!=null && 중복id x
+            reviewService.writeReview(reviewVO);
+            resp.setStatus(200); //200 OK
+        } catch(IllegalStateException e){
+            e.printStackTrace();
+            log.error("리뷰작성 실패");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+        } catch (IOException | JsonSyntaxException e) {
+            e.printStackTrace();
+            throw new RuntimeException("리뷰 작성 예외");
+        }
     }//post
 
     @Override // /review/{re_no}  -> /{re_no} -> /27 == pathInfo
     //doput 리팩토링 해야함
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("ReviewController.doPut");
-        String pathInfo = req.getPathInfo();
-
-        if(pathInfo == null || pathInfo.equals("/")){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        String[] splits = pathInfo.split("/");
-
-        if(splits.length!=2){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-        Long re_no = null;
         try {
-            re_no = Long.valueOf(splits[1]);
-        } catch (NumberFormatException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            log.info("ReviewController.doPut");
+            String pathInfo = req.getPathInfo();
+
+            if(pathInfo == null || pathInfo.equals("/")){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            String[] splits = pathInfo.split("/");
+
+            if(splits.length!=2){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            Long re_no = null;
+            try {
+                re_no = Long.valueOf(splits[1]);
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            ReviewVO reviewVO = reviewService.getReview(re_no);
+
+            if(reviewVO==null){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            StringBuilder stringBuilder = new StringBuilder();
+            BufferedReader reader = req.getReader();
+            String line;
+            while((line = reader.readLine())!=null) {
+                stringBuilder.append(line);
+            }
+
+            String payload = stringBuilder.toString();
+
+            ReviewVO reviewVO1 = gson.fromJson(payload, ReviewVO.class);
+
+            //업데이트할 칼럼만 가져와서 저장후 업데이트
+            String content = reviewVO1.getContent();
+            Integer grade = reviewVO1.getGrade();
+
+            reviewVO.setContent(content);
+            reviewVO.setGrade(grade);
+
+            reviewService.updateReview(reviewVO);
+            resp.setStatus(200);
+        } catch(IllegalStateException e){
+            e.printStackTrace();
+            log.error("리뷰수정 실패");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
+        } catch (IOException | JsonSyntaxException e) {
+            e.printStackTrace();
+            throw new RuntimeException("리뷰 수정 예외");
         }
-
-        ReviewVO reviewVO = reviewService.getReview(re_no);
-
-        if(reviewVO==null){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while((line = reader.readLine())!=null) {
-            stringBuilder.append(line);
-        }
-
-        String payload = stringBuilder.toString();
-
-        ReviewVO reviewVO1 = gson.fromJson(payload, ReviewVO.class);
-
-        //업데이트할 칼럼만 가져와서 저장후 업데이트
-        String content = reviewVO1.getContent();
-        Integer grade = reviewVO1.getGrade();
-
-        reviewVO.setContent(content);
-        reviewVO.setGrade(grade);
-
-        reviewService.updateReview(reviewVO);
-        resp.setStatus(200);
     }
 
     @Override // /review/{re_no}  -> /{re_no} -> /27 == pathInfo
     //dodelete 리팩토링 해야함
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("ReviewController.doDelete");
-        HttpSession session = req.getSession();
-        String pathInfo = req.getPathInfo();
-
-        if(pathInfo == null || pathInfo.equals("/")){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        String[] splits = pathInfo.split("/");
-
-        if(splits.length!=2){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-        Long re_no = null;
         try {
-            re_no = Long.valueOf(splits[1]);
-        } catch (NumberFormatException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
+            log.info("ReviewController.doDelete");
+            HttpSession session = req.getSession();
+            String pathInfo = req.getPathInfo();
 
-        ReviewVO reviewVO = reviewService.getReview(re_no);
-        if(!reviewVO.getId().equals(session.getAttribute("user"))){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
+            if(pathInfo == null || pathInfo.equals("/")){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
 
-        reviewService.removeReview(re_no);
-        resp.setStatus(200);
+            String[] splits = pathInfo.split("/");
+
+            if(splits.length!=2){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            Long re_no = null;
+            try {
+                re_no = Long.valueOf(splits[1]);
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            ReviewVO reviewVO = reviewService.getReview(re_no);
+            if(!reviewVO.getId().equals(session.getAttribute("user"))){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            reviewService.removeReview(re_no);
+            resp.setStatus(200);
+        } catch(IllegalStateException e){
+            e.printStackTrace();
+            log.error("리뷰삭제 실패");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
+        } catch (IOException | JsonSyntaxException e) {
+            e.printStackTrace();
+            throw new RuntimeException("리뷰 삭제 예외");
+        }
     }
 }

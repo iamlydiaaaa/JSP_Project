@@ -12,7 +12,32 @@
     <%--    <script src="<c:url value="/resources/javascript/agreetxt.js"/>"></script>--%>
 
 </head>
-
+<script>
+    $(document).ready(function (){
+        //common.jsp 에서 실행될땐 바디태그 아래부분이라 로그인시 바로 적용인 안되서 옮김
+        let user = '<c:out value="${sessionScope.get('user')}"/>';
+        console.log("logined_cookie: : " + getCookie("logined_cookie").valueOf());
+        console.log("user: " + user);
+        if(user === ""){
+            //alert('로그아웃 상태');
+            $(".u_out").css("display","none");
+            $(".u_admin").css("display","none");
+            $(".u_on").css("display","inline-block");
+        } else{
+            if(user.valueOf()==='admin'){
+                $(".u_admin").css("display","inline-block");
+                $(".u_out").css("display","none");
+                $(".u_on").css("display","none");
+            }
+            else{
+                //alert('로그인 상태');
+                $(".u_out").css("display","inline-block");
+                $(".u_admin").css("display","none");
+                $(".u_on").css("display","none");
+            }
+        }
+    })
+</script>
 <body>
 
     <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true" />

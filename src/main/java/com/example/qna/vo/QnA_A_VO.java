@@ -14,4 +14,5 @@ public class QnA_A_VO {
     private String content;
     private Date regDate;
     private Date updateDate;
+    private String id;
 }

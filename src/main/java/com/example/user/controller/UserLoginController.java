@@ -45,10 +45,15 @@ public class UserLoginController extends UserController {
                 log.info("로그인 성공");
                 //로그인 성공후 로그인 유지 기능이 체크되어 있으면
                 if("2".equals(chk2)){
-                    msg = URLEncoder.encode(id+" 로그인 기억", StandardCharsets.UTF_8);
-                    Cookie cookie = new Cookie("logined_cookie",id);
-                    cookie.setMaxAge(60*60*24*7);
-                    resp.addCookie(cookie);
+                    if(!id.equals("admin")) {
+                        msg = URLEncoder.encode(id + " 로그인 기억", StandardCharsets.UTF_8);
+                        Cookie cookie = new Cookie("logined_cookie", id);
+                        cookie.setMaxAge(60 * 60 * 24 * 7);
+                        resp.addCookie(cookie);
+                    }
+                    else{
+                        msg=URLEncoder.encode("관리자는 로그인 기억 할 수 없습니다", StandardCharsets.UTF_8);
+                    }
                 }
                 //관리자모드
                 if ("admin".equals(id)) {

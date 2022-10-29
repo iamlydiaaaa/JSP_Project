@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name="adminNoticeController",value="/notice")
+@WebServlet(name="noticeController",value="/notice")
 @Slf4j
-public class AdminNoticeController extends HttpServlet {
+public class NoticeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("AdminNoticeController.doGet");
