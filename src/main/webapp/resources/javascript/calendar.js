@@ -53,7 +53,14 @@ function buildCalendar() {
     for (let day = 1 - doMonth.getDay(); daysLength >= day; day++) {
 
         let column = row.insertCell();
-
+        //db에서 예약 가능 날짜를 받아와야 한다..
+        //get으로 조회를 보내서 날짜 객체를 받아보자......
+        let query = window.location.search;
+        let param = new URLSearchParams(query);
+        let cno = param.get('cno');
+        let resDates = getResDates(cno);
+        let from = new Date(resDates.from);
+        let to = new Date(resDates.to);
         // @param 평일( 전월일과 익월일의 데이터 제외 )
         if (Math.sign(day) == 1 && lastDate.getDate() >= day) {
 
@@ -77,62 +84,62 @@ function buildCalendar() {
             column.innerText = autoLeftPad(exceptDay.getDate(), 2);
             column.style.color = "#A9A9A9";
         }
+        // console.log(from.getFullYear())
+        // console.log(from.getMonth())
+        // console.log(from.getDay())
+        // console.log(from.getDay()===day)
+        // console.log('-----------------')
+        // console.log(today)
+        // console.log(today.getMonth())
+        // console.log('----------------')
+        // console.log(date)
+        // console.log('---------------')
+
 
         // @brief   전월, 명월 음영처리
-        // @details 현재년과 선택 년도가 같은경우
-        if (today.getFullYear() == date.getFullYear()) {
+        // @details 예약 연도 비교
+        if (today.getFullYear() === from.getFullYear() && today.getFullYear()===to.getFullYear()) {
 
-            // @details 이번달과 선택월이 같은경우
-            if (today.getMonth() == date.getMonth()) {
+            // @details 예약 월이 to 일때
+            if (today.getMonth()===to.getMonth()) {
 
-                // @details 오늘보다 이전인 경우이면서 이번달에 포함되는 일인경우
-                if (date.getDate() > day && Math.sign(day) == 1)
+                // @details to보다 이후인 경우이면서 이번달에 포함되는 일인경우
+                if (to.getDate() < day && Math.sign(day) == 1)
                     column.style.backgroundColor = "#c5c5c5";
-
-                // @details 오늘보다 이후이면서 이번달에 포함되는 일인경우
-                else if (date.getDate() < day && lastDate.getDate() >= day) {
-                    column.style.backgroundColor = "#FFFFFF";
-                    column.style.cursor = "pointer";
-                    column.onclick = function() {calendarChoiceDay(this);}
+                else { //예약가능일
+                    if(Math.sign(day) == 1){
+                        column.style.backgroundColor = "#FFFFFF";
+                        column.style.cursor = "pointer";
+                        column.onclick = function() {calendarChoiceDay(this);}
+                    }
                 }
 
-                // @details 오늘인 경우
-                else if (date.getDate() == day) {
-                    column.style.backgroundColor = "#FFFFE6";
-                    column.style.cursor = "pointer";
-                    column.onclick = function() {calendarChoiceDay(this);}
-                }
+                // @details 예약 월이 from 일때
+            } else if (today.getMonth()===from.getMonth()) {
 
-                // @details 이번달보다 이전인경우
-            } else if (today.getMonth() < date.getMonth()) {
+                // @details from보다 이전인 경우이면서 이번달에 포함되는 일인경우
+                if (from.getDate() > day && Math.sign(day) == 1)
+                    column.style.backgroundColor = "#c5c5c5";
+                else { //예약가능일
+                    if(Math.sign(day) == 1){
+                        column.style.backgroundColor = "#FFFFFF";
+                        column.style.cursor = "pointer";
+                        column.onclick = function () {calendarChoiceDay(this);}
+                    }
+                }
+            }
+
+            else if (today.getMonth() < from.getMonth()) {
+                if (Math.sign(day) == 1 && day <= lastDate.getDate())
+                    column.style.backgroundColor = "#c5c5c5";
+            } else if (today.getMonth() > to.getMonth()) {
                 if (Math.sign(day) == 1 && day <= lastDate.getDate())
                     column.style.backgroundColor = "#c5c5c5";
             }
 
-            // @details 이번달보다 이후인경우
-            else {
-                if (Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                    column.style.backgroundColor = "#FFFFFF";
-                    column.style.cursor = "pointer";
-                    column.onclick = function() {calendarChoiceDay(this);}
-
-                }
-            }
         }
-
-        // @details 선택한년도가 현재년도보다 작은경우
-        else if (today.getFullYear() < date.getFullYear()) {
-            if (Math.sign(day) == 1 && day <= lastDate.getDate())
-                column.style.backgroundColor = "#c5c5c5";
-        }
-
-        // @details 선택한년도가 현재년도보다 큰경우
-        else {
-            if (Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                column.style.backgroundColor = "#FFFFFF";
-                column.style.cursor = "pointer";
-                column.onclick = function() {calendarChoiceDay(this);}
-            }
+        else { // 다른 연도
+            column.style.backgroundColor = "#c5c5c5";
         }
         dom++;
     }
@@ -207,4 +214,23 @@ function autoLeftPad(num, digit) {
         num = new Array(digit - String(num).length + 1).join("0") + num;
     }
     return num;
+}
+
+
+let getResDates = function (cno) {
+    var result;
+    $.ajax({
+        url: '/project/cultureCal?cno=' + cno,
+        type: 'GET',
+        headers: {"content-type": "application/json"},
+        async: false,
+
+        success: function (data) {
+            result = data;
+        },
+        error: function () {
+            alert("error")
+        }
+    });//ajax
+    return result;
 }

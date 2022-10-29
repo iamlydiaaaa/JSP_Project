@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,11 +77,18 @@ public class ReservationResController extends ReservationController {
                     .cno(Long.valueOf(req.getParameter("cno")))
                     .resPrice(Integer.valueOf(req.getParameter("resPrice")))
                     .build();
-            System.out.println("reservationVO = " + reservationVO);
+            reservationService.reservation(reservationVO);
+            resp.sendRedirect("WEB-INF/view/reservation/resultReservation.jsp");
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            log.error("잘못된 값 전달받음");
+            resp.setStatus(400);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("예약 db 저장 실패");
         } catch (Exception e) {
             e.printStackTrace();
-            log.info("예약 오류");
-            throw new RuntimeException("예약 오류");
+            throw new RuntimeException("예약 작업 실패");
         }
     }
 }

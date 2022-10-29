@@ -28,10 +28,7 @@ public class UserJoinController extends UserController {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("register ... post");
-
         HttpSession session = req.getSession();
-        String msg = "";
-
         //폼태그 입력값 유저객체에 저장
         try {
             String phone = req.getParameter("phone1")+"-"
@@ -49,12 +46,12 @@ public class UserJoinController extends UserController {
             //회원 로그인 기억 세션
             session.setAttribute("user", userVO.getId());
             log.info("회원가입 성공");
-            resp.sendRedirect("/project");
+            resp.sendRedirect("/project?msg="+URLEncoder.encode(userVO.getId()+"님 환영합니다", StandardCharsets.UTF_8));
+
         } catch (IOException | RuntimeException e) {
             //회원가입 실패시 join ... get
             e.printStackTrace();
-            msg = URLEncoder.encode("회원가입에 실패했습니다(입력값을 확인해주세요)", StandardCharsets.UTF_8);
-            resp.sendRedirect("/project/join?msg="+msg);
+            resp.sendRedirect("/project/join?msg="+URLEncoder.encode("회원가입에 실패했습니다(입력값을 확인해주세요)", StandardCharsets.UTF_8));
         }
     }
 }

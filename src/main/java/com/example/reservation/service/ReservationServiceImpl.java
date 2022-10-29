@@ -43,7 +43,7 @@ public class ReservationServiceImpl implements ReservationService{
             validateRes_cno(cno, resDate);
 
         } catch (ParseException | IllegalStateException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         } finally {
             CONN_UTIL.close(conn);
         }
@@ -80,7 +80,7 @@ public class ReservationServiceImpl implements ReservationService{
                 //중복 cno가 확인되면
                 throw new IllegalStateException("중복 행사 예약 불가");
             }
-            if(resDate.equals(reservationCultureVO.getResDate())){
+            if(resDate.getTime()==reservationCultureVO.getResDate().getTime()){
                 //중복 resDate가 확인되면
                 throw new IllegalStateException("중복 날짜 예약 불가");
             }
@@ -91,8 +91,11 @@ public class ReservationServiceImpl implements ReservationService{
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date from = df.parse(cultureVO.getRcpt_bgn_dt());
         Date to = df.parse(cultureVO.getRcpt_end_dt());
-        if(resDate.before(from)|| resDate.after(to)){
-            throw new IllegalStateException("잘못된 예약 날짜");
+        System.out.println("resDate!!!!!!!!!!!"+resDate.getTime());
+        System.out.println("from!!!!!!!!!!!!!!!!" + from.getTime());
+        System.out.println("to!!!!!!!!!!!!!!!!!!"+to.getTime());
+        if(resDate.getTime()<from.getTime()|| resDate.getTime()>to.getTime()){
+            throw new IllegalStateException("잘못된 예약 날짜 입력");
         }
     }//validateRes_resDate
 
@@ -101,7 +104,7 @@ public class ReservationServiceImpl implements ReservationService{
      */
     @Override
     @MyTransactional
-    public Long reservation(ReservationVO reservationVO) {
+    public Long reservation(ReservationVO reservationVO) throws SQLException,IllegalStateException {
 
 
         Connection conn = null;
@@ -126,6 +129,7 @@ public class ReservationServiceImpl implements ReservationService{
             reservationDAO.insertReservation(reservationVO,conn);
             //id,resDate 그룹은 중복될수 없으니 고유한 rno 조회 가능
             Long rno = reservationDAO.selectRno(id,resDate,conn);
+            reservationVO.setRno(rno);
             if(rno==null) {
                 throw new SQLException("reservation rno 조회에 실패하여, reservation이 실패했습니다");
             }
@@ -144,17 +148,21 @@ public class ReservationServiceImpl implements ReservationService{
             conn.setAutoCommit(true);
             ///////////////////////////
             return rno;
-        } catch (Exception e) {
+        } catch (IllegalStateException | ParseException e){
+            e.printStackTrace();
+            log.error("잘못된 값 입력");
+            throw new IllegalStateException(e.getMessage());
+        } catch (SQLException e) {
             try {
                 ////////////////////////
                 conn.rollback();
                 ////////////////////////
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("롤백 도중 예외가 발생했습니다");
+                throw new SQLException("롤백 도중 예외가 발생했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("conn.rollback()");
+            throw new SQLException("conn.rollback()");
         } finally {
             CONN_UTIL.close(conn);
         }
@@ -205,15 +213,17 @@ public class ReservationServiceImpl implements ReservationService{
                 ////////////////////////
                 conn.rollback();
                 ////////////////////////
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("롤백 도중 예외가 발생했습니다");
+                log.error("롤백 도중 예외가 발생했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("conn.rollback()");
+            log.error("conn.rollback()");
+//            throw new RuntimeException("conn.rollback()");
         } finally {
             CONN_UTIL.close(conn);
         }
+        return null;
     }//getReservationsById
 
     /**
