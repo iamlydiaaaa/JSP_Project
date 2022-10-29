@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
                     "(culture_basic as basic inner join culture_info as info on basic.cno=info.cno " +
                     "inner join culture_res as res on info.cno=res.cno " +
                     "inner join culture_schedule as sch on res.cno=sch.cno) " +
+                    "where svc_opn_end_dt > now() and rcpt_end_dt > now() "+
                     "order by basic.cno desc " +
                     "limit ? , ?;";
             conn = CONN_UTIL.getConnection();
@@ -109,6 +111,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             pstmt.setInt(2, pageRequestVO.getSize());
             rs = pstmt.executeQuery();
             List<CultureVO> cultureVOS = new ArrayList<>();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             while(rs.next()){
                 CultureVO cultureVO = CultureVO.builder()
                         .cno(rs.getLong("cno"))
@@ -150,7 +153,8 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
 
     @Override
     public int selectCount() {
-        String sql = "select count(*) from culture_basic";
+        String sql = "select count(*) from culture_schedule " +
+                "where svc_opn_end_dt > now() and rcpt_end_dt > now()";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
@@ -37,7 +38,7 @@ public class QnAServiceImpl implements QnAService {
             conn = CONN_UTIL.getConnection();
 
             ///////////
-            conn.setAutoCommit(false);
+            Objects.requireNonNull(conn).setAutoCommit(false);
             ///////////
 
             QnA_Q_VO qnaq = qnADAO.selectOne(qqno,conn);
@@ -54,7 +55,7 @@ public class QnAServiceImpl implements QnAService {
 
             /////////////////
             try {
-                conn.rollback();
+                Objects.requireNonNull(conn).rollback();
             } catch (SQLException ex) {
                 throw new RuntimeException("롤백중 예외 발생");
             }
@@ -110,8 +111,32 @@ public class QnAServiceImpl implements QnAService {
      * qna 댓글 작성
      */
     @Override
-    public boolean writeQnAA(QnA_A_VO qnaa) {
-        return qnADAO.insertQnA_A(qnaa)==1;
+    @MyTransactional
+    public void writeQnAA(QnA_A_VO qnaa) {
+        Connection conn = CONN_UTIL.getConnection();
+        try {
+            ///////////
+            Objects.requireNonNull(conn).setAutoCommit(false);
+            ////////////
+            qnADAO.insertQnA_A(qnaa,conn);
+            QnA_Q_VO qnaQ = qnADAO.selectOne(qnaa.getQqno(), conn);
+            qnaQ.setCommentCnt(qnaQ.getCommentCnt()+1);
+            qnADAO.updateQnAQ(qnaQ,conn);
+            /////////////
+            conn.commit();
+            conn.setAutoCommit(true);
+            /////////////
+        } catch (SQLException e) {
+            try {
+                Objects.requireNonNull(conn).rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                throw new RuntimeException("롤백 실패");
+            }
+            throw new RuntimeException("conn.rollback");
+        } finally {
+            CONN_UTIL.close(conn);
+        }
     }
 
     /**

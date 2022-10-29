@@ -57,11 +57,11 @@ public class CultureCalController extends CultureController{
             sendAsJson(resp,resDate);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            log.error("리뷰조회 실패");
+            log.error("예약cnt 조회 실패");
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
         } catch (Exception e){
             e.printStackTrace();
-            throw new RuntimeException("리뷰조회 예외");
+            throw new RuntimeException("예약cnt 조회 실패");
         }
     }
 }

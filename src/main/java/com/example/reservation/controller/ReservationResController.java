@@ -78,7 +78,7 @@ public class ReservationResController extends ReservationController {
                     .resPrice(Integer.valueOf(req.getParameter("resPrice")))
                     .build();
             reservationService.reservation(reservationVO);
-            resp.sendRedirect("WEB-INF/view/reservation/resultReservation.jsp");
+            resp.sendRedirect("/project/reservation/result?page="+req.getParameter("page"));
         } catch (IllegalStateException e) {
             e.printStackTrace();
             log.error("잘못된 값 전달받음");

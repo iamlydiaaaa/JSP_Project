@@ -35,7 +35,7 @@ public interface QnAService {
      * 관리자
      */
     //답변작성
-    boolean writeQnAA(QnA_A_VO qnaa);
+    void writeQnAA(QnA_A_VO qnaa);
     //단일조회
     QnA_A_VO getQnAA(Long qano);
     //수정
