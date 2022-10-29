@@ -86,7 +86,7 @@ border-left: 1px solid rgba(255, 255, 255, 0.3);
 .mypage_con>div>h3{}
 
 /*--------회원정보관리----------*/
-.mypage_user_info{display: none;}
+/*.mypage_user_info{display: none;}*/
 .mypage_user_info table{
 }
 .mypage_user_info table tr{height: 50px;
