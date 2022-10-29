@@ -47,6 +47,10 @@ function buildCalendar() {
     // @details 시작일의 요일값( doMonth.getDay() ) + 해당월의 전체일( lastDate.getDate())을  더해준 값에서
     //               7로 나눈값을 올림( Math.ceil() )하고 다시 시작일의 요일값( doMonth.getDay() )을 빼준다.
     let daysLength = (Math.ceil((doMonth.getDay() + lastDate.getDate()) / 7) * 7) - doMonth.getDay();
+    let query = window.location.search;
+    let param = new URLSearchParams(query);
+    let cno = param.get('cno');
+    let resDates = getResDates(cno);
 
     // @param 달력 출력
     // @details 시작값은 1일을 직접 지정하고 요일값( doMonth.getDay() )를 빼서 마이너스( - )로 for문을 시작한다.
@@ -55,10 +59,6 @@ function buildCalendar() {
         let column = row.insertCell();
         //db에서 예약 가능 날짜를 받아와야 한다..
         //get으로 조회를 보내서 날짜 객체를 받아보자......
-        let query = window.location.search;
-        let param = new URLSearchParams(query);
-        let cno = param.get('cno');
-        let resDates = getResDates(cno);
         let from = new Date(resDates.from);
         let to = new Date(resDates.to);
         // @param 평일( 전월일과 익월일의 데이터 제외 )
@@ -121,7 +121,7 @@ function buildCalendar() {
                 if (from.getDate() > day && Math.sign(day) == 1)
                     column.style.backgroundColor = "#c5c5c5";
                 else { //예약가능일
-                    if(Math.sign(day) == 1){
+                    if(Math.sign(day) == 1 && lastDate.getDate() >= day){
                         column.style.backgroundColor = "#FFFFFF";
                         column.style.cursor = "pointer";
                         column.onclick = function () {calendarChoiceDay(this);}
