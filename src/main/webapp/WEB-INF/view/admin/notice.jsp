@@ -54,7 +54,7 @@
             <!--     공지 카테고리 영역       -->
             <div class="container_inner">
                 <ul class="notice_category">
-                    <li class="on"><a href="${pageContext.request.contextPath}/notice.jsp">공지사항</a></li>
+                    <li class="on"><a href="${pageContext.request.contextPath}/WEB-INF/view/admin/notice.jsp">공지사항</a></li>
                     <li><a href="${pageContext.request.contextPath}/qnaList">Q&A 게시판</a></li>
                 </ul>
             </div>

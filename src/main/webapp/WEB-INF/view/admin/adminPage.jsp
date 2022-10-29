@@ -57,13 +57,6 @@
                 </li>
                 <li><a href="#">api 최신화</a></li>
                 <li><a class="test" href="#">예약 관리</a></li>
-                <script>
-                    $(document).ready(function(){
-                       $(".test").click(function(){
-                           $(".mypage_con").css("display","block");
-                       })
-                    });
-                </script>
             </ul>
         </section>
         <section class="mypage_con">

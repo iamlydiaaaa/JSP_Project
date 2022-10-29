@@ -28,6 +28,8 @@ public class UserMyPageController extends UserController {
         if(session.getAttribute("user")==null){
             throw new IllegalStateException("비로그인 예외");
         }
+        String id = (String) session.getAttribute("user");
+//        req.setAttribute("user",userService.getUser(id));
         req.getRequestDispatcher("WEB-INF/view/user/myPage.jsp").forward(req,resp);
     }
 }

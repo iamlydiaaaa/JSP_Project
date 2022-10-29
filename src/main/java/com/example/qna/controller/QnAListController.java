@@ -16,7 +16,6 @@ public class QnAListController extends QnAController{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             log.info("QnAListController.doGet");
-//            Long qqno = Long.valueOf(req.getParameter("qqno"));
             String paramPage = req.getParameter("page");
             String paramSize = req.getParameter("size");
             PageRequestVO pageRequestVO;
@@ -45,7 +44,7 @@ public class QnAListController extends QnAController{
         } catch (NumberFormatException e) {
             e.printStackTrace();
             log.error(e.getMessage());
-            resp.setStatus(404);
+            resp.setStatus(400);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

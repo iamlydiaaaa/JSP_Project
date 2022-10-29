@@ -53,7 +53,7 @@
             <section class="mypage_list">
                 <ul>
                     <li class="on profile"><img src="<c:url value="/resources/images/user_default.png"/>" alt="" />
-                        <h4>김진경</h4>
+                        <h4><c:out value="${requestScope.user.getId()}"/></h4>
                     </li>
                     <li><a href="#">회원 정보 관리</a></li>
                     <li><a href="#">예약 관리</a></li>
@@ -65,49 +65,49 @@
                 <div class="mypage_user_info">
                     <h3>회원 정보 관리</h3>
                     <table>
-<%--                        <tr>--%>
-<%--                            <td>이름</td>--%>
-<%--                            <td><input type="text" value="${}" readonly></td>--%>
-<%--                        </tr>--%>
-<%--                        <tr>--%>
-<%--                            <td>전화번호</td>--%>
-<%--                            <td><input type="text" value="${}" readonly></td>--%>
-<%--                        </tr>--%>
-<%--                        <tr>--%>
-<%--                            <td>이메일</td>--%>
-<%--                            <td><input type="text" value="${}" readonly></td>--%>
-<%--                        </tr>--%>
-<%--                        <tr>--%>
-<%--                            <td>주소</td>--%>
-<%--                            <td><input type="text" value="${}" readonly></td>--%>
-<%--                        </tr>--%>
-<%--                    </table>--%>
-<%--                </div>                --%>
-<%--                <!--    예약 관리    -->--%>
-<%--                <div class="mypage_reserve_info">--%>
-<%--                    <h3>예약 내역</h3>--%>
-<%--                    <form action="">--%>
-<%--                        <table>--%>
-<%--                            <tr>--%>
-<%--                                <td>제목</td>--%>
-<%--                                <td><input type="text" value="${}" readonly></td>--%>
-<%--                            </tr>--%>
-<%--                            <tr>--%>
-<%--                                <td>장소</td>--%>
-<%--                                <td><input type="text" value="${}" readonly></td>--%>
-<%--                            </tr>--%>
-<%--                            <tr>--%>
-<%--                                <td>예약 날짜</td>--%>
-<%--                                <td><input type="text" value="${}" readonly></td>--%>
-<%--                            </tr>--%>
-<%--                            <tr>--%>
-<%--                                <td>예약 인원</td>--%>
-<%--                                <td><input type="text" value="${}" readonly></td>--%>
-<%--                            </tr>--%>
-<%--                            <tr>--%>
-<%--                                <td>문의전화</td>--%>
-<%--                                <td><input type="text" value="${}" readonly></td>--%>
-<%--                            </tr>--%>
+                        <tr>
+                            <td>이름</td>
+                            <td><input type="text" value="${requestScope.user.getName()}" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>전화번호</td>
+                            <td><input type="text" value="${requestScope.user.getPhone()}" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td><input type="text" value="${requestScope.user.getEmail()}" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>누적 결제금액</td>
+                            <td><input type="text" value="${requestScope.user.getPayment_amount()}" readonly></td>
+                        </tr>
+                    </table>
+                </div>
+                <!--    예약 관리    -->
+                <div class="mypage_reserve_info">
+                    <h3>예약 내역</h3>
+                    <form action="">
+                        <table>
+                            <tr>
+                                <td>제목</td>
+                                <td><input type="text" value="" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>장소</td>
+                                <td><input type="text" value="" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>예약 날짜</td>
+                                <td><input type="text" value="" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>예약 인원</td>
+                                <td><input type="text" value="" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>문의전화</td>
+                                <td><input type="text" value="" readonly></td>
+                            </tr>
                         </table>
                         <p class="btn_cancel">
                             <button type="submit">예약 취소</button>
