@@ -335,22 +335,20 @@ public class JdbcQnADAO implements QnADAO{
     }
 
     @Override
-    public Integer insertQnA_A(QnA_A_VO qnaa) {
-        Connection conn = null;
+    public void insertQnA_A(QnA_A_VO qnaa, Connection conn) {
         PreparedStatement pstmt = null;
         try {
             String sql = "insert into QnA_A (qqno, content)\n" +
                     "values (?,?)";
-            conn = CONN_UTIL.getConnection();
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,qnaa.getQqno());
             pstmt.setString(2,qnaa.getContent());
-            return pstmt.executeUpdate();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("insertQnA_A 실패");
         } finally {
-            CONN_UTIL.close(pstmt,conn);
+            CONN_UTIL.close(pstmt);
         }
     }
 

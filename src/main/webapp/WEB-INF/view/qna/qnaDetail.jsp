@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: kimnamhyun
   Date: 2022/10/27
@@ -60,7 +60,7 @@
             <tr>
                 <td>내용</td>
                 <td align="left">
-                    <textarea name="content" id="content" class="txt_area" readonly><c:out value="${qna.getContent()}"/></textarea>
+                    <textarea name="content" id="content" class="txt_area" readonly style="cursor: auto"><c:out value="${qna.getContent()}"/></textarea>
                 </td>
             </tr>
         </table>
@@ -262,10 +262,9 @@
         let tmp = "<ul>";
         reviews.forEach(function(review) {
             tmp += '<li data-qqno=' + review.qqno + ' data-qano=' + review.qano + '>'
-            tmp += '<span class="title">' + review.title + '</span>'
-            tmp += '<span class="content">' + review.content + '</span>'
-            tmp += '<span class="regDate">' + review.regDate + '</span>'
-            tmp += '<span class="updateDate">' + review.updateDate + '</span>'
+            tmp += '<p class="review_list_id"><span class="id">admin</span></p>'
+            tmp += '<p class="review_list_content"><span class="content">'+review.content+'</span></p>'
+            tmp += '<p class="review_list_date"><span class="date">'+new Date(review.regDate).toLocaleDateString()+'</span></p></div>'
             tmp += '<p class="btn_wrap"><button class = "delBtn">삭제</button>'
             tmp += '<button class = "modBtn">수정</button>'
             tmp += '</p></li>'

@@ -89,7 +89,6 @@ public class QnAReviewController extends HttpServlet {
     @Override // /review
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            System.out.println("!!!!!!!!!!!!!!");
             validateAdmin(req.getSession());
             //req 로부터 io스트림을 가져온다
             BufferedReader reader = req.getReader();

@@ -40,7 +40,7 @@ public interface QnADAO {
      * 관리자댓글
      */
     //작성
-    Integer insertQnA_A(QnA_A_VO qnaa);
+    void insertQnA_A(QnA_A_VO qnaa, Connection conn);
     //수정
     QnA_A_VO updateQnAA(QnA_A_VO qnaa);
     //삭제(관리자권한 글목록 삭제)

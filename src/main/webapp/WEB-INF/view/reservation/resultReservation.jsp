@@ -35,9 +35,18 @@
             <section class="reserve_ok">
                 <h1>예약이 완료되었습니다!</h1>
                 <p>자세한 내용은 마이페이지에서 확인하실 수 있습니다.</p>
-                <p class="btn_reservation"><input type="button" value="마이페이지"><input type="button" value="목록으로"></p>
+                <p class="btn_reservation"><input id="myPage" type="button" value="마이페이지"><input id="toList" type="button" value="목록으로"></p>
             </section>
-
+            <script>
+                $(document).ready(function (){
+                    $("#myPage").click(function(){
+                       window.self.location="/project/myPage";
+                    });
+                    $("#toList").click(function(){
+                        window.self.location="/project/list?page="+${page};
+                    });
+                })
+            </script>
         </div>
     </main>
 
