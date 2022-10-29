@@ -13,7 +13,7 @@ public interface ReservationDAO {
     //예약관련 메서드
     void insertReservation(ReservationVO reservationVO , Connection conn);
 
-    void insertResCulture(Long rno, Long cno, Integer price , Date resDate , Connection conn);
+    void insertResCulture(ReservationVO reservationVO , Integer price ,Connection conn);
 
     Integer selectPriceFromCulture(Long cno , Connection conn);
 
@@ -25,6 +25,8 @@ public interface ReservationDAO {
 
     //조회관련 메서드
     Map<Long,List<ReservationCntVO>> selectReservationCnt(Long cno);
+
+    Integer selectResCnt(Long rno,Connection conn);
     //조회관련 메서드
 
 

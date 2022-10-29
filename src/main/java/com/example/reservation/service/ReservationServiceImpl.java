@@ -43,7 +43,7 @@ public class ReservationServiceImpl implements ReservationService{
             validateRes_cno(cno, resDate);
 
         } catch (ParseException | IllegalStateException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         } finally {
             CONN_UTIL.close(conn);
         }
@@ -80,7 +80,7 @@ public class ReservationServiceImpl implements ReservationService{
                 //중복 cno가 확인되면
                 throw new IllegalStateException("중복 행사 예약 불가");
             }
-            if(resDate.equals(reservationCultureVO.getResDate())){
+            if(resDate.getTime()==reservationCultureVO.getResDate().getTime()){
                 //중복 resDate가 확인되면
                 throw new IllegalStateException("중복 날짜 예약 불가");
             }
@@ -91,8 +91,11 @@ public class ReservationServiceImpl implements ReservationService{
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date from = df.parse(cultureVO.getRcpt_bgn_dt());
         Date to = df.parse(cultureVO.getRcpt_end_dt());
-        if(resDate.before(from)|| resDate.after(to)){
-            throw new IllegalStateException("잘못된 예약 날짜");
+        System.out.println("resDate!!!!!!!!!!!"+resDate.getTime());
+        System.out.println("from!!!!!!!!!!!!!!!!" + from.getTime());
+        System.out.println("to!!!!!!!!!!!!!!!!!!"+to.getTime());
+        if(resDate.getTime()<from.getTime()|| resDate.getTime()>to.getTime()){
+            throw new IllegalStateException("잘못된 예약 날짜 입력");
         }
     }//validateRes_resDate
 
@@ -101,7 +104,7 @@ public class ReservationServiceImpl implements ReservationService{
      */
     @Override
     @MyTransactional
-    public Long reservation(String id, Long cno, Date resDate) {
+    public Long reservation(ReservationVO reservationVO) throws SQLException,IllegalStateException {
 
 
         Connection conn = null;
@@ -110,30 +113,32 @@ public class ReservationServiceImpl implements ReservationService{
             //////////////////////////
             conn.setAutoCommit(false);
             //////////////////////////
-
+            String id = reservationVO.getId();
+            Long cno = reservationVO.getCno();
+            Date resDate = reservationVO.getResDate();
+            Integer resCnt = reservationVO.getResCnt();
             //유효한 예약정보인지 검증 실패시 throw IllegalstateException
             validateRes(id,cno,resDate);
 
             //선택한 cno의 요금 조회
-            Integer resPrice = reservationDAO.selectPriceFromCulture(cno,conn);
+            Integer resPrice = reservationDAO.selectPriceFromCulture(reservationVO.getCno(),conn);
             if(resPrice==null||resPrice<0) {
                 throw new SQLException("cultrue_res price 조회에 실패하여, reservation이 실패했습니다");
             }
             //reservation insert
-            reservationDAO.insertReservation(
-                    ReservationVO
-                            .builder().id(id).resDate(resDate).build(),conn);
+            reservationDAO.insertReservation(reservationVO,conn);
             //id,resDate 그룹은 중복될수 없으니 고유한 rno 조회 가능
             Long rno = reservationDAO.selectRno(id,resDate,conn);
+            reservationVO.setRno(rno);
             if(rno==null) {
                 throw new SQLException("reservation rno 조회에 실패하여, reservation이 실패했습니다");
             }
             //res_culture insert
-            reservationDAO.insertResCulture(rno,cno,resPrice,resDate,conn);
+            reservationDAO.insertResCulture(reservationVO,resPrice,conn);
             // 유료일 경우 유저의 payment_amount 업데이트
             if(resPrice>0){
                 Integer userPrice = getPayment_amount(id);
-                userPrice += resPrice;
+                userPrice += (resPrice*resCnt);
                 if(!reservationDAO.updateUserPaymentAmount(id,userPrice,conn)){
                     throw new SQLException("유저 요금 업데이트 실패");
                 }
@@ -143,17 +148,21 @@ public class ReservationServiceImpl implements ReservationService{
             conn.setAutoCommit(true);
             ///////////////////////////
             return rno;
-        } catch (Exception e) {
+        } catch (IllegalStateException | ParseException e){
+            e.printStackTrace();
+            log.error("잘못된 값 입력");
+            throw new IllegalStateException(e.getMessage());
+        } catch (SQLException e) {
             try {
                 ////////////////////////
                 conn.rollback();
                 ////////////////////////
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("롤백 도중 예외가 발생했습니다");
+                throw new SQLException("롤백 도중 예외가 발생했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("conn.rollback()");
+            throw new SQLException("conn.rollback()");
         } finally {
             CONN_UTIL.close(conn);
         }
@@ -164,7 +173,7 @@ public class ReservationServiceImpl implements ReservationService{
      */
     @Override
     @MyTransactional
-    public List<ReservationVO> getReservationsById(String id) {
+    public List<ReservationVO> getReservationsVOById(String id) {
         Connection conn = CONN_UTIL.getConnection();
         List<ReservationVO> reservationList = new ArrayList<>(); //resprice,resdate,regdate
         try {
@@ -181,15 +190,16 @@ public class ReservationServiceImpl implements ReservationService{
             //id의 rno(예약)의 개수만큼 foreach를 순회하면서 reservationVO list를 초기화
             rnoList.stream().forEach(rno -> {
                 ReservationCultureVO reservationCultureVO = reservationDAO.selectResCultureByRno(rno, conn);
-                CultureVO cultureVO = cultureDAO.selectOne(reservationCultureVO.getCno());
+//                CultureVO cultureVO = cultureDAO.selectOne(reservationCultureVO.getCno());
                 ReservationVO reservationVO = ReservationVO
                         .builder()
                         .rno(rno)
                         .id(id)
                         .resDate(reservationCultureVO.getResDate())
+                        .resCnt(reservationDAO.selectResCnt(rno,conn))
+                        .cno(reservationCultureVO.getCno())
                         .resPrice(reservationCultureVO.getResPrice())
                         .regDate(reservationCultureVO.getRegDate())
-                        .culture(cultureVO)
                         .build();
                 reservationList.add(reservationVO);
             });
@@ -203,15 +213,17 @@ public class ReservationServiceImpl implements ReservationService{
                 ////////////////////////
                 conn.rollback();
                 ////////////////////////
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("롤백 도중 예외가 발생했습니다");
+                log.error("롤백 도중 예외가 발생했습니다");
             }
             e.printStackTrace();
-            throw new RuntimeException("conn.rollback()");
+            log.error("conn.rollback()");
+//            throw new RuntimeException("conn.rollback()");
         } finally {
             CONN_UTIL.close(conn);
         }
+        return null;
     }//getReservationsById
 
     /**

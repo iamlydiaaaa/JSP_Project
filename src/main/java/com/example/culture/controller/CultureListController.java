@@ -48,6 +48,7 @@ public class CultureListController extends CultureController {
             PageResponseVO<CultureVO> pageResponseVO = cultureService.getCultures(pageRequestVO);
             //받아온 pageResponse를 list.jsp에 전달
             req.setAttribute("pageResponse", pageResponseVO);
+//            req.setAttribute("page",pageResponseVO.getPage());
             req.getRequestDispatcher("WEB-INF/view/culture/list.jsp").forward(req,resp);
         } catch (NumberFormatException e) {
             e.printStackTrace();

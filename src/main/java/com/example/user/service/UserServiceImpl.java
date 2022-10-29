@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public boolean login(String id, String pwd) {
         //입력된 id로 유저 객체를 받아옴
         //유저 정보를 가져오는데 실패하면 예외를 던짐
-        UserVO userVO = getUSer(id).orElseThrow();
+        UserVO userVO = getUser(id).orElseThrow();
         if (userVO.getId() == "" || userVO.getId() == null ||
                 userVO.getPwd() =="" || userVO.getPwd() == null) {
             return false;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 	}
 
     @Override
-    public Optional<UserVO> getUSer(String id) {
+    public Optional<UserVO> getUser(String id) {
         return userDAO.getById(id);
     }
 }

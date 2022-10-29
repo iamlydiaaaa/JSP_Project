@@ -8,10 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-
-    <link rel="stylesheet" href="<c:url value=" /resources/css/join.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/join.css" />">
     <%--    <script src="<c:url value="/resources/javascript/agreetxt.js"/>"></script>--%>
-
 
 </head>
 
@@ -29,7 +27,8 @@
     </script>
 
     <div id="wrap">
-        <script src="<c:url value=" /resources/javascript/header_sub.js" />"></script>
+
+<%--        <script src="<c:url value="/resources/javascript/header_sub.js" />"></script> 안지우면 회원가입화면에 헤더2개뜸 --%>
 
         <main id="main">
             <!--    서브메뉴 타이틀 영역    -->
@@ -44,7 +43,7 @@
                 <div id="sub_banner">
                     <p><strong>회원 가입</strong></p>
                 </div>
-                <form action="<c:url value=" /join" />" method="post" id="join_form">
+                <form action="<c:url value="/join" />" method="post" id="join_form">
                 <div class="personal_info">
                     <strong class="join_tit">1) <br>개인정보 <br>입력</strong>
                     <p>
@@ -73,10 +72,6 @@
                     <p>
                         <label for="email_l">이메일</label>
                         <input type="email" id="email_l" name="email">
-                    </p>
-                    <p>
-                        <label for="u_birth">나이</label>
-                        <input type="number" id="u_birth" name="age">
                     </p>
 
                 </div>
@@ -125,11 +120,11 @@
 
 
 
-        //아이디 중복 확인
+        //아이디 중복 확인 ajax로 db 호출
         function checkID() {
             //foreach문 돌려서 
             //if(id.value == 등록된 DB 내 id value)
-            if (id.value == "중복") { //"중복" 대신에 ${user.id} 넣어줘야함!
+            if (id.value == "중복") { //"중복" 대신에 user.id 넣어줘야함!
                 alert("중복된 아이디입니다.");
                 id.style.outline = "2px solid #eb9494";
 

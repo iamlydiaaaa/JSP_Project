@@ -35,7 +35,7 @@
             <ul id="list_wrap">
                 <c:forEach items="${requestScope.pageResponse.getPageList()}" var="culture">
                     <li>
-                        <a href="<c:url value="/detail?cno=${culture.getCno()}"/>">
+                        <a href="<c:url value="/detail?cno=${culture.getCno()}&page=${requestScope.pageResponse.page}"/>">
                             <p id="list_img">
                                 <img src="${culture.getImg_url()}" alt=""> </p>
                             <div class="list_box">

@@ -58,7 +58,7 @@ public class ReservationServiceTest {
         //given
         String id = "user1";
         //when
-        List<ReservationVO> reservations = reservationService.getReservationsById(id);
+        List<ReservationVO> reservations = reservationService.getReservationsVOById(id);
         System.out.println("reservations = " + reservations);
         //then
         assertTrue(reservations.size()>0);
@@ -99,13 +99,17 @@ public class ReservationServiceTest {
                 throw new SQLException("cultrue_res price 조회에 실패하여, reservation이 실패했습니다");
             }
             //reservation insert ->(return rno)
-            reservationDAO.insertReservation(
-                    ReservationVO
-                            .builder().id(id).resDate(resDate).build(),conn);
+            ReservationVO reservationVO = ReservationVO
+                    .builder()
+                    .id(id)
+                    .resDate(resDate)
+                    .resCnt(1) //테스트라 1개씩
+                    .build();
+            reservationDAO.insertReservation(reservationVO,conn);
             //id,resDate 그룹은 중복될수 없음
             Long rno = reservationDAO.selectRno(id,resDate,conn);
             System.out.println("rno = " + rno);
-            reservationDAO.insertResCulture(rno,cno,price,resDate,conn);
+            reservationDAO.insertResCulture(reservationVO,price,conn);
             if(price>0){ // 유료일 경우 유저의 payment_amount 업데이트
                 reservationDAO.updateUserPaymentAmount(id,price,conn);
             }

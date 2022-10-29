@@ -15,7 +15,5 @@ public class UserVO {
     private Date regDate;
     private String email;
     private String phone;
-    private Integer age;
-    private Integer gender;
     private Integer payment_amount;
 }

@@ -39,8 +39,8 @@ public class CultureDetailController extends CultureController{
             //1. 클릭한 목록의 cno를 가져와 db에서 조회
             //2. request영역에 저장후 detail.jsp로 전달
             Long cno = Long.valueOf(req.getParameter("cno"));
-            log.info("cno = " + cno);
             req.setAttribute("culture",cultureService.getCulture(cno));
+            req.setAttribute("page",req.getParameter("page"));
             req.getRequestDispatcher("WEB-INF/view/culture/detail.jsp").forward(req,resp);
         } catch (Exception e) {
             e.printStackTrace();

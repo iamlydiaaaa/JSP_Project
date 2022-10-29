@@ -20,10 +20,11 @@ public class JdbcReservationDAO implements ReservationDAO {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            String sql = "insert into reservation (id,resDate) values (?,?)";
+            String sql = "insert into reservation (id,resDate,resCnt) values (?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1,reservationVO.getId());
             pstmt.setDate(2,new java.sql.Date(reservationVO.getResDate().getTime()));
+            pstmt.setInt(3,reservationVO.getResCnt());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,16 +35,16 @@ public class JdbcReservationDAO implements ReservationDAO {
     }
 
     @Override
-    public void insertResCulture(Long rno, Long cno, Integer price, Date resDate , Connection conn) {
+    public void insertResCulture(ReservationVO reservationVO,Integer price,Connection conn) {
         PreparedStatement pstmt = null;
         try {
             String sql = "insert into res_culture (rno, cno, resPrice, resDate)\n" +
                     "values (?,?,?,?);";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1,rno);
-            pstmt.setLong(2,cno);
-            pstmt.setInt(3,price);
-            pstmt.setDate(4,new java.sql.Date(resDate.getTime()));
+            pstmt.setLong(1,reservationVO.getRno());
+            pstmt.setLong(2,reservationVO.getCno());
+            pstmt.setInt(3,price*(reservationVO.getResCnt()));
+            pstmt.setDate(4,new java.sql.Date(reservationVO.getResDate().getTime()));
             pstmt.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -238,5 +239,26 @@ public class JdbcReservationDAO implements ReservationDAO {
         } finally {
             CONN_UTIL.close(pstmt);
         }
+    }
+
+    @Override
+    public Integer selectResCnt(Long rno,Connection conn) {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select resCnt from reservation where rno = ?";
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,rno);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("예약 테이블 조회중 예외 발생");
+        } finally {
+            CONN_UTIL.close(pstmt);
+        }
+        return null;
     }
 }

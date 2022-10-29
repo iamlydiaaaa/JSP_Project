@@ -44,10 +44,10 @@
                         <th>이용기간</th>
                         <td>${culture.getSvc_opn_bgn_dt()} ~ ${culture.getSvc_opn_end_dt()}</td>
                     </tr>
-                    <tr>
-                        <th>취소기간</th>
-                        <td>${culture.getRevstd_day_nm()} ~ ${culture.getRevstd_day()}</td>
-                    </tr>
+<%--                    <tr>--%>
+<%--                        <th>취소기간</th>--%>
+<%--                        <td>${culture.getRevstd_day_nm()} ~ ${culture.getRevstd_day()}</td>--%>
+<%--                    </tr>--%>
                     <tr>
                         <th>이용요금 유무</th>
                         <td>${culture.getPay_ay_nm()}</td>
@@ -69,7 +69,7 @@
                 <h2>날짜 확인</h2>
                 <jsp:include page="/WEB-INF/view/common/calendar.jsp" flush="true"/>
                 <div class="calendar_desc">
-                    <form action="<c:url value="/project/reservation"/>" method="post">
+                    <form action="<c:url value="/reservation"/>" method="get">
                         <p class="select_date">
                             <strong><i class="material-icons">date_range</i> 선택한 날짜:</strong>
                             <input type="text" name="sel_y" id="cal_getYear" value=""/> /
@@ -80,9 +80,11 @@
                             <strong><i class="material-icons">people</i> 이용 인원:</strong>
                             <span class="select_number_val">
                                 <span id="possibleCnt"></span>
-                                <input type='button' onclick='count("minus")' value='-' /><input type="text" id="useNum" value="0" /><input type='button' onclick='count("plus")' value='+' />
+                                <input type='button' onclick='count("minus")' value='-' /><input type="text" id="useNum" name="useNum" value="0" /><input type='button' onclick='count("plus")' value='+' />
                             </span>
                         </p>
+                        <input type="hidden" name="cno" value="${culture.getCno()}">
+                        <input type="hidden" name="page" value="${requestScope.page}">
                         <p class="btn_reservation">
                             <input type="submit" value="예약하기" />
                         </p>
