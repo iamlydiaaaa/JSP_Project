@@ -20,6 +20,7 @@ public interface QnAService {
 
     //qna_q 검색
     PageResponseVO<QnA_Q_VO> searchedGetQnAQList(String type,String keyword,PageRequestVO pageRequestVO);
+    PageResponseVO<QnA_Q_VO> searchedGetQnAQList_noType(String keyword,PageRequestVO pageRequestVO);
 
     /**
      * 고객

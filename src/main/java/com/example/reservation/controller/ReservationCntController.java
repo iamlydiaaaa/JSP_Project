@@ -67,7 +67,7 @@ public class ReservationCntController extends ReservationController {
             resp.setStatus(200);
         } catch (ParseException e) {
             e.printStackTrace();
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("예약 가능 인원 조회 오류");

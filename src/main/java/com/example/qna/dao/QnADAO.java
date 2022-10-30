@@ -22,6 +22,7 @@ public interface QnADAO {
     PageResponseVO<QnA_A_VO> selectAllQnAA(Long qqno, PageRequestVO pageRequestVO);
     //검색
     PageResponseVO<QnA_Q_VO> searchQnA(PageRequestVO pageRequestVO,String type,String keyword);
+    PageResponseVO<QnA_Q_VO> searchQnA_noType(PageRequestVO pageRequestVO,String keyword);
     void deleteAllQnAA(Long qqno,Connection conn);
 
     /**

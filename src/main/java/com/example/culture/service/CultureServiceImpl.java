@@ -70,4 +70,9 @@ public class CultureServiceImpl implements CultureService {
     public void removeAll() {
         cultureDAO.deleteAll();
     }
+
+    @Override
+    public PageResponseVO<CultureVO> searchedGetCultures_noType(String keyword, PageRequestVO pageRequestVO) {
+        return cultureDAO.selectSearchedCultures_noType(keyword,pageRequestVO);
+    }
 }

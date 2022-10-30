@@ -40,7 +40,7 @@ public class QnAModifyController extends QnAController{
             req.getRequestDispatcher("WEB-INF/view/qna/qnaModify.jsp").forward(req,resp);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (IllegalStateException e) {
             e.printStackTrace();
             resp.sendRedirect("/project/qnaList?page="+

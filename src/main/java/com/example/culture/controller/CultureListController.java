@@ -54,7 +54,6 @@ public class CultureListController extends CultureController {
             e.printStackTrace();
             String msg = URLEncoder.encode("다시 시도해주세요", StandardCharsets.UTF_8);
             resp.sendRedirect("/project?msg="+msg);
-
         }
     }
 }

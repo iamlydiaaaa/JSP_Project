@@ -212,6 +212,9 @@
                 alert('먼저 로그인 해주세요');
                 return;
             }
+            if(!confirm('정말 삭제하시겠습니까?')){
+                return;
+            }
             //1. 삭제,검증에 필요한 qano
             let qano = $(this).parent().parent().attr("data-qano");
             //2. 목록 불러오기에 필요한 qqno
@@ -229,11 +232,15 @@
 
         //prev
         $("#reviewList").on("click", ".prev", function() {
-            //getreviews2 이용
+            let pageStr1 = $(this).attr("data-page");
+            let page1 = Number(pageStr1);
+            getReviews2(data_cno,page1-1);
         })
         //next
         $("#reviewList").on("click", ".next", function() {
-
+            let pageStr2 = $(this).attr("data-page");
+            let page2 = Number(pageStr2);
+            getReviews2(data_cno,page2+1);
         })
 
 
@@ -338,6 +345,8 @@
     //배열로 들어온 (js 객체를 html 문자로) 바꿔주는 함수
     let toHtml = function(pageResponse) {
         let reviews = pageResponse.pageList;
+        let prev = pageResponse.showPrev;
+        let next = pageResponse.showNext;
         let tmp = "<ul>";
         reviews.forEach(function(review) {
             tmp += '<li data-qqno=' + review.qqno + ' data-qano=' + review.qano + '>'
@@ -350,14 +359,14 @@
         }) //foreach
         tmp += '</ul>';
         //page nav
-        if (pageResponse.showPrev) {
-            tmp += '<span class="prev" data-page=' + pageResponse.page + ' >' + [PREV] + '</span>';
+        if (prev) {
+            tmp += '<span style="cursor: pointer" class="prev" data-page='+pageResponse.page+'>[PREV]</span>';
         }
-        for (var i = pageResponse.start; i <= pageResponse.end; i++) {
-            tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer;">' + i + '</div>';
+        for(var i = pageResponse.start; i<=pageResponse.end ; i++){
+            tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer; margin:3px;">'+i+'</div>';
         }
-        if (pageResponse.showNext) {
-            tmp += '<span class="next" data-page=' + pageResponse.page + ' >' + [NEXT] + '</span>';
+        if (next) {
+            tmp += '<span style="cursor: pointer" class="next" data-page='+pageResponse.page+'>[NEXT]</span>';
         }
         return tmp;
     }

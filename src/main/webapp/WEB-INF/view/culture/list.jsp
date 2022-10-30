@@ -60,8 +60,17 @@
         <!--     게시판 검색 영역       -->
         <div class="container_wrap">
             <div id="search_wrap">
-                <input type="text" name="list_search" value="검색어 입력" class="list_search">
+                <input type="text" id="list_search" placeholder="검색어 입력" class="list_search">
                 <button type="submit" id="list_search_btn">검색</button>
+                <script>
+                    $(document).ready(function (){
+                        $("#list_search_btn").click(function (){
+                            // let keyword = $("input[name=List_search]").val();
+                            let keyword = $("#list_search").val();
+                            window.self.location="/project/cultureSearch?keyword="+keyword;
+                        });
+                    });
+                </script>
             </div>
             <ul id="list_wrap">
                 <c:forEach items="${requestScope.pageResponse.getPageList()}" var="culture">

@@ -250,7 +250,51 @@ public class JdbcQnADAO implements QnADAO{
                         .cnt(rs.getInt(5))
                         .commentCnt(rs.getInt(6))
                         .regDate(new Date(rs.getDate(7).getTime()))
-                        .updateDate(new Date(rs.getDate(8).getTime()))
+//                        .updateDate(new Date(rs.getDate(8).getTime()))
+                        .build();
+                qnaqList.add(qnaq);
+            }
+            return PageResponseVO.<QnA_Q_VO>withAll()
+                    .pageRequestVO(pageRequestVO)
+                    .pageList(qnaqList)
+                    .total(selectQnAQCnt())
+                    .build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("searchQnA 실패");
+        } finally {
+            CONN_UTIL.close(rs,pstmt,conn);
+        }
+    }
+
+    @Override
+    public PageResponseVO<QnA_Q_VO> searchQnA_noType(PageRequestVO pageRequestVO, String keyword) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<QnA_Q_VO> qnaqList = new ArrayList<>();
+        try {
+            String sqlA = "select * from QnA_Q " +
+                    "where (title like ? or content like ?) " +
+                    "order by qqno desc Limit ?,?";
+            conn = CONN_UTIL.getConnection();
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sqlA);
+            pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setString(2,"%"+keyword+"%");
+            pstmt.setInt(3,pageRequestVO.getSkip());
+            pstmt.setInt(4,pageRequestVO.getSize());
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                QnA_Q_VO qnaq = QnA_Q_VO
+                        .builder()
+                        .qqno(rs.getLong(1))
+                        .id(rs.getString(2))
+                        .title(rs.getString(3))
+                        .content(rs.getString(4))
+                        .cnt(rs.getInt(5))
+                        .commentCnt(rs.getInt(6))
+                        .regDate(new Date(rs.getDate(7).getTime()))
+//                        .updateDate(new Date(rs.getDate(8).getTime()))
                         .build();
                 qnaqList.add(qnaq);
             }

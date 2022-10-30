@@ -31,7 +31,7 @@ public class QnADeleteController extends QnAController {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             log.error(e.getMessage());
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (IllegalStateException e) {
             e.printStackTrace();
             resp.sendRedirect("/project/qnaList?page="+

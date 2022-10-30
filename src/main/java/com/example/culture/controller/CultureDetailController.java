@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,16 +24,10 @@ public class CultureDetailController extends CultureController{
         HttpSession session = req.getSession();
         String msg = "";
         try {
-            //로그인중에만 detail.jsp 가능하게 , 쿠키부터 검색
-            Cookie[] cookies = req.getCookies();
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals("logined_cookie")){
-                    session.setAttribute("user", urlEncoding(cookie.getValue()));
-                }
-            }
             if(session.getAttribute("user")==null){
                 msg = urlEncoding("먼저 로그인을 해주세요");
-                resp.sendError(400);
+                resp.sendError(401);
+                return;
             }
             //1. 클릭한 목록의 cno를 가져와 db에서 조회
             //2. request영역에 저장후 detail.jsp로 전달

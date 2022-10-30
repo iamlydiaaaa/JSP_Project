@@ -83,6 +83,11 @@ public class QnAServiceImpl implements QnAService {
         return qnADAO.searchQnA(pageRequestVO,type,keyword);
     }
 
+    @Override
+    public PageResponseVO<QnA_Q_VO> searchedGetQnAQList_noType(String keyword, PageRequestVO pageRequestVO) {
+        return qnADAO.searchQnA_noType(pageRequestVO,keyword);
+    }
+
     /**
      * qna 작성
      */

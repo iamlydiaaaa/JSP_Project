@@ -57,7 +57,7 @@ public class ReservationResController extends ReservationController {
         } catch (ParseException e) {
             e.printStackTrace();
             log.error("잘못된 요청");
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (Exception e) {
             e.printStackTrace();
             log.info("예약 오류");
@@ -84,7 +84,7 @@ public class ReservationResController extends ReservationController {
         } catch (IllegalStateException e) {
             e.printStackTrace();
             log.error("잘못된 값 전달받음");
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("예약 db 저장 실패");

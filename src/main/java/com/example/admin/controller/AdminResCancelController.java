@@ -29,7 +29,7 @@ public class AdminResCancelController extends HttpServlet {
             reservationService.cancelReservation(id,rno);
             resp.sendRedirect("/project/admin");
         } catch (NumberFormatException | IOException e) {
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException("예약 취소 실패");

@@ -13,4 +13,5 @@ public interface CultureDAO<T> {
     CultureVO selectOne(Long cno);
     int selectCount();
     void deleteAll();
+    PageResponseVO<CultureVO> selectSearchedCultures_noType(String keyword, PageRequestVO pageRequestVO);
 }

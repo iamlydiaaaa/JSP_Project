@@ -31,9 +31,11 @@ public class LoginCookieFilter implements Filter {
                 }
             }
             chain.doFilter(request,response);
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             resp.sendRedirect("/project");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
