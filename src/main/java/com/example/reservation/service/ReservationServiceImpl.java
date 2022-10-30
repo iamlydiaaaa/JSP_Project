@@ -68,6 +68,27 @@ public class ReservationServiceImpl implements ReservationService{
         }
     }//validateRes_cno
 
+    //해당 날짜 예약 가능 인원 검증
+    private void validateCapacity(Long cno, Date resDate, Integer resCnt) {
+        Map<Long, List<ReservationCntVO>> longListMap = reservationDAO.selectReservationCnt(cno);
+        Integer capacity = cultureDAO.selectOne(cno).getCapacity();
+        List<ReservationCntVO> reservationCntVOList = longListMap.get(cno);
+        if(reservationCntVOList.isEmpty()){
+            if(resCnt>capacity){
+                throw new IllegalStateException("예약 가능 범위 초과");
+            }
+        }
+        for (ReservationCntVO reservationCntVO : reservationCntVOList) {
+            if(resDate.equals(reservationCntVO.getResDate())){
+                //해당 resDate의 현재예약수 + 지금resCnt <= capacity
+                if(resCnt +reservationCntVO.getCurrentResCnt()>capacity){
+                    System.out.println("capacity = " + capacity);
+                    throw new IllegalStateException("예약 가능 범위 초과");
+                }
+            }
+        }
+    }
+
     private void validateRes_user(String id, Long cno, Date resDate, Connection conn) {
         //id 로 예약한 reservation.rno를 모두 찾고
         List<Long> rnoList = reservationDAO.selectAllRnoById(id, conn);
@@ -91,9 +112,6 @@ public class ReservationServiceImpl implements ReservationService{
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date from = df.parse(cultureVO.getRcpt_bgn_dt());
         Date to = df.parse(cultureVO.getRcpt_end_dt());
-        System.out.println("resDate!!!!!!!!!!!"+resDate.getTime());
-        System.out.println("from!!!!!!!!!!!!!!!!" + from.getTime());
-        System.out.println("to!!!!!!!!!!!!!!!!!!"+to.getTime());
         if(resDate.getTime()<from.getTime()|| resDate.getTime()>to.getTime()){
             throw new IllegalStateException("잘못된 예약 날짜 입력");
         }
@@ -117,9 +135,10 @@ public class ReservationServiceImpl implements ReservationService{
             Long cno = reservationVO.getCno();
             Date resDate = reservationVO.getResDate();
             Integer resCnt = reservationVO.getResCnt();
+            //예약 인원수 검증
+            validateCapacity(cno, resDate, resCnt);
             //유효한 예약정보인지 검증 실패시 throw IllegalstateException
             validateRes(id,cno,resDate);
-
             //선택한 cno의 요금 조회
             Integer resPrice = reservationDAO.selectPriceFromCulture(reservationVO.getCno(),conn);
             if(resPrice==null||resPrice<0) {
@@ -133,6 +152,7 @@ public class ReservationServiceImpl implements ReservationService{
             if(rno==null) {
                 throw new SQLException("reservation rno 조회에 실패하여, reservation이 실패했습니다");
             }
+
             //res_culture insert
             reservationDAO.insertResCulture(reservationVO,resPrice,conn);
             // 유료일 경우 유저의 payment_amount 업데이트
@@ -168,6 +188,8 @@ public class ReservationServiceImpl implements ReservationService{
         }
     }//reservation
 
+
+
     /**
      * 고객의 예약 리스트 조회
      */
@@ -200,8 +222,12 @@ public class ReservationServiceImpl implements ReservationService{
                         .cno(reservationCultureVO.getCno())
                         .resPrice(reservationCultureVO.getResPrice())
                         .regDate(reservationCultureVO.getRegDate())
+                        .cultureVO(cultureDAO.selectOne(reservationCultureVO.getCno()))
                         .build();
-                reservationList.add(reservationVO);
+                //아직 실행전인 날짜만 조회
+                if(reservationCultureVO.getResDate().after(new Date())){
+                    reservationList.add(reservationVO);
+                }
             });
             ///////////////////////////
             conn.commit();
@@ -241,7 +267,6 @@ public class ReservationServiceImpl implements ReservationService{
     @MyTransactional
     public boolean cancelReservation(String id,Long rno) {
         Connection conn = CONN_UTIL.getConnection();
-
         try {
             //////////////////////////
             conn.setAutoCommit(false);
@@ -285,6 +310,6 @@ public class ReservationServiceImpl implements ReservationService{
     }//cancelReservation
 
     private Integer getPayment_amount(String id) {
-        return userDAO.getById(id).orElseThrow().getPayment_amount();
+        return userDAO.getById(id).getPayment_amount();
     }
 }

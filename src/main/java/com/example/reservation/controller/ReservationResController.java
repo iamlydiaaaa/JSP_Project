@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.example.common.util.Validation.validateUser;
+
 @WebServlet(name="reservationController",value="/reservation")
 @Slf4j
 public class ReservationResController extends ReservationController {
@@ -29,8 +31,8 @@ public class ReservationResController extends ReservationController {
                             req.getParameter("sel_d"));
             Integer resCnt = Integer.valueOf(req.getParameter("useNum"));
             Long cno = Long.valueOf(req.getParameter("cno"));
-            validateUser(req,req.getSession());
-            String id = getLoginedId(req);
+            String id = (String) req.getSession().getAttribute("user");
+            validateUser(req,req.getSession(),id);
             ReservationVO reservationVO = ReservationVO
                     .builder()
                     .resDate(resDate)
@@ -49,13 +51,13 @@ public class ReservationResController extends ReservationController {
             ///////////////////////////////////
             req.setAttribute("page",req.getParameter("page"));
             req.setAttribute("reservationVO",reservationVO);
-            req.setAttribute("userInfo",userService.getUser(id).orElseThrow());
+            req.setAttribute("userInfo",userService.getUser(id));
             req.setAttribute("price",cultureService.getCulture(cno).getPrice());
             req.getRequestDispatcher("WEB-INF/view/reservation/insertReservation.jsp").forward(req,resp);
         } catch (ParseException e) {
             e.printStackTrace();
             log.error("잘못된 요청");
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (Exception e) {
             e.printStackTrace();
             log.info("예약 오류");
@@ -82,7 +84,7 @@ public class ReservationResController extends ReservationController {
         } catch (IllegalStateException e) {
             e.printStackTrace();
             log.error("잘못된 값 전달받음");
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("예약 db 저장 실패");

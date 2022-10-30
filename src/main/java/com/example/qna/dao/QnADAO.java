@@ -22,7 +22,8 @@ public interface QnADAO {
     PageResponseVO<QnA_A_VO> selectAllQnAA(Long qqno, PageRequestVO pageRequestVO);
     //검색
     PageResponseVO<QnA_Q_VO> searchQnA(PageRequestVO pageRequestVO,String type,String keyword);
-
+    PageResponseVO<QnA_Q_VO> searchQnA_noType(PageRequestVO pageRequestVO,String keyword);
+    void deleteAllQnAA(Long qqno,Connection conn);
 
     /**
      * 고객
@@ -33,11 +34,11 @@ public interface QnADAO {
     QnA_Q_VO updateQnAQ(QnA_Q_VO qnaq,Connection conn);
     QnA_Q_VO updateQnAQ(QnA_Q_VO qnaq);
     //삭제
-    Integer deleteQnA_Q(Long qqno);
+    Integer deleteQnA_Q(Long qqno,Connection conn);
 
 
     /**
-     * 관리자댓글
+     * 댓글
      */
     //작성
     void insertQnA_A(QnA_A_VO qnaa, Connection conn);

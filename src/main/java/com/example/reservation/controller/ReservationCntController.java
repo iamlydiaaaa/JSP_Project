@@ -47,6 +47,7 @@ public class ReservationCntController extends ReservationController {
                     (req.getParameter("selYear") + "/" +
                             req.getParameter("selMonth") + "/" +
                             req.getParameter("selDay"));
+            //예약날짜가 있는경우
             for (ReservationCntVO reservationCntVO : reservationCnt.get(cno)) {
                 if(reservationCntVO.getResDate().equals(parseDate)){
                     sendAsJson(resp,reservationCntVO);
@@ -54,6 +55,7 @@ public class ReservationCntController extends ReservationController {
                     return;
                 }
             }
+            //없는경우 초기값
             ReservationCntVO reservationCntVO = ReservationCntVO
                     .builder()
                     .cno(cno)
@@ -61,12 +63,11 @@ public class ReservationCntController extends ReservationController {
                     .currentResCnt(0)
                     .capacity(cultureService.getCulture(cno).getCapacity())
                     .build();
-            System.out.println("reservationCntVO = " + reservationCntVO);
             sendAsJson(resp,reservationCntVO);
             resp.setStatus(200);
         } catch (ParseException e) {
             e.printStackTrace();
-            resp.setStatus(400);
+            resp.sendError(400);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("예약 가능 인원 조회 오류");

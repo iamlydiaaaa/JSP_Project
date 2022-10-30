@@ -20,4 +20,6 @@ public interface CultureService {
     //삭제
     //전부삭제
     void removeAll();
+    //검색
+    PageResponseVO<CultureVO> searchedGetCultures_noType(String keyword, PageRequestVO pageRequestVO);
 }

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
@@ -158,7 +159,7 @@ public class JdbcReviewDAO implements ReviewDAO {
             String sql = "select * from review " +
                     "where re_no = ?";
             conn = CONN_UTIL.getConnection();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,re_no);
             rs = pstmt.executeQuery();
             if(rs.next()){

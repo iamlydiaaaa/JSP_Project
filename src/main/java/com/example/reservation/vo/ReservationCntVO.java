@@ -13,7 +13,7 @@ import java.util.Date;
 public class ReservationCntVO {
     Long cno;
     Date resDate;
-    Integer currentResCnt;
+    int currentResCnt;
     Integer capacity;
 
     public boolean checkResCnt() {

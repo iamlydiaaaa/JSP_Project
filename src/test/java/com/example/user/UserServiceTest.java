@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
 
 public class UserServiceTest {
@@ -17,9 +15,8 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 조회")
     public void selectTest(){
-        Optional<UserVO> result = userService.getUser("user1");
-        UserVO userVO = result.orElse(UserVO.builder().build());
-        Assertions.assertNotNull(userVO);
+        UserVO user = userService.getUser("user1");
+        Assertions.assertNotNull(user);
     }
 
     @Test

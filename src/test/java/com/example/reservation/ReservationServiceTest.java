@@ -28,12 +28,24 @@ public class ReservationServiceTest {
     @DisplayName("예약 성공 케이스(유료)")
     public void reservationTest1() throws Exception {
         //given
-        String id = "user1";
+        String id = "test2";
         Long cno = 30L; // 유료 6000 10-25 ~ 11-11
-        Date resDate = java.sql.Timestamp.valueOf(LocalDate.of(2022,10,25).atStartOfDay());
+        Date resDate = java.sql.Timestamp.valueOf(LocalDate.of(2022,11,1).atStartOfDay());
         //when,then
-        assertTrue(copied_reservation(id,cno,resDate));
-//        reservationService.reservation(id,cno,resDate);
+//        assertTrue(copied_reservation(id,cno,resDate));
+        ReservationVO reservationVO = ReservationVO
+                .builder()
+                .id(id)
+                .resDate(resDate)
+                .resCnt(5)
+                .cno(cno)
+                .resPrice(6000)
+                .build();
+        reservationService.reservation(reservationVO);
+    }
+    @Test
+    void test(){
+        System.out.println(java.sql.Timestamp.valueOf(LocalDate.of(2022,10,30).atStartOfDay()));
     }
 
     @Test
@@ -44,7 +56,7 @@ public class ReservationServiceTest {
         Long cno = 31L; // 무료 0 10-25 ~ 11-18
         Date resDate = java.sql.Timestamp.valueOf(LocalDate.of(2022,10,25).atStartOfDay());
         //when,then
-        assertTrue(copied_reservation(id,cno,resDate));
+//        assertTrue(copied_reservation(id,cno,resDate));
 //        reservationService.reservation(id,cno,resDate);
     }
 
@@ -69,7 +81,7 @@ public class ReservationServiceTest {
     public void cancelReservationTest(){
         //given
         String id = "user1";
-        Long rno = 23L;
+        Long rno = 17L;
         //when , then
         assertTrue(reservationService.cancelReservation(id,rno));
     }

@@ -18,7 +18,7 @@ public class AdminController extends HttpServlet {
         log.info("AdminController.doGet");
         HttpSession session = req.getSession();
         if(session.getAttribute("user")==null||!session.getAttribute("user").equals("admin")){
-            resp.setStatus(400);
+            resp.sendError(400);
         }else{
             req.getRequestDispatcher("/WEB-INF/view/admin/adminPage.jsp").forward(req,resp);
         }

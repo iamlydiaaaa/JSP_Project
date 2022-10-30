@@ -1,7 +1,6 @@
 package com.example.admin.controller;
 
 import com.example.culture.service.CultureService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
@@ -11,25 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name="cultureRegisterController",value="/culture/register")
-@RequiredArgsConstructor
+import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
+
+@WebServlet(name="cultureRegisterController",value="/apiRegist")
 @Slf4j
 public class CultureRegisterController extends HttpServlet {
 
-    private final CultureService cultureService;
+    private final CultureService cultureService = SINGLETON_UTIL.cultureService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("register ... get");
-        req.getRequestDispatcher("WEB-INF/view/culture/register.jsp").forward(req,resp);
-    }
+        try {
+            log.info("CultureRegisterController.doGet");
+            cultureService.register();
+            resp.sendRedirect("/project/admin");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("api 최신화 실패");
+        }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("register ... post");
-        cultureService.register();
-        //
-        log.info("db 최신화 성공");
-        resp.sendRedirect("/project");
     }
 }

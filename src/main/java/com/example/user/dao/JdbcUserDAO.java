@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 
 import static com.example.common.util.ConnectionUtil.CONN_UTIL;
 
@@ -58,7 +57,7 @@ public class JdbcUserDAO implements UserDAO {
     }
 
     @Override
-    public Optional<UserVO> getById(String id) {
+    public UserVO getById(String id) {
         String sql = "select basic.id,basic.pwd,basic.name,basic.regDate," +
                 "res.email,res.phone,res.payment_amount from " +
                 "(user_basic as basic " +
@@ -75,22 +74,24 @@ public class JdbcUserDAO implements UserDAO {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
-            rs.next();
-            userVO = UserVO.builder()
-                    .id(rs.getString("id"))
-                    .pwd(rs.getString("pwd"))
-                    .name(rs.getString("name"))
-                    .regDate(new Date(rs.getDate("regDate").getTime()))
-                    .email(rs.getString("email"))
-                    .phone(rs.getString("phone"))
-                    .payment_amount(rs.getInt("payment_amount"))
-                    .build();
-            return Optional.ofNullable(userVO);
+            if(rs.next()){
+                userVO = UserVO.builder()
+                        .id(rs.getString("id"))
+                        .pwd(rs.getString("pwd"))
+                        .name(rs.getString("name"))
+                        .regDate(new Date(rs.getDate("regDate").getTime()))
+                        .email(rs.getString("email"))
+                        .phone(rs.getString("phone"))
+                        .payment_amount(rs.getInt("payment_amount"))
+                        .build();
+                return userVO;
+            }
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             throw new RuntimeException("회원정보 조회에 실패 했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
+        return null;
     }
 }

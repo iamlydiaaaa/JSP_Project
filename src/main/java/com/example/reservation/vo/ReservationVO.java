@@ -1,5 +1,6 @@
 package com.example.reservation.vo;
 
+import com.example.culture.vo.CultureVO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,4 +22,5 @@ public class ReservationVO {
     private Long cno;//행사번호
     private Integer resPrice;//res_culture 예약당시 결제금액
     private Date regDate;//res_culture 예약 등록일
+    private CultureVO cultureVO;
 }

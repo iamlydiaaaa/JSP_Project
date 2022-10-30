@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -40,6 +41,9 @@
         })
     </script>
 <body>
+<%--<c:forEach items="${requestScope.reservationList}" var="reservation">--%>
+<%--    //${reservation.getCultureVO().getSvc_nm()}//--%>
+<%--</c:forEach>--%>
     <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true" />
     <main id="mypage">
         <div class="sub_tit_line">
@@ -88,33 +92,38 @@
                 <!--    예약 관리    -->
                 <div class="mypage_reserve_info">
                     <h3>예약 내역</h3>
-                    <form action="">
+                    <c:forEach items="${requestScope.reservationList}" var="reservation">
+<%--                        ${reservation.getCultureVO().getSvc_nm()}--%>
+                    <form action="<c:url value="/resCancel"/>" method="GET">
+                        <input type="hidden" name="id" value="${reservation.getId()}">
+                        <input type="hidden" name="rno" value="${reservation.getRno()}">
                         <table>
                             <tr>
                                 <td>제목</td>
-                                <td><input type="text" value="" readonly></td>
+                                <td><input type="text" value="${reservation.getCultureVO().getSvc_nm()}" readonly></td>
                             </tr>
                             <tr>
                                 <td>장소</td>
-                                <td><input type="text" value="" readonly></td>
+                                <td><input type="text" value="${reservation.getCultureVO().getPlace_nm()}" readonly></td>
                             </tr>
                             <tr>
                                 <td>예약 날짜</td>
-                                <td><input type="text" value="" readonly></td>
+                                <td><input type="text" value="<fmt:formatDate value="${reservation.getResDate()}" pattern="yyyy/MM/dd" var="resDate"/>${resDate}" readonly></td>
                             </tr>
                             <tr>
                                 <td>예약 인원</td>
-                                <td><input type="text" value="" readonly></td>
+                                <td><input type="text" value="${reservation.getResCnt()}" readonly></td>
                             </tr>
                             <tr>
                                 <td>문의전화</td>
-                                <td><input type="text" value="" readonly></td>
+                                <td><input type="text" value="${reservation.getCultureVO().getTel_no()}" readonly></td>
                             </tr>
                         </table>
                         <p class="btn_cancel">
-                            <button type="submit">예약 취소</button>
+                            <button type="submit" onclick="return confirm('정말 취소 하시겠습니까?')">예약 취소</button>
                         </p>
                     </form>
+                    </c:forEach>
                 </div>
             </section>
 

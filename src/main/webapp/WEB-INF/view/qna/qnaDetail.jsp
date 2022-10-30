@@ -26,6 +26,19 @@
             location.reload(true);
         }
     }
+    function getCookie(cookieName) {
+        cookieName = cookieName + '=';
+        var cookieData = document.cookie;
+        var start = cookieData.indexOf(cookieName);
+        var cookieValue = '';
+        if (start != -1) {
+            start += cookieName.length;
+            var end = cookieData.indexOf(';', start);
+            if (end == -1) end = cookieData.length;
+            cookieValue = cookieData.substring(start, end);
+        }
+        return unescape(cookieValue);
+    }
     $(document).ready(function (){
         //common.jsp 에서 실행될땐 바디태그 아래부분이라 로그인시 바로 적용인 안되서 옮김
         let user = '<c:out value="${sessionScope.get('user')}"/>';
@@ -131,17 +144,36 @@
         getReviews(data_qqno);
 
         //리뷰쓰기버튼 클릭이벤트
+        var isRun1 = false;
         $("#writeBtn").click(function() {
+            if(isRun1){
+                return;
+            }
+            isRun1=true;
+            if(data_id===""){
+                alert('먼저 로그인 해주세요');
+                return;
+            }
             let reviewVO = {
-                id: data-id,
+                id: data_id,
                 qqno: data_qqno,
                 content: $("textarea[name=reviewContent]").val(),
             }
             writeReview(reviewVO);
+            isRun1 = false;
         });
 
         //리뷰수정버튼 클릭이벤트
+        var isRun2 = false;
         $("#reviewList").on("click", ".modBtn", function() { //아래의 클래스 modBtn클릭
+            if(isRun2){
+                return;
+            }
+            isRun2=true;
+            if(data_id===""){
+                alert('먼저 로그인 해주세요');
+                return;
+            }
             //1. writeBtn숨기고 숨겨진 #modBtn 버튼 다시 보이게
             $("#writeBtn").css("display", "none");
             $("#modBtn").css("display", "block");
@@ -154,23 +186,41 @@
             $("textarea[name=reviewContent]").val(data_content);
 
             $("#modBtn").click(function() {
+                if(data_id===""){
+                    alert('먼저 로그인 해주세요');
+                    return;
+                }
                 let reviewVO = {
-                    id: data-id,
+                    id: data_id,
                     qano: data_qano,
                     qqno: data_qqno,
                     content: $("textarea[name=reviewContent]").val(),
                 }
                 updateReview(reviewVO);
             })
+            isRun2 = false;
         }) //리뷰수정버튼 클릭이벤트
 
         //리뷰삭제버튼 클릭이벤트
+        var isRun3 = false;
         $("#reviewList").on("click", ".delBtn", function() { //아래의 클래스 modBtn클릭
+            if(isRun3){
+                return;
+            }
+            isRun3=true;
+            if(data_id===""){
+                alert('먼저 로그인 해주세요');
+                return;
+            }
+            if(!confirm('정말 삭제하시겠습니까?')){
+                return;
+            }
             //1. 삭제,검증에 필요한 qano
             let qano = $(this).parent().parent().attr("data-qano");
             //2. 목록 불러오기에 필요한 qqno
             let qqno = $("#reviewList").attr("data-qqno");
             deleteReview(qano, qqno);
+            isRun3=false;
         }) //리뷰삭제버튼 클릭이벤트
 
         $("#reviewList").on("click", ".reviewPage", function() {
@@ -182,18 +232,21 @@
 
         //prev
         $("#reviewList").on("click", ".prev", function() {
-            //getreviews2 이용
+            let pageStr1 = $(this).attr("data-page");
+            let page1 = Number(pageStr1);
+            getReviews2(data_cno,page1-1);
         })
         //next
         $("#reviewList").on("click", ".next", function() {
-
+            let pageStr2 = $(this).attr("data-page");
+            let page2 = Number(pageStr2);
+            getReviews2(data_cno,page2+1);
         })
 
 
     }); //document.ready
 
     //////////////////////////////////////////////
-
     let getReviews = function(data_qqno) {
         $.ajax({
             url: '/project/qnaReview?qqno=' + data_qqno,
@@ -292,10 +345,12 @@
     //배열로 들어온 (js 객체를 html 문자로) 바꿔주는 함수
     let toHtml = function(pageResponse) {
         let reviews = pageResponse.pageList;
+        let prev = pageResponse.showPrev;
+        let next = pageResponse.showNext;
         let tmp = "<ul>";
         reviews.forEach(function(review) {
             tmp += '<li data-qqno=' + review.qqno + ' data-qano=' + review.qano + '>'
-            tmp += '<p class="review_list_id"><span class="id">admin</span></p>'
+            tmp += '<p class="review_list_id"><img src="<c:url value="/resources/images/user_default.png"/>" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
             tmp += '<p class="review_list_content"><span class="content">'+review.content+'</span></p>'
             tmp += '<p class="review_list_date"><span class="date">'+new Date(review.regDate).toLocaleDateString()+'</span></p></div>'
             tmp += '<p class="btn_wrap"><button class = "delBtn">삭제</button>'
@@ -304,14 +359,14 @@
         }) //foreach
         tmp += '</ul>';
         //page nav
-        if (pageResponse.showPrev) {
-            tmp += '<span class="prev" data-page=' + pageResponse.page + ' >' + [PREV] + '</span>';
+        if (prev) {
+            tmp += '<span style="cursor: pointer" class="prev" data-page='+pageResponse.page+'>[PREV]</span>';
         }
-        for (var i = pageResponse.start; i <= pageResponse.end; i++) {
-            tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer;">' + i + '</div>';
+        for(var i = pageResponse.start; i<=pageResponse.end ; i++){
+            tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer; margin:3px;">'+i+'</div>';
         }
-        if (pageResponse.showNext) {
-            tmp += '<span class="next" data-page=' + pageResponse.page + ' >' + [NEXT] + '</span>';
+        if (next) {
+            tmp += '<span style="cursor: pointer" class="next" data-page='+pageResponse.page+'>[NEXT]</span>';
         }
         return tmp;
     }

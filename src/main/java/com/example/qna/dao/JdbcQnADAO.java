@@ -181,6 +181,7 @@ public class JdbcQnADAO implements QnADAO{
                         .qqno(rs.getLong(2))
                         .content(rs.getString(3))
                         .regDate(new Date(rs.getDate(4).getTime()))
+                        .id(rs.getString("id"))
                         .build();
                 if(rs.getDate(5)!=null){
                     qnaa.setUpdateDate(new Date(rs.getDate(5).getTime()));
@@ -249,7 +250,51 @@ public class JdbcQnADAO implements QnADAO{
                         .cnt(rs.getInt(5))
                         .commentCnt(rs.getInt(6))
                         .regDate(new Date(rs.getDate(7).getTime()))
-                        .updateDate(new Date(rs.getDate(8).getTime()))
+//                        .updateDate(new Date(rs.getDate(8).getTime()))
+                        .build();
+                qnaqList.add(qnaq);
+            }
+            return PageResponseVO.<QnA_Q_VO>withAll()
+                    .pageRequestVO(pageRequestVO)
+                    .pageList(qnaqList)
+                    .total(selectQnAQCnt())
+                    .build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("searchQnA 실패");
+        } finally {
+            CONN_UTIL.close(rs,pstmt,conn);
+        }
+    }
+
+    @Override
+    public PageResponseVO<QnA_Q_VO> searchQnA_noType(PageRequestVO pageRequestVO, String keyword) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<QnA_Q_VO> qnaqList = new ArrayList<>();
+        try {
+            String sqlA = "select * from QnA_Q " +
+                    "where (title like ? or content like ?) " +
+                    "order by qqno desc Limit ?,?";
+            conn = CONN_UTIL.getConnection();
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sqlA);
+            pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setString(2,"%"+keyword+"%");
+            pstmt.setInt(3,pageRequestVO.getSkip());
+            pstmt.setInt(4,pageRequestVO.getSize());
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                QnA_Q_VO qnaq = QnA_Q_VO
+                        .builder()
+                        .qqno(rs.getLong(1))
+                        .id(rs.getString(2))
+                        .title(rs.getString(3))
+                        .content(rs.getString(4))
+                        .cnt(rs.getInt(5))
+                        .commentCnt(rs.getInt(6))
+                        .regDate(new Date(rs.getDate(7).getTime()))
+//                        .updateDate(new Date(rs.getDate(8).getTime()))
                         .build();
                 qnaqList.add(qnaq);
             }
@@ -317,12 +362,10 @@ public class JdbcQnADAO implements QnADAO{
     }
 
     @Override
-    public Integer deleteQnA_Q(Long qqno) {
-        Connection conn = null;
+    public Integer deleteQnA_Q(Long qqno,Connection conn) {
         PreparedStatement pstmt = null;
         try {
             String sql = "delete from QnA_Q where qqno = ?";
-            conn = CONN_UTIL.getConnection();
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,qqno);
             return pstmt.executeUpdate();
@@ -330,7 +373,7 @@ public class JdbcQnADAO implements QnADAO{
             e.printStackTrace();
             throw new RuntimeException("deleteQnA_Q 실패");
         } finally {
-            CONN_UTIL.close(pstmt,conn);
+            CONN_UTIL.close(pstmt);
         }
     }
 
@@ -413,6 +456,7 @@ public class JdbcQnADAO implements QnADAO{
                         .qqno(rs.getLong(2))
                         .content(rs.getString(3))
                         .regDate(new Date(rs.getDate(4).getTime()))
+                         .id(rs.getString("id"))
                         .build();
                 if(rs.getDate(5)!=null){
                     qnaA.setUpdateDate(new Date(rs.getDate(5).getTime()));
@@ -426,5 +470,21 @@ public class JdbcQnADAO implements QnADAO{
             CONN_UTIL.close(rs,pstmt,conn);
         }
         return null;
+    }
+
+    @Override
+    public void deleteAllQnAA(Long qqno,Connection conn) {
+        PreparedStatement pstmt = null;
+        try {
+            String sql = "delete from QnA_A where qqno = ?";
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,qqno);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("deleteQnA_A(qqno) 실패");
+        } finally {
+            CONN_UTIL.close(pstmt);
+        }
     }
 }
