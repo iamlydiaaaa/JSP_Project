@@ -91,8 +91,8 @@
     <div class="error_wrap">
        <div>
           <h1>400 ERROR</h1>
-           <h2> 잘못된 요청입니다.</h2>
-           <strong>페이지가 존재하지 않거나, 잘못된 요청입니다. <br> 다시 한 번 확인해 주세요.</strong>
+           <h2> BAD REQUEST</h2>
+           <strong> Your Request resulted in an error, 잘못된 요청입니다. <br> 다시 한 번 확인해 주세요.</strong>
        </div>
        <p>
            <a onclick="showTxt()">에러 오류 확인:</a>

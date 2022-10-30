@@ -22,7 +22,7 @@ import java.util.List;
 public class CultureJsonApiProvider implements ApiProvider{
     private final String KEY; //인증키 6653645678736b6139317441527257
     private final String SUB_CATEGORY; //문화행사
-    private Long cno = 1L;
+//    private Long cno = 1L;
     private final CultureDAO<CultureVO> cultureDAO;
 
 
@@ -69,7 +69,7 @@ public class CultureJsonApiProvider implements ApiProvider{
                     }
                 }
                 CultureVO cultureVO = CultureVO.builder()
-                        .cno(cno)
+//                        .cno(cno)
                         .svc_id(parseNonDQM(element.get("SVCID")))
                         .svc_nm(parseNonDQM(element.get("SVCNM")))
                         .area_nm(parseNonDQM(element.get("AREANM")))
@@ -90,7 +90,7 @@ public class CultureJsonApiProvider implements ApiProvider{
                         .revstd_day(parseNonDQM(element.get("REVSTDDAY")))
                         .build();
                 apiList.add(cultureVO);
-                cno++;
+//                cno++;
             }
         } catch (IOException e) {
             e.printStackTrace();

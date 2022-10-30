@@ -189,13 +189,16 @@ let getCultureCnt = function(cno,selYear,selMonth,selDay) {
     $.ajax({
         url: '/project/resCnt?selYear='+selYear+'&selMonth='+selMonth+'&selDay='+selDay+'&cno='+cno,
         type: 'GET',
-        headers: {"content-type":"application/json"},
+        headers: {"content-type":"application/json; charset=UTF-8"},
 
         success : function(result){
             //possibleCnt
-            alert('선택하신 날짜에 '+result.currentResCnt+'명이 예약중입니다.');
+            // alert('선택하신 날짜에 '+result.currentResCnt+'명이 예약중입니다.');
+            // document.getElementById("possibleCnt").innerText =
+            //     '( '+result.currentResCnt+' / '+result.capacity+' 명)';
+            // alert('선택하신 날짜에 '+result.currentResCnt+'명이 예약중입니다.');
             document.getElementById("possibleCnt").innerText =
-                '( '+result.currentResCnt+' / '+result.capacity+' 명)';
+                '( '+result.currentResCnt+' / '+result.capacity+' )';
         },
         error: function() {
             alert("예약인원 조회 실패");

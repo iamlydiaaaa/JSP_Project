@@ -34,6 +34,12 @@
                 $(".u_admin").css("display","none");
                 $(".u_on").css("display","none");
             }
+            //버튼 클릭하면 내용 나타내기/숨기기
+            $(".mypage_list li").on('click',function(){
+                var index = $(this).index() - 1;
+                $(".mypage_con > div").hide();
+                $(".mypage_con > div").eq(index).show();
+            })
         }
     })
 </script>
@@ -51,23 +57,21 @@
     <div class="container_wrap">
         <h2 class="mypage_tit">관리자페이지</h2>
         <section class="mypage_list">
+            <input type="text" id="user_id" placeholder="검색할 고객 id입력">
+            <button id="user_btn">유저예약 검색</button>
             <ul>
                 <li class="on profile"><img src="<c:url value="/resources/images/user_default.png"/>" alt="" />
                     <h4><c:out value="${sessionScope.user}"/></h4>
                 </li>
                 <li><a href="/project/apiRegist" onclick="alert('행사목록 업데이트')">api 업데이트</a></li>
                 <li><a class="test" href="#">예약 관리</a></li>
-                <li>
-                    <input type="text" id="user_id" placeholder="검색할 고객 id입력">
-                    <button id="user_btn">유저예약 검색</button>
-                </li>
-                <li>
-                    <div id="resList">
-
-                    </div>
-                </li>
                 <script>
-                    $(document).ready(function (){
+                    $(document).ready(function (){  //버튼 클릭하면 내용 나타내기/숨기기
+                        $(".mypage_list li").on('click',function(){
+                            var index = $(this).index() - 1;
+                            $(".mypage_con > div").hide();
+                            $(".mypage_con > div").eq(index).show();
+                        })
                         $("#user_btn").click(function(){
                             let id = $("#user_id").val();
                             checkID(id);
@@ -85,8 +89,13 @@
                             headers: {"content-type":"application/json"},
 
                             success : function(result){
-                                alert("성공")
-                                $("#resList").html(toHtml1(result));
+                                if(typeof result == "object"){
+                                    alert("유저예약 정보를 불러옵니다")
+                                    $(".resList").html(toHtml1(result));
+                                } else{
+
+                                    alert("해당 유저의 예약은 존재하지 않습니다");
+                                }
                             },
                             error: function() {
                                 alert("해당 유저의 예약은 존재하지 않습니다");
@@ -95,7 +104,8 @@
                     }
                     let toHtml1 = function(reservationList) {
                         let tmp = '';
-                        reservationList.forEach(function(reservation) {
+                        for(var i =0;i<reservationList.length;i++){
+                            let reservation = reservationList[i];
                             let resDate1 = new Date(reservation.resDate);
                             tmp += '<form action="<c:url value='/adminResCancel'/>">'
                             tmp += '<input type="hidden" name="id" value='+reservation.id+'>'
@@ -117,10 +127,13 @@
                             tmp += '<td>'+reservation.cultureVO.tel_no+'</td>'
                             tmp += '</tr>'
                             tmp += '</table>'
-                            tmp += '<button type="submit" class="cancelBtn" onclick="return confirm("정말 삭제 하시겠습니까?")">예약 취소</button>'
+                            tmp += '<button type="submit" class="cancelBtn" onclick="confrimCancel()">예약 취소</button>'
                             tmp += '</form>'
-                        })//foreach
+                        }
                         return tmp;
+                    }
+                    function confrimCancel(){
+                        return confirm('정말 삭제하시겠습니까?');
                     }
                 </script>
             </ul>
@@ -131,8 +144,12 @@
                 <h3>회원 예약 조회/삭제</h3>
 <%--                <section>--%>
                     <!--    예약 관리    -->
-                <div class="mypage_reserve_info">
-                    <h3>예약 내역</h3>
+            </div>
+                <div class="mypage_reserve_info resList">
+                </div>
+
+        </section>
+<%--                    <h3>예약 내역</h3>--%>
 
 <%--                    <c:forEach items="${requestScope.reservationList}" var="reservation">--%>
 <%--                        &lt;%&ndash;                        ${reservation.getCultureVO().getSvc_nm()}&ndash;%&gt;--%>
@@ -166,9 +183,9 @@
 <%--                            </p>--%>
 <%--                        </form>--%>
 <%--                    </c:forEach>--%>
-                </div>
-        </section>
-    </div>
+<%--                </div>--%>
+<%--        </section>--%>
+<%--    </div>--%>
 </main>
 
 </body>

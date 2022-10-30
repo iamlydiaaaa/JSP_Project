@@ -16,8 +16,6 @@ public interface CultureService {
     List<CultureVO> getCultures();
     //개별조회
     CultureVO getCulture(Long cno);
-    //수정
-    //삭제
     //전부삭제
     void removeAll();
     //검색

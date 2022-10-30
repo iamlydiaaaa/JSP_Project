@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>${culture.getSvc_nm()}</title>
@@ -39,7 +40,14 @@
                 $(".u_on").css("display","none");
             }
         }
+        let StringOpn = '<c:out value="${culture.getSvc_opn_bgn_dt()}"/>';
+        let opn_bgn_dt = new Date(StringOpn).toLocaleDateString();
+        let StringEnd = '<c:out value="${culture.getSvc_opn_end_dt()}"/>';
+        let opn_end_dt = new Date(StringEnd).toLocaleDateString();
+        $(".detail_date").html('행사기간 : '+opn_bgn_dt+' ~ '+opn_end_dt);
+        $(".detail_date2").html(opn_bgn_dt+' ~ '+opn_end_dt);
     })
+
 </script>
 <body>
 <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>
@@ -57,7 +65,8 @@
         <section class="detail_overview">
             <div>
                 <h1>${culture.getSvc_nm()} <br>
-                    <span class="detail_date">행사 기간 : ${culture.getSvc_opn_bgn_dt()} ~ ${culture.getSvc_opn_end_dt()}</span>
+                    <span class="detail_date">행사 기간 : </span>
+<%--                        <fmt:formatDate value="${culture.getSvc_opn_bgn_dt()}" pattern="yyyy/MM/dd" var="getSvc_opn_bgn_dt"/>${getSvc_opn_bgn_dt} ~ <fmt:formatDate value="${culture.getSvc_opn_end_dt()}" pattern="yyyy/MM/dd" var="getSvc_opn_end_dt"/>${getSvc_opn_end_dt}--%>
                 </h1>
                 <table id="detail_table">
                     <tr>
@@ -74,7 +83,8 @@
                     </tr>
                     <tr>
                         <th>이용기간</th>
-                        <td>${culture.getSvc_opn_bgn_dt()} ~ ${culture.getSvc_opn_end_dt()}</td>
+                        <td class="detail_date2"></td>
+<%--                        <td><fmt:formatDate value="${culture.getSvc_opn_bgn_dt()}" pattern="yyyy/MM/dd" var="getSvc_opn_bgn_dt"/>${getSvc_opn_bgn_dt} ~ <fmt:formatDate value="${culture.getSvc_opn_end_dt()}" pattern="yyyy/MM/dd" var="getSvc_opn_end_dt"/>${getSvc_opn_end_dt}</td>--%>
                     </tr>
 <%--                    <tr>--%>
 <%--                        <th>취소기간</th>--%>

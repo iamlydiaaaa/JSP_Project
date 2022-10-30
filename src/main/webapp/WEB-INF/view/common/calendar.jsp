@@ -25,7 +25,7 @@
         color: #ffffff;
     }
 </style>
-<script src="<c:url value="/resources/javascript/calendar.js"/>"></script>
+<script src="<c:url value="/resources/javascript/calendar.js"/>" charset="utf-8"></script>
 
 <div class="calendar_wrap">
     <table class="calendar">

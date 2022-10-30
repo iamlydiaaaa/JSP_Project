@@ -2,7 +2,6 @@ package com.example.qna.controller;
 
 import com.example.common.vo.PageRequestVO;
 import com.example.common.vo.PageResponseVO;
-import com.example.qna.service.QnAService;
 import com.example.qna.vo.QnA_A_VO;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -22,7 +21,7 @@ import static com.example.common.util.Validation.validateUser;
 @WebServlet(name="qnAReviewController",value="/qnaReview/*")
 @Slf4j
 public class QnAReviewController extends QnAController {
-    private final QnAService qnAService = SINGLETON_UTIL.qnAService();
+//    private final QnAService qnAService = SINGLETON_UTIL.qnAService();
     private final Gson gson = SINGLETON_UTIL.gson();
 
     //자바객체를 json 객체로 응답하는 메서드
