@@ -36,8 +36,12 @@
                     $(".u_on").css("display","none");
                 }
             }
-            
-            
+            //버튼 클릭하면 내용 나타내기/숨기기
+            $(".mypage_list li").on('click',function(){
+                var index = $(this).index() - 1;
+                $(".mypage_con > div").hide();
+                $(".mypage_con > div").eq(index).show();
+            })
         })
     </script>
 <body>

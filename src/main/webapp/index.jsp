@@ -28,7 +28,6 @@
             $(".u_on").css("display","inline-block");
         } else{
             if(user.valueOf()==='admin'){
-                alert('관리자님 환영합니다')
                 $(".u_admin").css("display","inline-block");
                 $(".u_out").css("display","none");
                 $(".u_on").css("display","none");

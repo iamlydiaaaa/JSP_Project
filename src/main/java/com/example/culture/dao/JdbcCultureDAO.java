@@ -23,8 +23,8 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
         PreparedStatement pstmt = null;
         try {
             String sql = "insert into culture_basic " +
-                    "(svc_nm,area_nm,place_nm,tel_no,cno,svc_id) " +
-                    "values(?,?,?,?,?,?)";
+                    "(svc_nm,area_nm,place_nm,tel_no,svc_id) " +
+                    "values(?,?,?,?,?)";
             conn = CONN_UTIL.getConnection();
             Objects.requireNonNull(conn).setAutoCommit(false);
             pstmt = conn.prepareStatement(sql);
@@ -32,36 +32,36 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             pstmt.setString(2, cultureVO.getArea_nm());
             pstmt.setString(3, cultureVO.getPlace_nm());
             pstmt.setString(4, cultureVO.getTel_no());
-            pstmt.setLong(5, cultureVO.getCno());
-            pstmt.setString(6,cultureVO.getSvc_id());
+//            pstmt.setLong(5, cultureVO.getCno());
+            pstmt.setString(5,cultureVO.getSvc_id());
             pstmt.executeUpdate();
 
             sql = "insert into culture_info " +
-                    "(pay_ay_nm,use_tgt_info,svc_url,img_url,dtlcont,cno) " +
-                    "values(?,?,?,?,?,?)";
+                    "(pay_ay_nm,use_tgt_info,svc_url,img_url,dtlcont) " +
+                    "values(?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, cultureVO.getPay_ay_nm());
             pstmt.setString(2, cultureVO.getUse_tgt_info());
             pstmt.setString(3, cultureVO.getSvc_url());
             pstmt.setString(4, cultureVO.getImg_url());
             pstmt.setString(5, cultureVO.getDtlcont());
-            pstmt.setLong(6, cultureVO.getCno());
+//            pstmt.setLong(6, cultureVO.getCno());
             pstmt.executeUpdate();
 
             sql = "insert into culture_res " +
-                    "(capacity,price,cno,revstd_day_nm,revstd_day) " +
-                    "values(?,?,?,?,?)";
+                    "(capacity,price,revstd_day_nm,revstd_day) " +
+                    "values(?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cultureVO.getCapacity());
             pstmt.setInt(2, cultureVO.getPrice());
-            pstmt.setLong(3, cultureVO.getCno());
-            pstmt.setString(4, cultureVO.getRevstd_day_nm());
-            pstmt.setString(5, cultureVO.getRevstd_day());
+//            pstmt.setLong(3, cultureVO.getCno());
+            pstmt.setString(3, cultureVO.getRevstd_day_nm());
+            pstmt.setString(4, cultureVO.getRevstd_day());
             pstmt.executeUpdate();
 
             sql = "insert into culture_schedule " +
-                    "(svc_opn_bgn_dt,svc_opn_end_dt,v_min,v_max,rcpt_bgn_dt,rcpt_end_dt,cno) " +
-                    "values(?,?,?,?,?,?,?)";
+                    "(svc_opn_bgn_dt,svc_opn_end_dt,v_min,v_max,rcpt_bgn_dt,rcpt_end_dt) " +
+                    "values(?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, cultureVO.getSvc_opn_bgn_dt());
             pstmt.setString(2, cultureVO.getSvc_opn_end_dt());
@@ -69,7 +69,7 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             pstmt.setString(4, cultureVO.getV_max());
             pstmt.setString(5, cultureVO.getRcpt_bgn_dt());
             pstmt.setString(6, cultureVO.getRcpt_end_dt());
-            pstmt.setLong(7, cultureVO.getCno());
+//            pstmt.setLong(7, cultureVO.getCno());
             pstmt.executeUpdate();
 
             conn.commit();

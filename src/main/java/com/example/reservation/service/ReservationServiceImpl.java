@@ -109,6 +109,9 @@ public class ReservationServiceImpl implements ReservationService{
     }//validateRes_user
 
     private void validateRes_resDate(Date resDate, CultureVO cultureVO) throws ParseException {
+        if(resDate.before(new Date())){
+            throw new IllegalStateException("잘못된 예약 날짜 입력");
+        }
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date from = df.parse(cultureVO.getRcpt_bgn_dt());
         Date to = df.parse(cultureVO.getRcpt_end_dt());
@@ -225,7 +228,8 @@ public class ReservationServiceImpl implements ReservationService{
                         .cultureVO(cultureDAO.selectOne(reservationCultureVO.getCno()))
                         .build();
                 //아직 실행전인 날짜만 조회
-                if(reservationCultureVO.getResDate().after(new Date())){
+                if(reservationCultureVO.getResDate().after(new Date())||
+                        reservationCultureVO.getResDate().equals(new Date())){
                     reservationList.add(reservationVO);
                 }
             });

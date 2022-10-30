@@ -50,6 +50,7 @@ public class AdminResController extends HttpServlet {
             if(reservationsVOById.isEmpty()){
                 resp.sendError(400);
             }
+            System.out.println("reservationsVOById!!!!!!!!!!!!!!!!!!!! = " + reservationsVOById);
             sendAsJson(resp, reservationsVOById);
             resp.setStatus(200);
         } catch (IllegalStateException e) {
