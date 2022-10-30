@@ -5,8 +5,6 @@ import com.example.user.dao.UserDAO;
 import com.example.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -27,7 +25,7 @@ public class UserServiceImpl implements UserService {
     public boolean login(String id, String pwd) {
         //입력된 id로 유저 객체를 받아옴
         //유저 정보를 가져오는데 실패하면 예외를 던짐
-        UserVO userVO = getUser(id).orElseThrow();
+        UserVO userVO = getUser(id);
         if (userVO.getId() == "" || userVO.getId() == null ||
                 userVO.getPwd() =="" || userVO.getPwd() == null) {
             return false;
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	}
 
     @Override
-    public Optional<UserVO> getUser(String id) {
+    public UserVO getUser(String id) {
         return userDAO.getById(id);
     }
 }

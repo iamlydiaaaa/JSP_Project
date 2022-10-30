@@ -60,7 +60,7 @@ public class QnAServiceImpl implements QnAService {
                 throw new RuntimeException("롤백중 예외 발생");
             }
             ////////////////
-
+            e.printStackTrace();
             throw new RuntimeException("rollback");
         } finally {
             CONN_UTIL.close(conn);
@@ -103,8 +103,27 @@ public class QnAServiceImpl implements QnAService {
      * qna 삭제
      */
     @Override
-    public boolean removeQnAQ(Long qqno) {
-        return qnADAO.deleteQnA_Q(qqno)==1;
+    @MyTransactional
+    public void removeQnAQ(Long qqno) {
+        Connection conn = CONN_UTIL.getConnection();
+        try {
+            Objects.requireNonNull(conn).setAutoCommit(false);
+            qnADAO.deleteAllQnAA(qqno,conn);
+            qnADAO.deleteQnA_Q(qqno,conn);
+            conn.commit();
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            try {
+                Objects.requireNonNull(conn).rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                throw new RuntimeException("rollback 실패");
+            }
+            e.printStackTrace();
+            throw new RuntimeException("QnAQ삭제 실패(rollback)");
+        } finally {
+            CONN_UTIL.close(conn);
+        }
     }
 
     /**
@@ -143,17 +162,18 @@ public class QnAServiceImpl implements QnAService {
      * qna 댓글 수정
      */
     @Override
-    public QnA_A_VO modify(QnA_A_VO qnaa) {
-        return qnADAO.updateQnAA(qnaa);
+    public void modify(QnA_A_VO qnaa) {
+        qnADAO.updateQnAA(qnaa);
     }
 
     /**
      * qna 댓글 삭제
      */
     @Override
-    public boolean removeQnAA(Long qano) {
-        return qnADAO.deleteQnA_A(qano)==1;
+    public void removeQnAA(Long qano) {
+        qnADAO.deleteQnA_A(qano);
     }
+
 
     @Override
     public QnA_A_VO getQnAA(Long qano) {

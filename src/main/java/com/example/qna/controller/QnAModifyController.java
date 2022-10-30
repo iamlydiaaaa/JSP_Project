@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import static com.example.common.util.Validation.validateUser;
+
 @WebServlet(name="qnAModifyController",value="/qnaModify")
 @Slf4j
 public class QnAModifyController extends QnAController{
@@ -32,7 +34,7 @@ public class QnAModifyController extends QnAController{
                 throw new IllegalStateException("비로그인 예외");
             }
             QnA_Q_VO qnaQ = qnAService.getQnaQ(Long.valueOf(req.getParameter("qqno")));
-            validateUser(req, session, qnaQ);
+            validateUser(req, session, qnaQ.getId());
             req.setAttribute("qna", qnaQ);
             req.setAttribute("page", req.getParameter("page"));
             req.getRequestDispatcher("WEB-INF/view/qna/qnaModify.jsp").forward(req,resp);
@@ -56,7 +58,7 @@ public class QnAModifyController extends QnAController{
         HttpSession session = req.getSession();
         try {
             QnA_Q_VO qnaQ = qnAService.getQnaQ(Long.valueOf(req.getParameter("qqno")));
-            validateUser(req,session,qnaQ);
+            validateUser(req,session,qnaQ.getId());
             qnaQ.setTitle(req.getParameter("title"));
             qnaQ.setContent(req.getParameter("content"));
             qnAService.modify(qnaQ);

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.util.Validation.validateUser;
 
 @WebServlet(name="reviewController",value="/review/*")
 @Slf4j
@@ -105,6 +106,7 @@ public class ReviewController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
                 return;
             }
+            validateUser(req, req.getSession(),reviewVO.getId());
             //같은 cno에 리뷰를 이미 썼으면 400에러 리턴
 //        if(reviewService.getReview(reviewVO.getId(),reviewVO.getCno())!=null) {
 //            log.error("중복 cno,id 리뷰 등록");
@@ -156,7 +158,7 @@ public class ReviewController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
-
+            validateUser(req, req.getSession(),reviewVO.getId());
             StringBuilder stringBuilder = new StringBuilder();
             BufferedReader reader = req.getReader();
             String line;
@@ -215,17 +217,13 @@ public class ReviewController extends HttpServlet {
             }
 
             ReviewVO reviewVO = reviewService.getReview(re_no);
-            if(!reviewVO.getId().equals(session.getAttribute("user"))){
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
-
+            validateUser(req, req.getSession(),reviewVO.getId());
             reviewService.removeReview(re_no);
             resp.setStatus(200);
         } catch(IllegalStateException e){
             e.printStackTrace();
             log.error("리뷰삭제 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("리뷰 삭제 예외");

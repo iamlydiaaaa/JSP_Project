@@ -1,5 +1,6 @@
 package com.example.qna.controller;
 
+import com.example.common.util.MyTransactional;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
@@ -10,16 +11,20 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import static com.example.common.util.Validation.validateUser;
+
 @WebServlet(name="qnADeleteController",value="/qnaDelete")
 @Slf4j
 public class QnADeleteController extends QnAController {
 
     @Override
+    @MyTransactional
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("QnADeleteController.doGet");
         try {
             Long qqno = Long.valueOf(req.getParameter("qqno"));
-            validateUser(req,req.getSession(),qnAService.getQnaQ(qqno));
+            //관리자 권한 심어둠
+            validateUser(req,req.getSession(),qnAService.getQnaQ(qqno).getId());
             qnAService.removeQnAQ(qqno);
             resp.sendRedirect("/project/qnaList?page="+
                     req.getParameter("page"));

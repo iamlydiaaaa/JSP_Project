@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import static com.example.common.util.Validation.validateUser;
+
 @WebServlet(name="qnARegistController",value="/qnaRegist")
 @Slf4j
 public class QnARegistController extends QnAController {
@@ -18,7 +20,7 @@ public class QnARegistController extends QnAController {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("QnARegistController.doGet");
         try {
-            validateUser(req,req.getSession());
+            validateUser(req.getSession());
             req.setAttribute("page",req.getParameter("page"));
             req.getRequestDispatcher("/WEB-INF/view/qna/qnaRegist.jsp").forward(req,resp);
         } catch (IllegalStateException e) {
@@ -42,7 +44,7 @@ public class QnARegistController extends QnAController {
                     .title(req.getParameter("title"))
                     .content(req.getParameter("content"))
                     .build();
-            validateUser(req,req.getSession(),qnaQ);
+            validateUser(req,req.getSession(),qnaQ.getId());
             if(!qnAService.writeQnAQ(qnaQ)){
                 throw new Exception("db 작성 실패");
             }

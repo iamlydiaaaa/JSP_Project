@@ -55,8 +55,74 @@
                 <li class="on profile"><img src="<c:url value="/resources/images/user_default.png"/>" alt="" />
                     <h4><c:out value="${sessionScope.user}"/></h4>
                 </li>
-                <li><a href="#">api 최신화</a></li>
+                <li><a href="/project/apiRegist" onclick="alert('행사목록 업데이트')">api 업데이트</a></li>
                 <li><a class="test" href="#">예약 관리</a></li>
+                <li>
+                    <input type="text" id="user_id" placeholder="검색할 고객 id입력">
+                    <button id="user_btn">유저예약 검색</button>
+                </li>
+                <li>
+                    <div id="resList">
+
+                    </div>
+                </li>
+                <script>
+                    $(document).ready(function (){
+                        $("#user_btn").click(function(){
+                            let id = $("#user_id").val();
+                            checkID(id);
+                        });
+                    });
+
+                    function checkID() {
+                        let id = $("#user_id").val();
+                        checkRes(id);
+                    }
+                    let checkRes = function(id){
+                        $.ajax({
+                            url: '/project/adminRes?id='+id,
+                            type: 'GET',
+                            headers: {"content-type":"application/json"},
+
+                            success : function(result){
+                                alert("성공")
+                                $("#resList").html(toHtml1(result));
+                            },
+                            error: function() {
+                                alert("해당 유저의 예약은 존재하지 않습니다");
+                            }
+                        });//ajax
+                    }
+                    let toHtml1 = function(reservationList) {
+                        let tmp = '';
+                        reservationList.forEach(function(reservation) {
+                            let resDate1 = new Date(reservation.resDate);
+                            tmp += '<form action="<c:url value='/adminResCancel'/>">'
+                            tmp += '<input type="hidden" name="id" value='+reservation.id+'>'
+                            tmp += '<input type="hidden" name="rno" value='+reservation.rno+'>'
+                            tmp += '<table>'
+                            tmp += '<tr><td>제목</td>'
+                            tmp += '<td>'+reservation.cultureVO.svc_nm+'</td>'
+                            tmp += '</tr>'
+                            tmp += '<tr><td>장소</td>'
+                            tmp += '<td>'+reservation.cultureVO.place_nm+'</td>'
+                            tmp += '</tr>'
+                            tmp += '<tr><td>예약 날짜</td>'
+                            tmp += '<td>'+resDate1.toLocaleDateString()+'</td>'
+                            tmp += '</tr>'
+                            tmp += '<tr><td>예약 인원</td>'
+                            tmp += '<td>'+reservation.resCnt+'</td>'
+                            tmp += '</tr>'
+                            tmp += '<tr><td>문의전화</td>'
+                            tmp += '<td>'+reservation.cultureVO.tel_no+'</td>'
+                            tmp += '</tr>'
+                            tmp += '</table>'
+                            tmp += '<button type="submit" class="cancelBtn" onclick="return confirm("정말 삭제 하시겠습니까?")">예약 취소</button>'
+                            tmp += '</form>'
+                        })//foreach
+                        return tmp;
+                    }
+                </script>
             </ul>
         </section>
         <section class="mypage_con">
@@ -67,33 +133,39 @@
                     <!--    예약 관리    -->
                 <div class="mypage_reserve_info">
                     <h3>예약 내역</h3>
-                    <form action="">
-                        <table>
-                            <tr>
-                                <td>제목</td>
-                                <td><input type="text" value="" readonly></td>
-                            </tr>
-                            <tr>
-                                <td>장소</td>
-                                <td><input type="text" value="" readonly></td>
-                            </tr>
-                            <tr>
-                                <td>예약 날짜</td>
-                                <td><input type="text" value="" readonly></td>
-                            </tr>
-                            <tr>
-                                <td>예약 인원</td>
-                                <td><input type="text" value="" readonly></td>
-                            </tr>
-                            <tr>
-                                <td>문의전화</td>
-                                <td><input type="text" value="" readonly></td>
-                            </tr>
-                        </table>
-                        <p class="btn_cancel">
-                            <button type="submit">예약 취소</button>
-                        </p>
-                    </form>
+
+<%--                    <c:forEach items="${requestScope.reservationList}" var="reservation">--%>
+<%--                        &lt;%&ndash;                        ${reservation.getCultureVO().getSvc_nm()}&ndash;%&gt;--%>
+<%--                        <form action="<c:url value="/resCancel"/>" method="GET">--%>
+<%--                            <input type="hidden" name="id" value="${reservation.getId()}">--%>
+<%--                            <input type="hidden" name="rno" value="${reservation.getRno()}">--%>
+<%--                            <table>--%>
+<%--                                <tr>--%>
+<%--                                    <td>제목</td>--%>
+<%--                                    <td><input type="text" value="${reservation.getCultureVO().getSvc_nm()}" readonly></td>--%>
+<%--                                </tr>--%>
+<%--                                <tr>--%>
+<%--                                    <td>장소</td>--%>
+<%--                                    <td><input type="text" value="${reservation.getCultureVO().getPlace_nm()}" readonly></td>--%>
+<%--                                </tr>--%>
+<%--                                <tr>--%>
+<%--                                    <td>예약 날짜</td>--%>
+<%--                                    <td><input type="text" value="<fmt:formatDate value="${reservation.getResDate()}" pattern="yyyy/MM/dd" var="resDate"/>${resDate}" readonly></td>--%>
+<%--                                </tr>--%>
+<%--                                <tr>--%>
+<%--                                    <td>예약 인원</td>--%>
+<%--                                    <td><input type="text" value="${reservation.getResCnt()}" readonly></td>--%>
+<%--                                </tr>--%>
+<%--                                <tr>--%>
+<%--                                    <td>문의전화</td>--%>
+<%--                                    <td><input type="text" value="${reservation.getCultureVO().getTel_no()}" readonly></td>--%>
+<%--                                </tr>--%>
+<%--                            </table>--%>
+<%--                            <p class="btn_cancel">--%>
+<%--                                <button type="submit" onclick="return confirm('정말 취소 하시겠습니까?')">예약 취소</button>--%>
+<%--                            </p>--%>
+<%--                        </form>--%>
+<%--                    </c:forEach>--%>
                 </div>
         </section>
     </div>

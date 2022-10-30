@@ -26,19 +26,21 @@ public class ReviewServiceTest {
     @DisplayName("리뷰 작성")
     public void writeReviewTest() throws Exception {
         //given
-        Long cno = 1L;
+        Long cno = 53L;
         String id = "user1";
         int count = 0;
         //when
-        ReviewVO reviewVO = ReviewVO.builder()
-                .id(id)
-                .cno(cno)
-                .content("content")
-                .grade((int)(Math.random()*5+1))
-                .build();
-        Long result = reviewService.writeReview(reviewVO);
+        for(int i=0;i<100;i++){
+            ReviewVO reviewVO = ReviewVO.builder()
+                    .id(id)
+                    .cno(cno)
+                    .content("content/"+i)
+                    .grade((int)(Math.random()*5+1))
+                    .build();
+            Long result = reviewService.writeReview(reviewVO);
+        }
         //then
-        Assertions.assertEquals(1L,result);
+//        Assertions.assertEquals(54L,result);
     }
     
     @Test

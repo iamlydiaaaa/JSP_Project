@@ -47,7 +47,6 @@ public class CultureListController extends CultureController {
             //생성한 PageRequest객체를 전달해 pageResponse를 받아온다
             PageResponseVO<CultureVO> pageResponseVO = cultureService.getCultures(pageRequestVO);
             //받아온 pageResponse를 list.jsp에 전달
-            pageResponseVO.getPageList().stream().forEach(s-> System.out.println("1 = "+s.getCno()+" /"));
             req.setAttribute("pageResponse", pageResponseVO);
 //            req.setAttribute("page",pageResponseVO.getPage());
             req.getRequestDispatcher("WEB-INF/view/culture/list.jsp").forward(req,resp);

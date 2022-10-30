@@ -276,35 +276,37 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,cno);
             rs = pstmt.executeQuery();
-            rs.next();
-            return CultureVO.builder()
-                    .cno(rs.getLong("cno"))
-                    .svc_id(rs.getString("svc_id"))
-                    .svc_nm(rs.getString("svc_nm"))
-                    .area_nm(rs.getString("area_nm"))
-                    .place_nm(rs.getString("place_nm"))
-                    .tel_no(rs.getString("tel_no"))
-                    .pay_ay_nm(rs.getString("pay_ay_nm"))
-                    .use_tgt_info(rs.getString("use_tgt_info"))
-                    .svc_url(rs.getString("svc_url"))
-                    .img_url(rs.getString("img_url"))
-                    .dtlcont(rs.getString("dtlcont"))
-                    .svc_opn_bgn_dt(rs.getString("svc_opn_bgn_dt"))
-                    .svc_opn_end_dt(rs.getString("svc_opn_end_dt"))
-                    .v_min(rs.getString("v_min"))
-                    .v_max(rs.getString("v_max"))
-                    .rcpt_bgn_dt(rs.getString("rcpt_bgn_dt"))
-                    .rcpt_end_dt(rs.getString("rcpt_end_dt"))
-                    .capacity(rs.getInt("capacity"))
-                    .price(rs.getInt("price"))
-                    .revstd_day_nm(rs.getString("revstd_day_nm"))
-                    .revstd_day(rs.getString("revstd_day"))
-                    .build();
+            if(rs.next()){
+                return CultureVO.builder()
+                        .cno(rs.getLong("cno"))
+                        .svc_id(rs.getString("svc_id"))
+                        .svc_nm(rs.getString("svc_nm"))
+                        .area_nm(rs.getString("area_nm"))
+                        .place_nm(rs.getString("place_nm"))
+                        .tel_no(rs.getString("tel_no"))
+                        .pay_ay_nm(rs.getString("pay_ay_nm"))
+                        .use_tgt_info(rs.getString("use_tgt_info"))
+                        .svc_url(rs.getString("svc_url"))
+                        .img_url(rs.getString("img_url"))
+                        .dtlcont(rs.getString("dtlcont"))
+                        .svc_opn_bgn_dt(rs.getString("svc_opn_bgn_dt"))
+                        .svc_opn_end_dt(rs.getString("svc_opn_end_dt"))
+                        .v_min(rs.getString("v_min"))
+                        .v_max(rs.getString("v_max"))
+                        .rcpt_bgn_dt(rs.getString("rcpt_bgn_dt"))
+                        .rcpt_end_dt(rs.getString("rcpt_end_dt"))
+                        .capacity(rs.getInt("capacity"))
+                        .price(rs.getInt("price"))
+                        .revstd_day_nm(rs.getString("revstd_day_nm"))
+                        .revstd_day(rs.getString("revstd_day"))
+                        .build();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("cultrue 조회(단일)에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
+        return null;
     }
 }

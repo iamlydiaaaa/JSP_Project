@@ -239,22 +239,34 @@
                     content : $("textarea[name=content]").val(),
                     grade : $("input[name=grade]").val()
                 }
+                if($("input[name=grade]").val()===""||
+                    $("textarea[name=content]").val()==""){
+                    alert("평점과 내용을 전부 입력해주세요");
+                    return;
+                }
                 writeReview(reviewVO);
             });
 
-            //리뷰수정버튼 클릭이벤트
+            //리뷰수정버튼 클릭이벤트  //parent prev eq(0)
             $("#reviewList").on("click",".modBtn",function(){ //아래의 클래스 modBtn클릭
+                if($(this).attr("data-id2")!==$("#reviewList").attr("data-id")){
+                    if($("#reviewList").attr("data-id")!=='admin'){
+                        alert("자신의 리뷰만 수정할 수 있습니다");
+                        return;
+                    }
+                }
+                alert('상단의 입력창에서 수정해주세요')
                 //1. writeBtn숨기고 숨겨진 #modBtn 버튼 다시 보이게
                 $("#writeBtn").css("display","none");
                 $("#modBtn").css("display","block");
                 //2. 수정에 필요한 content,grade
                 let data_cno = $("#reviewList").attr("data-cno");
-                let data_content = $(this).siblings(':eq(1)').text();
+                let data_content = $(this).parent().prev().eq(0).text();
                 let data_grade = $(this).parent().parent().attr("data-grade");
                 //3. 검증에 필요한 re_no
                 let data_re_no = $(this).parent().parent().attr("data-re_no");
                 //4. 현재 리뷰 내용 textarea에 표시 + 평점도 표시
-                $("textarea[name=content]").val(data_content);
+                $("textarea[name=content]").val(data_content).focus();
                 $("input[name=grade]").val(data_grade);
 
                 $("#modBtn").click(function(){
@@ -264,12 +276,26 @@
                         content : $("textarea[name=content]").val(),
                         grade : $("input[name=grade]").val()
                     }
+                    if($("input[name=grade]").val()===""||
+                        $("textarea[name=content]").val()==""){
+                        alert("평점과 내용을 전부 입력해주세요");
+                        return;
+                    }
                     updateReview(reviewVO);
                 })
             })//리뷰수정버튼 클릭이벤트
 
             //리뷰삭제버튼 클릭이벤트
             $("#reviewList").on("click",".delBtn",function(){ //아래의 클래스 modBtn클릭
+                if($(this).attr("data-id1")!==$("#reviewList").attr("data-id")){
+                    if($("#reviewList").attr("data-id")!=='admin'){
+                        alert("자신의 리뷰만 삭제할 수 있습니다");
+                        return;
+                    }
+                }
+                if(!confirm('정말 삭제하시겠습니까?')){
+                    return;
+                }
                 //1. 삭제,검증에 필요한 re_no
                 let re_no = $(this).parent().parent().attr("data-re_no");
                 //2. 목록 불러오기에 필요한 cno
@@ -291,10 +317,22 @@
                 $("#grade").val($(this).index()+1);
             });
 
+            //prev
+            $("#reviewList").on("click", ".prev", function() {
+                let pageStr1 = $(this).attr("data-page");
+                let page1 = Number(pageStr1);
+                getReviews2(data_cno,page1-1);
+            })
+            //next
+            $("#reviewList").on("click", ".next", function() {
+                let pageStr2 = $(this).attr("data-page");
+                let page2 = Number(pageStr2);
+                getReviews2(data_cno,page2+1);
+            })
+
         }); //document.ready
 
         //////////////////////////////////////////////
-
         let getReviews = function(cno) {
             $.ajax({
                 url: '/project/review?cno='+cno,
@@ -317,6 +355,7 @@
             });//ajax
         }//getReviews
 
+
         let getReviews2 = function(cno,page) {
             $.ajax({
                 url: '/project/review?cno='+cno+'&page='+page,
@@ -334,6 +373,7 @@
         }//getReviews
 
         let writeReview = function(reviewVO) {
+            isAjaxRun2=true;
             $.ajax({
                 url: '/project/review',
                 type: 'POST',
@@ -351,7 +391,6 @@
         }//writeReivew
 
         let updateReview = function(reviewVO) {
-            alert(reviewVO.re_no)
             $.ajax({
                 url: '/project/review/'+reviewVO.re_no,
                 type: 'PUT',
@@ -391,27 +430,28 @@
         //배열로 들어온 (js 객체를 html 문자로) 바꿔주는 함수
         let toHtml = function(pageResponse) {
             let reviews = pageResponse.pageList;
+            let prev = pageResponse.showPrev;
+            let next = pageResponse.showNext;
             let tmp = "<ul>";
             reviews.forEach(function(review) {
                 tmp += '<li data-cno='+review.cno +' data-grade='+review.grade+' data-re_no='+review.re_no+'>'
-                tmp += '<p class="review_list_id"><img src="/resources/images/user_default.png" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
-                tmp += '<div><p class="review_list_grade"><span class="grade"><img src="/resources/images/star1.png" alt="star">' + review.grade +' / </span></p>'
+                tmp += '<p class="review_list_id"><img src="<c:url value="/resources/images/user_default.png"/>" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
+                tmp += '<div><p class="review_list_grade"><span class="grade"><img src="<c:url value="/resources/images/star1.png"/>" alt="star">' + review.grade +' / </span></p>'
                 tmp += '<p class="review_list_date"><span class="date">'+review.regDate+'</span></p></div>'
                 tmp += '<p class="review_list_content"><span class="content">'+review.content+'</span></p>'
-                tmp += '<p class="btn_wrap"><button class = "delBtn">삭제</button>'
-                tmp += '<button class = "modBtn">수정</button>'
+                tmp += '<p class="btn_wrap"><button class = "delBtn" data-id1='+review.id+'>삭제</button>'
+                tmp += '<button class = "modBtn" data-id2='+review.id+'>수정</button>'
                 tmp += '</p></li>'
             })//foreach
             tmp += '</ul>';
-            //page nav
-            if(pageResponse.showPrev){
-                tmp += '[PREV]';
+            if (prev) {
+                tmp += '<span style="cursor: pointer" class="prev" data-page='+pageResponse.page+'>[PREV]</span>';
             }
             for(var i = pageResponse.start; i<=pageResponse.end ; i++){
-                tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer;">'+i+'</div>';
+                tmp += '<div class="reviewPage" style="display:inline-block; cursor: pointer; margin:3px;">'+i+'</div>';
             }
-            if(pageResponse.showNext){
-                tmp += '[NEXT]';
+            if (next) {
+                tmp += '<span style="cursor: pointer" class="next" data-page='+pageResponse.page+'>[NEXT]</span>';
             }
             return tmp;
         }

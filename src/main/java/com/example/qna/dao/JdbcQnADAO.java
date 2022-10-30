@@ -181,6 +181,7 @@ public class JdbcQnADAO implements QnADAO{
                         .qqno(rs.getLong(2))
                         .content(rs.getString(3))
                         .regDate(new Date(rs.getDate(4).getTime()))
+                        .id(rs.getString("id"))
                         .build();
                 if(rs.getDate(5)!=null){
                     qnaa.setUpdateDate(new Date(rs.getDate(5).getTime()));
@@ -317,12 +318,10 @@ public class JdbcQnADAO implements QnADAO{
     }
 
     @Override
-    public Integer deleteQnA_Q(Long qqno) {
-        Connection conn = null;
+    public Integer deleteQnA_Q(Long qqno,Connection conn) {
         PreparedStatement pstmt = null;
         try {
             String sql = "delete from QnA_Q where qqno = ?";
-            conn = CONN_UTIL.getConnection();
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,qqno);
             return pstmt.executeUpdate();
@@ -330,7 +329,7 @@ public class JdbcQnADAO implements QnADAO{
             e.printStackTrace();
             throw new RuntimeException("deleteQnA_Q 실패");
         } finally {
-            CONN_UTIL.close(pstmt,conn);
+            CONN_UTIL.close(pstmt);
         }
     }
 
@@ -413,6 +412,7 @@ public class JdbcQnADAO implements QnADAO{
                         .qqno(rs.getLong(2))
                         .content(rs.getString(3))
                         .regDate(new Date(rs.getDate(4).getTime()))
+                         .id(rs.getString("id"))
                         .build();
                 if(rs.getDate(5)!=null){
                     qnaA.setUpdateDate(new Date(rs.getDate(5).getTime()));
@@ -426,5 +426,21 @@ public class JdbcQnADAO implements QnADAO{
             CONN_UTIL.close(rs,pstmt,conn);
         }
         return null;
+    }
+
+    @Override
+    public void deleteAllQnAA(Long qqno,Connection conn) {
+        PreparedStatement pstmt = null;
+        try {
+            String sql = "delete from QnA_A where qqno = ?";
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setLong(1,qqno);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("deleteQnA_A(qqno) 실패");
+        } finally {
+            CONN_UTIL.close(pstmt);
+        }
     }
 }

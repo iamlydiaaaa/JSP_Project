@@ -147,16 +147,24 @@
 
         //아이디 중복 확인 ajax로 db 호출
         function checkID() {
-            //foreach문 돌려서 
-            //if(id.value == 등록된 DB 내 id value)
-            if (id.value == "중복") { //"중복" 대신에 user.id 넣어줘야함!
-                alert("중복된 아이디입니다.");
-                id.style.outline = "2px solid #eb9494";
+            let id = $("#u_id").val();
+            checkDuplicateId(id);
+        }
+        let checkDuplicateId = function(id){
+            $.ajax({
+                url: '/project/check?id='+id,
+                type: 'GET',
+                headers: {"content-type":"application/json"},
 
-            } else {
-                alert("사용 가능한 아이디입니다.");
-                id.style.outline = "2px solid #a3ea92";
-            }
+                success : function(result){
+                    alert("사용 가능한 아이디입니다.");
+                    id.style.outline = "2px solid #a3ea92";
+                },
+                error: function() {
+                    alert("중복된 아이디입니다.");
+                    id.style.outline = "2px solid #eb9494";
+                }
+            });//ajax
         }
 
 

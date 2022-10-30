@@ -10,19 +10,18 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import static com.example.common.util.SingletonProvideUtil.SINGLETON_UTIL;
+import static com.example.common.util.Validation.validateUser;
 
 @WebServlet(name="qnAReviewController",value="/qnaReview/*")
 @Slf4j
-public class QnAReviewController extends HttpServlet {
+public class QnAReviewController extends QnAController {
     private final QnAService qnAService = SINGLETON_UTIL.qnAService();
     private final Gson gson = SINGLETON_UTIL.gson();
 
@@ -36,18 +35,6 @@ public class QnAReviewController extends HttpServlet {
 
         out.print(json);
         out.flush();
-    }
-
-    private void validateAdmin(HttpSession session){
-        if(!session.getAttribute("user").equals("admin")){
-            throw new IllegalStateException("관리자만 가능합니다");
-        }
-    }
-
-    private void validateUser(HttpSession session , String id) {
-        if(session.getAttribute("user")==null){
-            throw new IllegalStateException("비로그인 오류");
-        }
     }
 
     @Override //get // /qnaReview?qqno=1&page=1&size=12
@@ -85,7 +72,7 @@ public class QnAReviewController extends HttpServlet {
         } catch (IllegalStateException e) {
             e.printStackTrace();
             log.error("리뷰조회 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"권한이 필요합니다"); //400에러
         } catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException("리뷰조회 예외");
@@ -95,7 +82,7 @@ public class QnAReviewController extends HttpServlet {
     @Override // /review
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            validateAdmin(req.getSession());
+//            validateAdmin(req.getSession());
             //req 로부터 io스트림을 가져온다
             BufferedReader reader = req.getReader();
             //io로부터 읽어올 변수
@@ -116,13 +103,15 @@ public class QnAReviewController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST); //400에러
                 return;
             }
+            //권한인증
+            validateUser(req,req.getSession(),qnaA.getId());
             //qnaA!=null && 중복id x
             qnAService.writeQnAA(qnaA);
             resp.setStatus(200); //200 OK
         } catch(IllegalStateException e){
             e.printStackTrace();
             log.error("리뷰작성 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"권한이 필요합니다"); //400에러
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("리뷰 작성 예외");
@@ -134,9 +123,8 @@ public class QnAReviewController extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             log.info("QnAReviewController.doPut");
-            validateAdmin(req.getSession());
+//            validateAdmin(req.getSession());
             String pathInfo = req.getPathInfo();
-            System.out.println("pathInfo = " + pathInfo);
 
             if(pathInfo == null || pathInfo.equals("/")){
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -156,13 +144,14 @@ public class QnAReviewController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
-            QnA_A_VO qnAA = qnAService.getQnAA(qano);
-
-            if(qnAA==null){
+            QnA_A_VO qnaA = qnAService.getQnAA(qano);
+            //null체크
+            if(qnaA==null){
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
-
+            //권한인증
+            validateUser(req,req.getSession(),qnaA.getId());
             StringBuilder stringBuilder = new StringBuilder();
             BufferedReader reader = req.getReader();
             String line;
@@ -177,14 +166,14 @@ public class QnAReviewController extends HttpServlet {
             //업데이트할 칼럼만 가져와서 저장후 업데이트
             String content = qnAAO1.getContent();
 
-            qnAA.setContent(content);
+            qnaA.setContent(content);
 
-            qnAService.modify(qnAA);
+            qnAService.modify(qnaA);
             resp.setStatus(200);
         } catch(IllegalStateException e){
             e.printStackTrace();
             log.error("리뷰수정 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"권한이 필요합니다"); //400에러
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("리뷰 수정 예외");
@@ -196,8 +185,6 @@ public class QnAReviewController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             log.info("QnAReviewController.doDelete");
-            HttpSession session = req.getSession();
-            validateAdmin(session);
             String pathInfo = req.getPathInfo();
 
             if(pathInfo == null || pathInfo.equals("/")){
@@ -218,12 +205,14 @@ public class QnAReviewController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
+            //권한인증
+            validateUser(req,req.getSession(),qnAService.getQnAA(qano).getId());
             qnAService.removeQnAA(qano);
             resp.setStatus(200);
         } catch(IllegalStateException e){
             e.printStackTrace();
             log.error("리뷰삭제 실패");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"관리자 권한이 필요합니다"); //400에러
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"권한이 필요합니다"); //400에러
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("리뷰 삭제 예외");

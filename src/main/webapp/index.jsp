@@ -11,6 +11,12 @@
 </head>
 <script>
     $(document).ready(function (){
+        let query = window.location.search;
+        let param = new URLSearchParams(query);
+        let msg = param.get('msg');
+        if(msg!=null&&msg.length>0){
+            alert(msg);
+        }
         //common.jsp 에서 실행될땐 바디태그 아래부분이라 로그인시 바로 적용인 안되서 옮김
         let user = '<c:out value="${sessionScope.get('user')}"/>';
         console.log("logined_cookie: : " + getCookie("logined_cookie").valueOf());
@@ -35,12 +41,6 @@
             }
         }
     })
-    let query = window.location.search;
-    let param = new URLSearchParams(query);
-    let msg = param.get('msg');
-    if(msg!=null&&msg.length>0){
-        alert(msg);
-    }
 </script>
 <body>
     <jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>

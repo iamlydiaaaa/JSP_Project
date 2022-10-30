@@ -16,7 +16,6 @@ public class JdbcReservationDAO implements ReservationDAO {
 
     @Override
     public void insertReservation(ReservationVO reservationVO , Connection conn) {
-        System.out.println("resVO = "+reservationVO);
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -178,13 +177,14 @@ public class JdbcReservationDAO implements ReservationDAO {
         Map<Long,List<ReservationCntVO>> resCntMap = new HashMap<>();
         List<ReservationCntVO> reservationCntVOList = new ArrayList<>();
         try {
-            String sql = "select rc.cno , rc.resDate , count(*) as currentResCnt , cr.capacity\n" +
-                    "from res_culture as rc\n" +
-                    "inner join culture_res as cr\n" +
-                    "on rc.cno = cr.cno\n" +
-                    "where rc.cno = ?\n" +
-                    "group by resDate\n" +
-                    "order by resDate;";
+            String sql = "select rc.cno , rc.resDate , r.resCnt, cr.capacity\n" +
+                    "                    from res_culture as rc\n" +
+                    "                    inner join culture_res as cr\n" +
+                    "                    on rc.cno = cr.cno\n" +
+                    "                    inner join reservation r on rc.rno = r.rno\n" +
+                    "                    where rc.cno = ?\n" +
+                    "                    group by resDate\n" +
+                    "                    order by resDate;";
             conn = CONN_UTIL.getConnection();
             pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
             pstmt.setLong(1,cno);
@@ -194,7 +194,7 @@ public class JdbcReservationDAO implements ReservationDAO {
                         .builder()
                         .cno(rs.getLong("cno"))
                         .resDate(new Date(rs.getDate("resDate").getTime()))
-                        .currentResCnt(rs.getInt("currentResCnt"))
+                        .currentResCnt(rs.getInt("resCnt"))
                         .capacity(rs.getInt("capacity"))
                         .build();
                 reservationCntVOList.add(reservationCntVO);
