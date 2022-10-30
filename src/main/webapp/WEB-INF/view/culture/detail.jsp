@@ -18,6 +18,19 @@
         }
     }
     $(document).ready(function (){
+        //오른쪽 퀵메뉴 버튼 기능
+        var num;
+        var scrollNum;
+
+        function gnbClick(e) {
+            e.preventDefault();
+            num = $(this).index()
+            scrollNum = $('.container_wrap section').eq(num).offset().top
+            $('html,body').stop().animate({
+                scrollTop: scrollNum
+            }, 1000)
+        }
+        $('.quick-menu li').on('click', gnbClick)
         //common.jsp 에서 실행될땐 바디태그 아래부분이라 로그인시 바로 적용인 안되서 옮김
         let user = '<c:out value="${sessionScope.get('user')}"/>';
         console.log("logined_cookie: : " + getCookie("logined_cookie").valueOf());

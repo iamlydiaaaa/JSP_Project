@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/join.css" />">
+    <script src="<c:url value="/resources/javascript/jquery-3.6.0.min.js"/>"></script>
     <%--    <script src="<c:url value="/resources/javascript/agreetxt.js"/>"></script>--%>
 
 </head>
@@ -157,12 +158,18 @@
                 headers: {"content-type":"application/json"},
 
                 success : function(result){
-                    alert("사용 가능한 아이디입니다.");
-                    id.style.outline = "2px solid #a3ea92";
+                    if(result.id==id){
+                        alert(id+"는 중복된 아이디입니다.");
+                        //css오류
+                        // id.style.outline = "2px solid #eb9494";
+                        return;
+                    }
+                    alert(id+"는 사용 가능한 아이디입니다.");
+                    // id.style.outline = "2px solid #a3ea92";
                 },
                 error: function() {
-                    alert("중복된 아이디입니다.");
-                    id.style.outline = "2px solid #eb9494";
+                    alert(id+"는 중복된 아이디입니다.");
+                    // id.style.outline = "2px solid #eb9494";
                 }
             });//ajax
         }

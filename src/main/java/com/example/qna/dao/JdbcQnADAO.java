@@ -102,6 +102,7 @@ public class JdbcQnADAO implements QnADAO{
         return null;
     }
 
+
     @Override
     public Integer selectQnAACnt(Long qqno) {
         Connection conn = null;
@@ -301,7 +302,7 @@ public class JdbcQnADAO implements QnADAO{
             return PageResponseVO.<QnA_Q_VO>withAll()
                     .pageRequestVO(pageRequestVO)
                     .pageList(qnaqList)
-                    .total(selectQnAQCnt())
+                    .total(selectSearchedCnt(keyword))
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -309,6 +310,32 @@ public class JdbcQnADAO implements QnADAO{
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }
+    }
+
+
+    @Override
+    public int selectSearchedCnt(String keyword) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select count(*) from QnA_Q " +
+                    "where (title like ? or content like ?)";
+            conn = CONN_UTIL.getConnection();
+            pstmt = Objects.requireNonNull(conn).prepareStatement(sql);
+            pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setString(2,"%"+keyword+"%");
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("selectCnt from QnA_Q 실패");
+        } finally {
+            CONN_UTIL.close(rs,pstmt,conn);
+        }
+        return -1;
     }
 
     @Override
