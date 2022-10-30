@@ -24,6 +24,7 @@ public interface QnADAO {
     PageResponseVO<QnA_Q_VO> searchQnA(PageRequestVO pageRequestVO,String type,String keyword);
     PageResponseVO<QnA_Q_VO> searchQnA_noType(PageRequestVO pageRequestVO,String keyword);
     void deleteAllQnAA(Long qqno,Connection conn);
+    int selectSearchedCnt(String keyword);
 
     /**
      * 고객

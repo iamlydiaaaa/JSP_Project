@@ -1,5 +1,5 @@
 @charset "utf-8";
-/*detail.css*/
+/*myPage.css*/
 
 /*----------서브페이지 감싸는 div-------------*/
 #mypage .container_wrap{
@@ -7,7 +7,7 @@
     padding: 20px;
     margin: 0 auto;
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "tit tit tit"
         "left right right";
 }
@@ -16,9 +16,9 @@
 .sub_tit_line{height: 50px; background: linear-gradient(to right, #8117fe, #af28fe); color: #fff;}
 .sub_tit_line>ul{width: 100%; max-width: 750px; height: 50px; margin: 0 auto; }
 .sub_tit_line li{display: inline-block; width: 220px;
-     border-right: 1px solid rgba(255, 255, 255, 0.3); }
+    border-right: 1px solid rgba(255, 255, 255, 0.3); }
 .sub_tit_line .sub_tit_home{width: 50px;
-border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
 }
 .sub_tit_line .sub_tit_home a{
     text-indent: -9999px;
@@ -47,7 +47,7 @@ border-left: 1px solid rgba(255, 255, 255, 0.3);
     grid-area: tit;
     background-color: #fcf;
     height: 80px; line-height: 80px; font-size: 2em; text-align: center;
-    border-top: 2px solid #333; 
+    border-top: 2px solid #333;
     background-color: #fefefe;
     margin-top: 50px;
 }
@@ -82,33 +82,30 @@ border-left: 1px solid rgba(255, 255, 255, 0.3);
     border: 1px solid #e1e1e1;
     border-radius: 5px;
 }
-.mypage_con>div{}
-.mypage_con>div>h3{}
 
-/*--------회원정보관리----------*/
-.mypage_user_info{display: none;}
-.mypage_user_info table{
+
+/*--------table 공통----------*/
+.mypage_con>div{display: none;}
+.mypage_con>div:nth-child(1){display: block;}
+.mypage_con>div table{
+    width: 100%;
+
+    border-bottom: 2px solid #555;
 }
-.mypage_user_info table tr{height: 50px;
+.mypage_con>div table tr{height: 50px;
 }
-.mypage_user_info table td{
+.mypage_con>div table tr:nth-child(2n){
+    background-color: #f9f9f9;
+}
+.mypage_con>div table td{
     vertical-align: middle;
 }
-.mypage_user_info table td:nth-child(1){padding-right: 60px;}
-.mypage_user_info table input{outline: none; border: none; background-color: transparent;}
+.mypage_con>div table td:nth-child(1){width: 20%; font-weight: bold;}
+.mypage_con>div table td:nth-child(2){width: 80%;}
+.mypage_con>div table input{outline: none; border: none; background-color: transparent;}
 
 
 /*--------예약 관리----------*/
-.mypage_reserve_info{}
-.mypage_reserve_info table{
-}
-.mypage_reserve_info table tr{height: 50px;
-}
-.mypage_reserve_info table td{
-    vertical-align: middle;
-}
-.mypage_reserve_info table td:nth-child(1){padding-right: 60px;}
-.mypage_reserve_info table input{outline: none; border: none; background-color: transparent;}
 
 #my_reserve_wrap{
     border-bottom: 3px dashed #eaeaea;
@@ -117,8 +114,8 @@ border-left: 1px solid rgba(255, 255, 255, 0.3);
 
 /*---예약 취소---*/
 .btn_cancel{}
-.btn_cancel button{
-display: block; width: 150px;height: 50px; margin: 50px 5px;
+.btn_cancel button, .cancelBtn{
+    display: block; width: 150px;height: 50px; margin: 50px 5px;
     border-radius: 10px; background-color: #ccc;
     color: #fff; font-size: 1em; cursor: pointer;
     transition: all 0.2s;
@@ -127,8 +124,27 @@ display: block; width: 150px;height: 50px; margin: 50px 5px;
 }
 
 .btn_cancel button:hover {background-color: #999;}
+.cancelBtn:hover {background-color: #333;}
+
+/*-------관리자페이지 유저 검색 버튼*/
+#user_id{
+    height: 40px;
+}
+#user_btn{
+    width: 150px;
+    height: 40px;
+    margin: 50px 5px;
+    border-radius: 5px;
+    background-color: #e8c5fc;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    outline: none;
+    border: none;
+}
+#user_btn:hover{
+    text-decoration: underline;
+}
 
 /*--------------------------------------------------------------------------*/
-/*------------------------------------------*/
-/*------------------------------------------*/
-/*------------------------------------------*/

@@ -140,14 +140,13 @@
         </section>
         <section class="mypage_con">
             <!--    회원 정보 관리    -->
-            <div class="mypage_user_info">
-                <h3>회원 예약 조회/삭제</h3>
-<%--                <section>--%>
-                    <!--    예약 관리    -->
+            <div class="mypage_reserve_info resList">
             </div>
-                <div class="mypage_reserve_info resList">
-                </div>
-
+            <div class="mypage_user_info">
+<%--                <h3>SEOUL FESTIVAL api 업데이트</h3>--%>
+<%--                &lt;%&ndash;                <section>&ndash;%&gt;--%>
+<%--                <!--    예약 관리    -->--%>
+            </div>
         </section>
 <%--                    <h3>예약 내역</h3>--%>
 

@@ -364,12 +364,43 @@ public class JdbcCultureDAO implements CultureDAO<CultureVO> {
             }
             return PageResponseVO.<CultureVO>withAll()
                     .pageRequestVO(pageRequestVO)
-                    .total(selectCount())
+                    .total(selectSearchedCnt(keyword))
                     .pageList(cultureVOList)
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("cultrue 조회(list)에 실패했습니다");
+        } finally {
+            CONN_UTIL.close(rs,pstmt,conn);
+        }
+    }
+
+    @Override
+    public int selectSearchedCnt(String keyword) {
+            String sql = "select count(*) " +
+                "from " +
+                "(culture_basic as basic inner join culture_info as info on basic.cno=info.cno " +
+                "inner join culture_res as res on info.cno=res.cno " +
+                "inner join culture_schedule as sch on res.cno=sch.cno)" +
+                "where (basic.svc_nm like ? or info.dtlcont like ?) and " +
+                "(svc_opn_end_dt > now() and rcpt_end_dt > now())";
+//        String sql = "select count(*) from culture_schedule " +
+//                "where (svc_opn_end_dt > now() and rcpt_end_dt > now()) and " +
+//                "((basic.svc_nm like ? or info.dtlcont like ?))";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = CONN_UTIL.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setString(2,"%"+keyword+"%");
+            rs = pstmt.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("cultrue 조회(count)에 실패했습니다");
         } finally {
             CONN_UTIL.close(rs,pstmt,conn);
         }

@@ -65,7 +65,7 @@
     })
 </script>
 <body>
-
+<jsp:include page="/WEB-INF/view/common/header.jsp" flush="true" />
 <main id="board_register">
 
     <div class="sub_tit_line">
@@ -166,6 +166,12 @@
         //리뷰수정버튼 클릭이벤트
         var isRun2 = false;
         $("#reviewList").on("click", ".modBtn", function() { //아래의 클래스 modBtn클릭
+            if($(this).attr("data-id2")!==$("#reviewList").attr("data-id")) {
+                if ($("#reviewList").attr("data-id") !== 'admin') {
+                    alert("자신의 리뷰만 수정할 수 있습니다");
+                    return;
+                }
+            }
             if(isRun2){
                 return;
             }
@@ -179,7 +185,7 @@
             $("#modBtn").css("display", "block");
             //2. 수정에 필요한 content,grade
             let data_qqno = $("#reviewList").attr("data-qqno");
-            let data_content = $(this).parent().prev().prev().prev().text();
+            let data_content = $(this).parent().prev().prev().text();
             //3. 검증에 필요한 qano
             let data_qano = $(this).parent().parent().attr("data-qano");
             //4. 현재 리뷰 내용 textarea에 표시 + 평점도 표시
@@ -204,6 +210,12 @@
         //리뷰삭제버튼 클릭이벤트
         var isRun3 = false;
         $("#reviewList").on("click", ".delBtn", function() { //아래의 클래스 modBtn클릭
+            if($(this).attr("data-id1")!==$("#reviewList").attr("data-id")){
+                if($("#reviewList").attr("data-id")!=='admin'){
+                    alert("자신의 리뷰만 삭제할 수 있습니다");
+                    return;
+                }
+            }
             if(isRun3){
                 return;
             }
@@ -353,8 +365,8 @@
             tmp += '<p class="review_list_id"><img src="<c:url value="/resources/images/user_default.png"/>" alt="사용자프로필" width="35" /><span class="id">'+review.id+'</span></p>'
             tmp += '<p class="review_list_content"><span class="content">'+review.content+'</span></p>'
             tmp += '<p class="review_list_date"><span class="date">'+new Date(review.regDate).toLocaleDateString()+'</span></p></div>'
-            tmp += '<p class="btn_wrap"><button class = "delBtn">삭제</button>'
-            tmp += '<button class = "modBtn">수정</button>'
+            tmp += '<p class="btn_wrap"><button class = "delBtn" data-id1='+review.id+'>삭제</button>'
+            tmp += '<button class = "modBtn" data-id2='+review.id+'>수정</button>'
             tmp += '</p></li>'
         }) //foreach
         tmp += '</ul>';

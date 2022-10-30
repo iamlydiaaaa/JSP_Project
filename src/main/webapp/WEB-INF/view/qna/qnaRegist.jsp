@@ -51,6 +51,7 @@
     })
 </script>
 <body>
+<jsp:include page="/WEB-INF/view/common/header.jsp" flush="true" />
 <main id="board_register">
 
     <div class="sub_tit_line">
