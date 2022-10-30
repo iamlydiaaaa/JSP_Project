@@ -83,7 +83,6 @@
     border-radius: 5px;
 }
 
-
 /*--------table 공통----------*/
 .mypage_con>div{display: none;}
 .mypage_con>div:nth-child(1){display: block;}
