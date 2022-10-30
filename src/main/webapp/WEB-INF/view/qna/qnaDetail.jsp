@@ -67,7 +67,7 @@
 <body>
 
 <main id="board_register">
-
+<!--<jsp:include page="/WEB-INF/view/common/header.jsp" flush="true"/>-->
     <div class="sub_tit_line">
         <ul>
             <li class="sub_tit_home"><a href="/project">H</a></li>
