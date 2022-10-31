@@ -1,6 +1,8 @@
 # JSP_Project
 2차 jsp 프로젝트
 
+<h2><a href="http://13.209.41.25:8080/project">사이트 이동</a>/</h2>
+
 <div id="wrap">
     <img src="proposal_ppt/001.png" alt="#">
     <img src="proposal_ppt/002.png" alt="#">
