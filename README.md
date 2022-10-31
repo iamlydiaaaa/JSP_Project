@@ -1,9 +1,6 @@
 # JSP_Project
 2차 jsp 프로젝트
-<style>
-    #wrap{width: 100%;max-width: 1000px; margin: 0 auto;}
-    #wrap img{max-width: 1000px}
-</style>
+
 <div id="wrap">
     <img src="proposal_ppt/001.png" alt="#">
     <img src="proposal_ppt/002.png" alt="#">
